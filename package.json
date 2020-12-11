@@ -1,6 +1,6 @@
 {
-  "name": "wildme-wiki",
-  "version": "0.0.0",
+  "name": "wildme-docs",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",

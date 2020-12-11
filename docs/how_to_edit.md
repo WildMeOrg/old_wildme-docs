@@ -1,11 +1,11 @@
 ---
 id: how_to_edit
-title: How to edit this wiki
+title: How to edit Wild Me Docs
 ---
 
-DocHub pages are written using a technology called "Markdown". It's very easy to write Markdown, even if you have no experience with programming. Here is an [excellent guide](https://guides.github.com/features/mastering-markdown/) that should get you started.
+Docs pages are written using a technology called "Markdown". It's very easy to write Markdown, even if you have no experience with programming. Here is an [excellent guide](https://guides.github.com/features/mastering-markdown/) that should get you started.
 
-Editing DocHub requires a Github account. If you don't have an account yet, go ahead and [create one now](https://github.com/join).
+A Github account is required to edit pages. If you don't have an account yet, go ahead and [create one now](https://github.com/join).
 
 ## Editing pages 
 

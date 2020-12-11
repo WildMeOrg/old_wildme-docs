@@ -11,6 +11,7 @@ const features = [
     title: "Researcher guide",
     imageUrl: "img/undraw_docusaurus_mountain.svg",
     buttonUrl: "docs/researchers/overview",
+    buttonText: 'View guide',
     description: (
       <>
         A researcher's guide to Wildbook, our flagship product.
@@ -21,6 +22,7 @@ const features = [
     title: "Developer docs",
     imageUrl: "img/undraw_docusaurus_react.svg",
     buttonUrl: "docs/developers/overview",
+    buttonText: 'View docs',
     description: (
       <>
         Architectural overviews, installation instructions, API definitions, etc.
@@ -31,6 +33,7 @@ const features = [
     title: "How to edit",
     imageUrl: "img/undraw_docusaurus_tree.svg",
     buttonUrl: "docs/how_to_edit",
+    buttonText: 'Learn more',
     description: (
       <>
         How to edit pages and create new ones, regardless of technical experience.
@@ -39,7 +42,7 @@ const features = [
   },
 ];
 
-function Feature({imageUrl, title, description, buttonUrl}) {
+function Feature({imageUrl, title, description, buttonUrl, buttonText }) {
   const imgUrl = useBaseUrl(imageUrl);
   return (
     <div className={clsx('col col--4', styles.feature)}>
@@ -55,7 +58,7 @@ function Feature({imageUrl, title, description, buttonUrl}) {
           'button button--outline button--primary',
         )}
         to={useBaseUrl(buttonUrl)}>
-        View docs
+        {buttonText}
       </Link>
     </div>
   );
@@ -70,6 +73,7 @@ function Home() {
       description="Description will go into a meta tag in <head />">
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className="container">
+          <img className={styles.heroLogo} alt="Wild Me Logo" src="img/logo-white-mark-only.png" />
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           {/* <div className={styles.buttons}>

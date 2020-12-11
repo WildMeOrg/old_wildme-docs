@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Wild Me DocHub',
+  title: 'Wild Me Docs',
   tagline: 'Documentation for Wildbook, Codex, and other Wild Me software.',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
@@ -7,13 +7,13 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'WildbookOrg', // Usually your GitHub org/user name.
-  projectName: 'docusaurus-test', // Usually your repo name.
+  projectName: 'wildme-docs', // Usually your repo name.
   themeConfig: {
     colorMode: {
       disableSwitch: true,
     },
     navbar: {
-      title: 'Wild Me DocHub',
+      title: 'Wild Me Docs',
       logo: {
         alt: 'Wild Me Logo',
         src: 'img/WildMe-Logo-Gradient.svg',
@@ -32,7 +32,7 @@ module.exports = {
           position: 'left',
         },
         {
-          href: 'https://github.com/WildbookOrg',
+          href: 'https://github.com/WildbookOrg/wildme-docs',
           label: 'GitHub',
           position: 'right',
         },
@@ -104,13 +104,13 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/WildbookOrg/docusaurus-test/edit/master/',
+            'https://github.com/WildbookOrg/wildme-docs/edit/master/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/WildbookOrg/docusaurus-test/edit/master/website/blog/',
+            'https://github.com/WildbookOrg/wildme-docs/edit/master/website/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

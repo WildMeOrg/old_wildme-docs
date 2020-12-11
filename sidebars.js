@@ -34,7 +34,7 @@ module.exports = {
         type: "category",
         label: "EDM API",
         items: [
-          "developers/edmapi/edm_api_overveiw",
+          "developers/edmapi/edm_api_overview",
           "developers/edmapi/authentication",
           "developers/edmapi/user",
           "developers/edmapi/assets",

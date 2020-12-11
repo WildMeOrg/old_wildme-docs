@@ -1,5 +1,5 @@
 ---
-id: edm_api_overveiw
+id: edm_api_overview
 title: EDM API Overview
 sidebar_label: Overview
 ---

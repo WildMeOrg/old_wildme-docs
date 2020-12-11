@@ -39,6 +39,6 @@ The interactions with the system can be split into the following sets of operati
    - Results from queries can be exported and used for further research, such as in third-party population modeling software.
 
 4. User management
-   - [Adminitrative](/en/researchers/roles/org-admin) users can add, delete and manage the pemissions of authorised users.
+   - [Adminitrative](/docs/researchers/org-admin) users can add, delete and manage the pemissions of authorised users.
    
 Details of how the user uses the interface to do this are covered in the "Navigating the Platform" section of the [researcher overview](/docs/researchers/overview).

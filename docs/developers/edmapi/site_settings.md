@@ -27,7 +27,7 @@ A `GET` call will read a property value and a `POST` will update it.  Note that 
 }
 ```
 
-Configuration endpoint responses follow [Response Content](/en/developers/edm-api#response-body) standards, so `GET /api/v0/configuration/site.name` might look like:
+Configuration endpoint responses follow [Response Content](/docs/developers/edm-api) standards, so `GET /api/v0/configuration/site.name` might look like:
 ```json
 {
     "success": true,

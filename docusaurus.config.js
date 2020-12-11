@@ -1,30 +1,38 @@
 module.exports = {
-  title: 'Wild Me Wiki',
-  tagline: 'Documentation of Wildbook, WBIA, EDM, Houston, Codex, and more.',
+  title: 'Wild Me DocHub',
+  tagline: 'Documentation for Wildbook, Codex, and other Wild Me software.',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'WildbookOrg', // Usually your GitHub org/user name.
+  projectName: 'docusaurus-test', // Usually your repo name.
   themeConfig: {
+    colorMode: {
+      disableSwitch: true,
+    },
     navbar: {
-      title: 'Wild Me Wiki',
+      title: 'Wild Me DocHub',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Wild Me Logo',
         src: 'img/WildMe-Logo-Gradient.svg',
       },
       items: [
         {
-          to: 'docs/',
+          to: 'docs/researchers/overview',
           activeBasePath: 'docs',
-          label: 'Docs',
+          label: 'Researchers',
           position: 'left',
         },
-        {to: 'blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/WildbookOrg/wildme.org',
+          to: 'docs/developers/overview',
+          activeBasePath: 'docs',
+          label: 'Developers',
+          position: 'left',
+        },
+        {
+          href: 'https://github.com/WildbookOrg',
           label: 'GitHub',
           position: 'right',
         },
@@ -77,7 +85,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Wild Me.`,
     },
   },
   presets: [
@@ -88,13 +96,13 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+            'https://github.com/WildbookOrg/docusaurus-test/edit/master/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+            'https://github.com/WildbookOrg/docusaurus-test/edit/master/website/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

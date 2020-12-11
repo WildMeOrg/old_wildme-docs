@@ -8,38 +8,38 @@ import styles from './styles.module.css';
 
 const features = [
   {
-    title: 'Easy to Use',
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    title: "Researcher guide",
+    imageUrl: "img/undraw_docusaurus_mountain.svg",
+    buttonUrl: "docs/researchers/overview",
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        A researcher's guide to Wildbook, our flagship product.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    title: "Developer docs",
+    imageUrl: "img/undraw_docusaurus_react.svg",
+    buttonUrl: "docs/developers/overview",
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Architectural overviews, installation instructions, API definitions, etc.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    imageUrl: 'img/undraw_docusaurus_react.svg',
+    title: "How to edit",
+    imageUrl: "img/undraw_docusaurus_tree.svg",
+    buttonUrl: "docs/how_to_edit",
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        How to edit pages and create new ones, regardless of technical experience.
       </>
     ),
   },
 ];
 
-function Feature({imageUrl, title, description}) {
+function Feature({imageUrl, title, description, buttonUrl}) {
   const imgUrl = useBaseUrl(imageUrl);
   return (
     <div className={clsx('col col--4', styles.feature)}>
@@ -50,6 +50,13 @@ function Feature({imageUrl, title, description}) {
       )}
       <h3>{title}</h3>
       <p>{description}</p>
+      <Link
+        className={clsx(
+          'button button--outline button--primary',
+        )}
+        to={useBaseUrl(buttonUrl)}>
+        View docs
+      </Link>
     </div>
   );
 }
@@ -59,7 +66,7 @@ function Home() {
   const {siteConfig = {}} = context;
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
+      title={`${siteConfig.title} Documentation`}
       description="Description will go into a meta tag in <head />">
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className="container">
@@ -72,7 +79,7 @@ function Home() {
                 styles.getStarted,
               )}
               to={useBaseUrl('docs/')}>
-              Get Started
+              Get started
             </Link>
           </div>
         </div>

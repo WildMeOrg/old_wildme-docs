@@ -42,45 +42,53 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Researchers',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/',
+              label: 'Researcher Overview',
+              to: 'docs/researchers/overview',
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
+              label: 'Encounter guide',
+              to: 'docs/researchers/encounter_guide',
+            },
+            {
+              label: 'Marked individual',
+              to: 'docs/researchers/marked_individual',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'Developers',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Developer Overview',
+              to: 'docs/developers/overview',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'Wildbook',
+              to: 'docs/developers/wildbook_overview',
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: 'Codex',
+              to: 'docs/developers/codex_overview',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Connect',
           items: [
             {
-              label: 'Blog',
-              to: 'blog',
+              label: 'wildme.org',
+              to: 'https://www.wildme.org/',
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/WildbookOrg',
+            },
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/wildbookorg',
             },
           ],
         },

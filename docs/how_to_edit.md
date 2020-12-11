@@ -1,6 +1,6 @@
 ---
 id: how_to_edit
-title: How to edit on DocHub
+title: How to edit this wiki
 ---
 
 DocHub pages are written using a technology called "Markdown". It's very easy to write Markdown, even if you have no experience with programming. Here is an [excellent guide](https://guides.github.com/features/mastering-markdown/) that should get you started.

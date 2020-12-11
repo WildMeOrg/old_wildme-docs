@@ -72,7 +72,7 @@ function Home() {
         <div className="container">
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
-          <div className={styles.buttons}>
+          {/* <div className={styles.buttons}>
             <Link
               className={clsx(
                 'button button--outline button--secondary button--lg',
@@ -81,7 +81,7 @@ function Home() {
               to={useBaseUrl('docs/')}>
               Get started
             </Link>
-          </div>
+          </div> */}
         </div>
       </header>
       <main>

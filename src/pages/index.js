@@ -9,7 +9,7 @@ import styles from './styles.module.css';
 const features = [
   {
     title: "Researcher guide",
-    imageUrl: "img/undraw_docusaurus_mountain.svg",
+    imageUrl: "img/undraw_researching.svg",
     buttonUrl: "docs/researchers/overview",
     buttonText: 'View guide',
     description: (
@@ -20,7 +20,7 @@ const features = [
   },
   {
     title: "Developer docs",
-    imageUrl: "img/undraw_docusaurus_react.svg",
+    imageUrl: "img/undraw_programming.svg",
     buttonUrl: "docs/developers/overview",
     buttonText: 'View docs',
     description: (
@@ -31,7 +31,7 @@ const features = [
   },
   {
     title: "How to edit",
-    imageUrl: "img/undraw_docusaurus_tree.svg",
+    imageUrl: "img/undraw_writing.svg",
     buttonUrl: "docs/how_to_edit",
     buttonText: 'Learn more',
     description: (

@@ -3,9 +3,9 @@ id: how_to_edit
 title: How to edit Wild Me Docs
 ---
 
-Docs pages are written using a technology called "Markdown". It's very easy to write Markdown, even if you have no experience with programming. Here is an [excellent guide](https://guides.github.com/features/mastering-markdown/) that should get you started.
+Docs pages are written using a technology called "Markdown". It's very easy to write Markdown, even if you have no experience with programming. Here is an [excellent guide](https://guides.github.com/features/mastering-markdown/) that covers the basics.
 
-A Github account is required to edit pages. If you don't have an account yet, go ahead and [create one now](https://github.com/join).
+A Github account is required to edit the Wild Me Docs. If you don't have an account yet, go ahead and [create one now](https://github.com/join).
 
 ## Editing pages 
 
@@ -33,6 +33,23 @@ Let's make some bullet points:
 ```
 
 Now it's just a matter of replacing the content above with the actual page content. You can use the "preview" button to see how your page will look once it's published to DocHub. When you are finished, scroll to the bottom of the page and write a brief description of the new page. Click "propose changes" and they will be sent to Wild Me staff for review.
+
+## Adding pages to the side navigation
+
+First, you have to determine your page reference. The *page reference* is a combination of the path to the page from the [docs](https://github.com/WildbookOrg/wildme-docs/tree/master/docs) folder and the ID of the page. These two bits of information are combined with a forward slash `/`.
+
+For example, if your page is located at `/docs/researchers/features/newpage.md` and newpage.md contains
+
+```
+---
+id: manual_annotation
+title: Manual Annotation
+---
+
+This article is about a new feature called...
+```
+
+then your reference would be `researchers/features/manual_annotation`. Now all you need to do is edit the [sidebar definition file](https://github.com/WildbookOrg/wildme-docs/edit/master/sidebars.js) to include your new menu item. After you add the page reference in the appropriate location, scroll to the bottom of the page and write a brief description of your change. Click "propose changes" and they will be sent to Wild Me staff for review.
 
 ## Adding images
 

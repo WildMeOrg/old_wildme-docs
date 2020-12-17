@@ -41,8 +41,12 @@ All other fields are optional.
     -    Encounter.mediaAsset - this is the exact file name of each image
 
 
-### Spreadsheet by use case 
-tbd!
+### Spreadsheet templates by use case 
+[Minimum import](../../static/resources/minimum_import.xlsx)
+
+[Individual catalog](../../static/resources/individual_catalog_import.xlsx)
+
+[Sighting import](../../static/resources/sighting_import.xlsx)
 
 ### Upload
 

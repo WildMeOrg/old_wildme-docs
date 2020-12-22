@@ -3,6 +3,14 @@ id: how_to_edit
 title: How to edit Wild Me Docs
 ---
 
+---
+
+Know how to program? [Start here instead!](/docs/technical_how_to_edit) This guide is intended for non-programmers.
+
+---
+
+
+
 Docs pages are written using a technology called "Markdown". It's very easy to write Markdown, even if you have no experience with programming. Here is an [excellent guide](https://guides.github.com/features/mastering-markdown/) that covers the basics.
 
 A Github account is required to edit the Wild Me Docs. If you don't have an account yet, go ahead and [create one now](https://github.com/join).

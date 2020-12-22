@@ -3,7 +3,15 @@ id: technical_how_to_edit
 title: Programmer's guide to the Docs
 ---
 
+---
+
+Don't know how to program? [Start here instead!](/docs/how_to_edit) This guide is intended for programmers.
+
+---
+
 The Wild Me Docs are built in React using Docusaurus. But you don't need to know anything about React, Javascript, HTML or CSS to contribute to the documentation. Editing documentation and creating new documents only requires a basic knowledge of [Markdown](https://guides.github.com/features/mastering-markdown/).
+
+If you don't know how to program, it is still possible to contribute but you will be better off starting with our [guide for non-programmers](/docs/how_to_edit).
 
 ## Getting started.
 

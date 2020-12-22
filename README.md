@@ -1,20 +1,15 @@
 # Wild Me Docs
 
-The Wild Me Docs are generated using [Docusaurus 2](https://v2.docusaurus.io/), a React-based static website generator.
+The Wild Me Docs are built in React using Docusaurus. But you don't need to know anything about React, Javascript, HTML or CSS to contribute to the documentation. Editing documentation and creating new documents only requires a basic knowledge of [Markdown](https://guides.github.com/features/mastering-markdown/).
 
-## Installation
+For more information on how to contribute, take a look at [the guide](https://docs.wildme.org/docs/technical_how_to_edit).
+
+## Development server
 
 ```console
 npm install
-```
-
-## Local Development
-
-```console
 npm start
 ```
-
-This command starts a local development server and open up a browser window. Most changes are reflected live without having to restart the server.
 
 ## Build
 

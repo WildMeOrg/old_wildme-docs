@@ -53,7 +53,7 @@ then your reference would be `researchers/features/manual_annotation`. Now all y
 
 ## Adding images
 
-Images must be added to DocHub _before_ they can be used in a page. First, rename your image files using the following format: `page_name_imagenumber.format`. For example, the third image on the "Researcher overview page" should be named `researcher_overview_3.jpg`.
+Images must be added to the docs _before_ they can be used in a page. First, rename your image files using the following format: `page_name_imagenumber.format`. For example, the third image on the "Researcher overview page" should be named `researcher_overview_3.jpg`.
 
 Go to the [img folder](https://github.com/WildbookOrg/docusaurus-test/tree/master/static/img) and click "add file" in the upper right hand corner.  Click "upload files", drag the images in, and wait for the upload to finish.  When the uploads finish, scroll to the bottom of the page and write a brief description of the images you added. Click "propose changes" and they will be sent to Wild Me staff for review.
 

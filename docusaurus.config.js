@@ -8,10 +8,9 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "WildbookOrg", // Usually your GitHub org/user name.
   projectName: "wildme-docs", // Usually your repo name.
-  plugins: ["@docusaurus/plugin-google-analytics"],
   themeConfig: {
     googleAnalytics: {
-      trackingID: 'UA-30944767-19',
+      trackingID: "UA-30944767-19",
       anonymizeIP: true,
     },
     colorMode: {

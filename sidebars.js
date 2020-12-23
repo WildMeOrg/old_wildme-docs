@@ -24,7 +24,7 @@ module.exports = {
     ],
   },
   developerSidebar: {
-    Introduction: ["developers/overview", "developers/terms"],
+    Introduction: ["developers/overview", "developers/terms", "developers/datetime"],
     Wildbook: ["developers/wildbook_overview"],
     "Wildbook IA": ["developers/wbia/wbia_overview"],
     Codex: [

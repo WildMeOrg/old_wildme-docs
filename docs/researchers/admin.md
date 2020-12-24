@@ -1,4 +1,9 @@
-Under Silo Security, users are grouped together under organizations, which typically align with real-world organizations. To ensure that organization goals are met, we created the org-admin role. These are platform members who have the ability to handle user management and address bulk import concerns for their organization.
+---
+id: site_admin
+title: Site admin
+---
+
+Under [Silo Security](/docs/researchers/silo_security), users are grouped together under organizations, which typically align with real-world organizations. To ensure that organization goals are met, we created the org-admin role. These are platform members who have the ability to handle user management and address bulk import concerns for their organization.
 # Getting the Admin Role
 
 To get the admin role, contact either a site admin or Wild Me staff. You can manage the following aspects of the platform by using the top navigation and selecting **Administer**.

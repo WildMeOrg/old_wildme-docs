@@ -25,6 +25,8 @@ The documentation is located in the `docs` folder. Each markdown file is used to
 
 When you create a new page, you can add it to the navigation component by registering it in `sidebars.js`. In this file each page is referred to by its path relative to the `docs` folder plus the page ID. For example if you create a page with ID `new_features` in `/docs/researchers/news/newFeatures.md`, you could refer to that page as `researchers/news/new_features`. 
 
+Note that after you add a new page you will need to restart the server to see it in the app.
+
 ## Adding images
 
 First, rename your image files using the following format: `page_name_imagenumber.format`. For example, the third image on the "Researcher overview page" should be named `researcher_overview_3.jpg`.

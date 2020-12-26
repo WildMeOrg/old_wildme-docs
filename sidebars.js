@@ -15,6 +15,7 @@ module.exports = {
       "researchers/manual_annotation",
       "researchers/projects",
       "researchers/silo_security",
+	  "researchers/r_package",
     ],
     Roles: ["researchers/org_admin"],
     Specifications: [

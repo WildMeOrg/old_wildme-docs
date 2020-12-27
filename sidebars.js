@@ -22,6 +22,7 @@ module.exports = {
       "researchers/system_requirements",
       "researchers/photography_guidelines",
       "researchers/unsupported_developer_tools",
+	  "researchers/configuration",
     ],
   },
   developerSidebar: {

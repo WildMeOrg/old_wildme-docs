@@ -66,11 +66,15 @@ Wildbook currently supports at least the following algorithms:
 
 “Pose Invariant Embeddings” (or PIE) is a deep learning approach to individual ID. PIE is trained to learn embeddings that are useful for distinguishing among individuals in a wildlife population. Unlike HotSpotter, which is a “static” pattern matcher (i.e. a fixed algorithm not trained for each separate species), PIE can be trained on a per-species basis. Wild Me has generated separate PIE models optimized for manta rays, humpback whales, orcas, right whales, and others. And unlike fixed-catalog classifiers like Deepsense or Kaggle7, PIE can gracefully add new individuals to its catalog without being retrained: it learns the general task of mapping images into embeddings that represent individuals, rather than the specific task of sorting images into a fixed number of IDs. PIE strikes a lovely balance between a flexible general-purpose identifier and one that can be trained and refined on a given problem. In summary, PIE is a very powerful, reusable machine learning technique that can be trained to identify individuals across many species.
 
+Example Wildbook species: Giant manta rays, humpback whale flukes, orcas, right whales.
+
 PIE paper link:https://arxiv.org/pdf/1902.10847.pdf
 
 ### Hotspotter
 
 Hotspotter is a SIFT-based computer vision algorithm. It analyzes the textures in an image to find distinct patterning, or "hot spots", and then compares those against other images in the database. Unlike machine learning-based approaches, HotSpotter can help build new catalogs for new species that need to match individuals but don’t have the training data yet for machine learning-based approaches. Hotspotter can also match new individuals without the need for network retraining. Hotspotter produces a ranked list of potential matches, increasing match score with increasing similarity.
+
+Example Wildbook species: jaguars, cheetahs, leopards, African wild dogs, zebras, giraffe, humpback whales.
 
 Hotspotter paper link: http://cs.rpi.edu/hotspotter/crall-hotspotter-wacv-2013.pdf	
 
@@ -78,24 +82,43 @@ Hotspotter paper link: http://cs.rpi.edu/hotspotter/crall-hotspotter-wacv-2013.p
 
 CurvRank is a machine learning-based approach to matching curvature or an “edge”, such as the trailing edge of a cetacean fluke or a dorsal fin. Specifically ML is employed to weight sections of a fin or fluke that contain individually identifying information and to represent the curvature in a comparable format less subject to deformation from changes in the pose of the animal in the image.
 
+Example Wildbook species: humpback whales, sperm whales, bottlenose dolphins, orcas, right whales.
+
 CurvRank paper link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w41/Weideman_Integral_Curvature_Representation_ICCV_2017_paper.pdf
 
 ### Deepsense
 
 “Deepsense” is a deep learning approach to identify right whales based on aerial photos of the callosity patterns on their heads. Deepsense is the winning entry from Kaggle competition winner [deepsense.ai](https://deepsense.ai). It is fast and highly accurate, however it must be re-trained when new whales are added to a catalog. Like many deep learning competition winners, this algorithm is optimized for its specific task and cannot be cross-applied to other wildlife challenges. It is also highly subjective to the quality if the data in a right whales catalog, with performance degrading significantly (due to learned errors) if the catalog is not already very well curated. 
 
+Example Wildbook species: right whales
+
 Deepsense paper link: https://www.researchgate.net/publication/327910789_Applying_deep_learning_to_right_whale_photo_identification
 
 ### OC/WDTW
 
 OC/WDTW (or “DTW” for short) is based originally on a sound wave matching technique called “Dynamic Time Warping”. DTW uses the A* algorithmt to extract the trailing edge of a fluke and then look for matches to other edges by measuring the difference between them. This computer vision technique does not use ML and is optimized only for the trailing edge of humpback flukes but has good accuracy and speed.
+
+Example Wildbook species: humpback whales, sperm whales, right whales.
+
 OC/WDTW link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w41/Weideman_Integral_Curvature_Representation_ICCV_2017_paper.pdf
 
 ### Kaggle7
 
 “Kaggle7” is a deep learning approach to identifying individual humpback whale flukes based on one of the winning entries from a Kaggle competition. Kaggle7 is fast and highly accurate at identifying individual humpback whales by their natural fluke patterning, however it must be re-trained when new whales are added to a catalog. Like many deep learning competition winners, this algorithm is highly optimized for its task and cannot be cross-applied to other wildlife challenges. It is also highly subjective to the quality if the data in a humpback catalog, with performance degrading significantly (due to learned errors) if the catalog is not already very well curated. 
 
+Example Wildbook species: humpback whales.
+
 Kaggle7 link: https://medium.com/@ducha.aiki/thanks-radek-7th-place-solution-to-hwi-2019-competition-738624e4c885
+
+### Modified Groth and I3S (spot pattern matching)
+
+The Modified Groth and I3S algorithms are used independently of the Image Analysis pipeline in Wildbooks that are focused on matching individuals using natural spot patterning on their flanks.
+
+Example Wildbook species: whale sharks, sevengill sharks, giant sea bass, and sand tiger/ragged tooth sharks.
+
+Modified Groth link: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2664.2005.01117.x
+
+I3S link: https://www.researchgate.net/publication/228007763_A_computer-aided_program_for_pattern-matching_of_natural_marks_on_the_spotted_raggedtooth_shark_Carcharias_taurus
 
 ## Consolidated Display
 

@@ -3,24 +3,29 @@ module.exports = {
     Introduction: [
       "researchers/overview",
       "researchers/ia_pipeline",
-      "researchers/report_encounter",
+	  "researchers/data_entry",
       "researchers/encounter_guide",
       "researchers/marked_individual",
-      "researchers/matching_process",
       "researchers/sighting",
       "researchers/my_account",
     ],
+	Data: [
+      "researchers/report_encounter",
+	  "researchers/bulk_import",
+	  "researchers/matching_process",
+    ],
     Features: [
-      "researchers/bulk_import",
       "researchers/manual_annotation",
       "researchers/projects",
       "researchers/silo_security",
+	  "researchers/r_package",
     ],
     Roles: ["researchers/org_admin", "researchers/site_admin"],
     Specifications: [
       "researchers/system_requirements",
       "researchers/photography_guidelines",
       "researchers/unsupported_developer_tools",
+	  "researchers/configuration",
     ],
   },
   developerSidebar: {

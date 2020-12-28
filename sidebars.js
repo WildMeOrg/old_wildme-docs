@@ -1,7 +1,7 @@
 module.exports = {
   researcherSidebar: {
     Quickstart: [
-      "researchers/quickstart",
+      "researchers/firstlogin",
     ],
     Introduction: [
       "researchers/overview",

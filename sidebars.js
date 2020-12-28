@@ -3,15 +3,18 @@ module.exports = {
     Introduction: [
       "researchers/overview",
       "researchers/ia_pipeline",
-      "researchers/report_encounter",
+	  "researchers/data_entry",
       "researchers/encounter_guide",
       "researchers/marked_individual",
-      "researchers/matching_process",
       "researchers/sighting",
       "researchers/my_account",
     ],
+	Data: [
+      "researchers/report_encounter",
+	  "researchers/bulk_import",
+	  "researchers/matching_process",
+    ],
     Features: [
-      "researchers/bulk_import",
       "researchers/manual_annotation",
       "researchers/projects",
       "researchers/silo_security",

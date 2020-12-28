@@ -1,21 +1,15 @@
 ---
 id: encounter_guide
-title: Encounter guide
+title: Encounter
 ---
-
-When Wildbook run an image through detection, it generates an Annotation for each animal found in the picture. This picture would be returned with two annotations, like below.
-
-![wild dogs](../../static/img/encounter_guide_1.png)
-
-During upload, you must include a time and place where the interaction occurred; that information is paired with each of the annotations to create an Encounter. Encounters are one-to-one, meaning each encounter is an interaction with a single animal. If you interact with five members of a pack, you have five encounters.
 
 In Wildbook, an encounter is the foundation component of the software. All entries that a user uploads are encounters. Encounters provide a reference to a time and location where an animal was spotted. 
 
-On an encounter page, you will be able to see and edit data associated with a given encounter.
-
 ## Navigating to an Encounter page
 
-To see encounter information, you must be signed into the system. Once signed in, you can use Encounter > Encounter Search to find encounters that meet certain criteria, or you can use Encounter > View My Submissions to see all the encounters associated with your account.
+To see encounter information, you must be signed into the system. Once signed in, you can use **Encounter** > **Encounter Search** to find encounters that meet certain criteria, or you can use **Encounter** > **View My Submissions** to see all the encounters associated with your account. Encounters are the result of Wildbook's [data entry methods](data_entry.md), including [Report an Encounter](report_encounter.md) (web form submission) and [Bulk Import](bulk_import.md) (Excel-based, multi-Encounter data import). 
+
+Each Encounter entered into Wildbook is given a universally unique identifier (UUID) and can then be viewed from a URL.
 
 ## Encounter page format
 

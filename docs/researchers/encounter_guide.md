@@ -70,7 +70,7 @@ Once selected, the keyword appears on the image in the format label: value.
 
 Labeled keyword "bush_type" is set to "mixed". Value for labeled keyword "soil" is in the process of being selected.
 
-Labeled keywords are set in the commonConfiguration.properties file; reach out to your admin or to [Wildbook support](https://community.wildbook.org) for configuration assistance. [See Configuration for more information.](configurarion.md)
+Labeled keywords are set in the commonConfiguration.properties file; reach out to your admin or to [Wildbook support](https://community.wildbook.org) for configuration assistance. [See Configuration for more information.](configuration.md)
 
 #### Keywords 
 

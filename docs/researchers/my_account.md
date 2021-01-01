@@ -86,4 +86,4 @@ Ana and Barry can view each other's data, but they cannot edit it.
 
 ## My Data
 
-General statistics provided about that encounters associated with your account. This may be shut off for performance improvement.
+Follow these links to see Encounter Search and Individual Search results filtered to data assigned to your User account.

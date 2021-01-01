@@ -8,6 +8,7 @@ module.exports = {
       "researchers/marked_individual",
       "researchers/sighting",
       "researchers/my_account",
+	  "researchers/security_overview",
     ],
 	Data: [
       "researchers/report_encounter",

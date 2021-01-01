@@ -226,7 +226,7 @@ Observations can only be edited one at a time.
 
 ### Measurements
 
-Measurements are used to track numeric information associated with an encounter. These are set in the commonConfiguration.properties file. [See Configuration for more information.](configurarion.md) To request measurements be added, [contact Wildbook support for assistance](https://community.wildbook.org).
+Measurements are used to track numeric information associated with an encounter. These are set in the commonConfiguration.properties file. [See Configuration for more information.](configuration.md) To request measurements be added, [contact Wildbook support for assistance](https://community.wildbook.org).
 
 You can edit multiple measurements before clicking **Set**.
 

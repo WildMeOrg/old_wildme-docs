@@ -41,7 +41,7 @@ All other fields are optional. Because this flow is only accessible to authorize
 
 Here are important guidelines for preparing your spreadsheet.
 
-- Determine which columns you have data for (see [Fields Available](@fields-available)). It is OK to add, remove, and reorder columns as needed from the provided list. You can create your own version of our spreadsheet as long as you do not change the header names.
+- Determine which columns you have data for (see [Fields Available](#fields-available)). It is OK to add, remove, and reorder columns as needed from the provided list. You can create your own version of our spreadsheet as long as you do not change the header names.
 - Fill out each line for a single [Encounter](encounter_guide.md). If an encounter is associated with a [Sighting](sighting.md) (or Occurrence), include the needed information for the sighting on at least one line of an associated encounter.
 - If leveraging any of the Sighting/Occurrence fields, ensure that each encounter is linked with a common value in the Occurrence.occurenceID column.
 - Verify the following fields match exactly what exists in the system:

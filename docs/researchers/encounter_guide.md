@@ -70,7 +70,7 @@ Once selected, the keyword appears on the image in the format label: value.
 
 Labeled keyword "bush_type" is set to "mixed". Value for labeled keyword "soil" is in the process of being selected.
 
-Labeled keywords are set in the commonConfiguration.properties file; reach out to your admin or to [Wildbook support](https://community.wildbook.org) for configuration assistance. [See Configuration for more information.](configurarion.md)
+Labeled keywords are set in the commonConfiguration.properties file; reach out to your admin or to [Wildbook support](https://community.wildbook.org) for configuration assistance. [See Configuration for more information.](configuration.md)
 
 #### Keywords 
 
@@ -175,7 +175,7 @@ If the information in this field matches the pre-defined behavior list, you will
 
 **Life stage**: A list of life stages can be made available on your platform. If the list exists, use the dropdown to select an appropriate life stage for the animal in the encounter. When you've selected the correct life stage, click **Set** to confirm the value.
 
-Life stage is configured in the commonConfiguration.properties file. [See Configuration for more information.](configurarion.md) To request the life stage field be added or to request additional values, contact Wildbook support for assistance.
+Life stage is configured in the commonConfiguration.properties file. [See Configuration for more information.](configuration.md) To request the life stage field be added or to request additional values, contact Wildbook support for assistance.
 
 **Additional comments**: Any information that you want to associate with the encounter, you can add in this field. When you have the language as you want it, click **Submit Edit** to confirm the entry.
 
@@ -226,7 +226,7 @@ Observations can only be edited one at a time.
 
 ### Measurements
 
-Measurements are used to track numeric information associated with an encounter. These are set in the commonConfiguration.properties file. [See Configuration for more information.](configurarion.md) To request measurements be added, [contact Wildbook support for assistance](https://community.wildbook.org).
+Measurements are used to track numeric information associated with an encounter. These are set in the commonConfiguration.properties file. [See Configuration for more information.](configuration.md) To request measurements be added, [contact Wildbook support for assistance](https://community.wildbook.org).
 
 You can edit multiple measurements before clicking **Set**.
 

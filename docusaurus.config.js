@@ -9,6 +9,14 @@ module.exports = {
   organizationName: "WildbookOrg", // Usually your GitHub org/user name.
   projectName: "wildme-docs", // Usually your repo name.
   themeConfig: {
+    algolia: {
+      apiKey: "d7ed0de7b37ad70fdd0b8213f5e5e1c1",
+      indexName: "wildme",
+    },
+    googleAnalytics: {
+      trackingID: "UA-30944767-19",
+      anonymizeIP: true,
+    },
     colorMode: {
       disableSwitch: true,
     },
@@ -88,7 +96,7 @@ module.exports = {
             },
             {
               label: "Twitter",
-              href: "https://twitter.com/wildbookorg",
+              href: "https://twitter.com/wildmeorg",
             },
           ],
         },

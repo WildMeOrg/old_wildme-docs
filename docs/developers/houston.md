@@ -64,7 +64,7 @@ The data stored within Houston consists of :
 
 Non submission assets are stored in the `_db/Assets` directory. Nothing actually there yet.
 
-## Users and their assets within Hudson and GitLab
+## Users and their assets within Houston and GitLab
 
 Within the Houston module there will be multiple human users registered who can upload, access and would be the owner of the local submissions that they had uploaded or cloned. All data stored in GitLab would be accessed via a non human admin user. 
 

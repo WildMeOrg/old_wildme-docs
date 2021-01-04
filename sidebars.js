@@ -1,5 +1,8 @@
 module.exports = {
   researcherSidebar: {
+    Quickstart: [
+      "researchers/firstlogin",
+    ],
     Introduction: [
       "researchers/overview",
       "researchers/ia_pipeline",
@@ -24,6 +27,7 @@ module.exports = {
       "researchers/silo_security",
 	  "researchers/org_admin",
     ],
+    Roles: ["researchers/org_admin", "researchers/site_admin"],
     Specifications: [
       "researchers/system_requirements",
       "researchers/unsupported_developer_tools",
@@ -31,7 +35,11 @@ module.exports = {
     ],
   },
   developerSidebar: {
-    Introduction: ["developers/overview", "developers/terms"],
+    Introduction: [
+      "developers/overview",
+      "developers/terms",
+      "developers/datetime",
+    ],
     Wildbook: ["developers/wildbook_overview"],
     "Wildbook IA": ["developers/wbia/wbia_overview"],
     Codex: [

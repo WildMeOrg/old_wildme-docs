@@ -3,13 +3,18 @@ id: bulk_import
 title: Bulk import (beta)
 ---
 
-To allow for integration of legacy data or other large volumes of data into the platform, we have enabled a system of uploading a large amount of data all at once. This capability is called bulk import, and allows users with login privileges to provide encounter information and related metadata en masse. Because this flow is only accessible to authorized users, the encounters are uploaded as approved encounters.
+To allow for the integration and import of legacy data as well as batched volumes of data, Wildbook provides a system for uploading a large amount of data called Bulk Import. Bulk Import allows users with login privileges to provide photos and related metadata (e.g., date, location, species, etc.) *en masse*.
 
 _Note: this functionality is in beta. This feature can be considered largely stable. Any substantial changes will be reported out before they take place._
 
 ## How to use 
 
-There are two pieces of set-up required to perform a bulk import: photo archive and spreadsheet. In setting up your bulk imports, ensure that each import has no more than 1000 encounters.
+There are two pieces of input required for a bulk import: 
+
+- photo archive in a local file system
+- Excel spreadsheet linking photos to metadata
+
+In setting up your bulk imports, ensure that each import has no more than 1000 encounters.
 
 ### Photo archive set-up
 
@@ -25,23 +30,28 @@ Remember, the image names must correspond exactly to the "Encounter.MediaAsset" 
 
 ### Spreadsheet set-up
 
-In the header of an excel or csv file, create a column for each field you want to upload to Wildbook. This must include:
+In the header of an excel or csv file, create a column for each field you want to upload to Wildbook. [See Fields Available for a list of supported fields.](#fields-available) This must include at least:
 
-1. a location reference(either Encounter.verbatimLocality, Encounter.LocationID, or Encounter.decimalLatitude and Encounter.decimalLongitude)
-2. a time reference (Encounter.year, Encounter.month, Encounter.day, etc to the most granular available)
-3. photograph reference (Encounter.MediaAsset)
+1. a location reference (Encounter.verbatimLocality, Encounter.locationID, and/ or Encounter.decimalLatitude and Encounter.decimalLongitude)
+2. a date and time reference (Encounter.year, Encounter.month, Encounter.day, etc.) to the most granular available)
+3. photograph reference (Encounter.MediaAsset*X*)
+4. Taxonomy (Encounter.genus and Encounter.specificEpithet)
 
-All other fields are optional.
+All other fields are optional. Because this flow is only accessible to authorized users, the encounters are uploaded as approved encounters if Encounter.state is not otherwise set.
 
-- Determine what columns you have data for; add and remove columns as needed.
-- Fill out each line for a single encounter. If an encounter is associated with a sighting (or occurrence), include the needed information for the sighting on one line of an associated encounter.
-- If leveraging any of the occurrence fields, ensure that each encounter is associated with an occurrence.occurenceID.
+Here are important guidelines for preparing your spreadsheet.
+
+- Determine which columns you have data for (see [Fields Available](@fields-available)). It is OK to add, remove, and reorder columns as needed from the provided list. You can create your own version of our spreadsheet as long as you do not change the header names.
+- Fill out each line for a single [Encounter](encounter_guide.md). If an encounter is associated with a [Sighting](sighting.md) (or Occurrence), include the needed information for the sighting on at least one line of an associated encounter.
+- If leveraging any of the Sighting/Occurrence fields, ensure that each encounter is linked with a common value in the Occurrence.occurenceID column.
 - Verify the following fields match exactly what exists in the system:
-    -    Encounter.submitterID - this is your username
-    -    Encounter.mediaAsset - this is the exact file name of each image
-
+    -    Encounter.submitterID - your User account's username to ensure the Encounter is credited to your User account.
+    -    Encounter.mediaAsset*X* - this is the exact file name of each image of the Encounter. *X* starts numbering at 0, and for each image is incremented by 1. 0, 1, 2, 3, etc.
 
 ### Spreadsheet templates by use case 
+
+Here are example Bulk Import Excel spreadsheet templates.
+
 [Minimum import](../../static/resources/minimum_import.xlsx)
 
 [Individual catalog](../../static/resources/individual_catalog_import.xlsx)
@@ -50,23 +60,33 @@ All other fields are optional.
 
 ### Upload
 
-When you have finished preparations, navigate to the import page (import/instructions.jsp) and begin the guided walk-through.
+When you have finished preparations, navigate to your Wildbook's Bulk Import page (import/instructions.jsp) and begin the guided walk-through.
 
-1. Select Upload Photos.
-2. Browse to your photo directory and select Upload.
-3. Select Begin Upload to be taken to the photo review page. At this point, these images are uploaded to the platform and available.
-4. Review that all photos you have uploaded are available in the import. If they are, select Accept and move on.
-5. Browse to your spreadsheet and select Open.
-6. Select Begin Upload to be taken to the import overview.
-7. Review the data integrity. _Note that the system will verify the data in the spreadsheet against ALL images you have in the system, not only the ones you are currently uploading. Review the online data integrity report carefully before initiating an upload._
+1. Select **Upload Photos**.
+2. Browse to your photo directory and select **Upload**.
+3. Select **Begin Upload** to be taken to the photo review page. At this point, these images are uploaded to the platform and available.
+4. Review that all photos you have uploaded are available in the import. If they are, select **Accept** and move on.
+5. Browse to your spreadsheet and select **Open**.
+6. Select **Begin Upload** to be taken to the import overview.
+7. Review the data preview for data integrity. _Note that the system will verify the data in the spreadsheet against ALL images you have in the system, not only the ones you are currently uploading. Review the online data integrity report carefully before initiating an upload._
 
-If everything looks as expected, select Commit these results and confirm to import all data.
+If everything looks as expected, select **Commit these results** and confirm that you want to import all data.
 
-Once the import completes, you can take the following follow-up actions:
+### Matching Process
 
-*Send to detection (no identification)*: The mediaAssets you have uploaded are sent to detection, where annotations are added for each animal the machine learning finds. Encounter metadata will be copied to each annotation. Identification can be run later individually through the Encounter page or for the entire import by accessing the appropriate log page.
+After bulk import, you can send imported encounters through the [Image Analysis Pipeline](ia_pipeline.md) if the pipeline is configured for the imported species.
 
-*Send to identification*: The mediaAssets you have uploaded are sent through the identification process.
+Once the import completes, you can take these actions:
+
+**Send to detection (no identification)**: The MediaAssets you have uploaded are sent to Detection, where annotations are added for each animal found by the [Image Analysis Pipeline](ia_pipeline.md). Identification can be run later individually through each Encounter page. See [Matching Process](matching_process.md) for more information.
+
+**Send to identification**: The MediaAssets you have uploaded are sent through Detection, and any found Annotations are sent on to the Identification process.
+
+Bulk Detection and Identification can very significantly impact the Wildbook Image Analysis queue oh machine learning jobs. Other users can expect slowdowns waiting for bulk Detection and ID jobs to finish.
+
+### Deleting a Bulk Import
+
+Mistakes happen. If you find systematic problems in the data of a Bulk Import job, you can return to the Bulk Import log page and click **Delete ImportTask** at the bottom, which will remove all of the imported data. You can now fix your data and reimport to Wildbook.
 
 ## Fields available
 
@@ -162,28 +182,30 @@ The follow fields can be included when uploading an encounter. Review the intent
 | SurveyTrack.vesselID                   | V_WString | Car 45                                             | user-provided identifier of ship used during Survey                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | TissueSample.sampleID                  | V_WString | 12345                                              | ID of the Tissue Sample taken during this Encounter.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 
-## Troubleshooting
+## Reviewing Bulk Imports
 
-#### What formats are supported? 
+You can review your Bulk Imports by selecting **Bulk Import Logs** from the **Administer** menu. If you have admin or orgAdmin roles on your User account, you may see additional logs for other users as well.
+
+## FAQ
+
+### What Excel file formats are supported? 
 
 .xlsx only
 
-#### I found other fields in the database, but they don't work when I try to use them in the importer.
+### I found other fields in the database, but they don't work when I try to use them in the importer.
 
 There are a number of additional fields that cannot be set using the Bulk Import capability.
 
-#### I made a mistake and want to reload my encounters.
+### I made a mistake and want to reload my encounters.
 
-The Bulk Import capability does not validate the upload against existing data. If you choose to upload the data twice, you will create duplicate encounters.
+You can delete and reimport your data. [See Deleting a Bulk Import for more information.](#deleting-a-bulk-import)
 
-#### I uploaded the wrong image, but when I clicked back to try again, the image was still listed.
+### I uploaded the wrong image, but when I clicked back to try again, the image was still listed.
 
 The list displays all images uploaded. You can navigate to the image in the platform and remove it.
 
-#### I want to set photographerX.affiliation or photographerX.fullName without providing an email address.
+### I want to set photographerX.affiliation or photographerX.fullName without providing an email address.
 
 At present, there is no way to provide this information without providing an email address because these fields are tied into the system user management.
 
-To work around this, you can provide an email that is used system-wide for all submissions that don't have an email associated. (ex: if you have a photograph submitted by a tourist through an external site, you can reference an email associated with the site along with the tourist's name)
-
-This is also true for submitterX.affiliation and submitterX.fullName.
+To work around this, you can provide an email that is used system-wide for all submissions that don't have an email associated (e.g., if you have a photograph submitted by a tourist through an external site, you can reference an email associated with the site along with the tourist's name). This is also true for submitterX.affiliation and submitterX.fullName.

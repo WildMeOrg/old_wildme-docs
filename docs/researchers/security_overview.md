@@ -1,7 +1,7 @@
 ---
 id: security_overview
 title: Security Overview
-sidebar_label: Security
+sidebar_label: Security Overview
 slug: /researchers/security_overview
 ---
 

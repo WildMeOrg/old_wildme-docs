@@ -26,8 +26,8 @@ module.exports = {
 	  "researchers/my_account",
       "researchers/silo_security",
 	  "researchers/org_admin",
+	  "researchers/site_admin"
     ],
-    Roles: ["researchers/org_admin", "researchers/site_admin"],
     Specifications: [
       "researchers/system_requirements",
       "researchers/unsupported_developer_tools",

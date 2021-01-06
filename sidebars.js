@@ -1,37 +1,38 @@
 module.exports = {
   researcherSidebar: {
-    Quickstart: [
-      "researchers/firstlogin",
-    ],
     Introduction: [
       "researchers/overview",
       "researchers/ia_pipeline",
-	  "researchers/data_entry",
+      "researchers/data_entry",
       "researchers/encounter_guide",
       "researchers/marked_individual",
       "researchers/sighting",
-	  "researchers/security_overview",
+      "researchers/security_overview",
+      "researchers/whatsnew",
     ],
-	Data: [
-	     "researchers/photography_guidelines",
+    Quickstart: [
+      "researchers/firstlogin",
+    ],
+    Data: [
+      "researchers/photography_guidelines",
       "researchers/report_encounter",
-	  "researchers/bulk_import",
-	  "researchers/matching_process",
-	  "researchers/manual_annotation",
-	  "researchers/projects",
-	  "researchers/r_package",
+      "researchers/bulk_import",
+      "researchers/matching_process",
+      "researchers/manual_annotation",
+      "researchers/projects",
+      "researchers/r_package",
     ],
     Security: [
       "researchers/security_overview",
-	  "researchers/my_account",
+      "researchers/my_account",
       "researchers/silo_security",
-	  "researchers/org_admin",
-	  "researchers/site_admin"
+      "researchers/org_admin",
+      "researchers/site_admin"
     ],
     Specifications: [
       "researchers/system_requirements",
       "researchers/unsupported_developer_tools",
-	  "researchers/configuration",
+      "researchers/configuration",
     ],
   },
   developerSidebar: {

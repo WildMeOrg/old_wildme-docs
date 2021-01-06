@@ -7,7 +7,7 @@ slug: /researchers/overview
 
 Wildbook is a web-based, multi-user software platform to help researchers collaboratively track individual animals in wildlife populations and estimate population sizes. Each Wildbook installation can be used by multiple researchers for multiple species. 
 
-This introduction covers the most common interactions within the Wildbook platform. It is intended to support Wildbook users and researchers collecting data in the field and to illustrate how to use Wildbook for data storage, curation, searching, and analysis.
+This introduction covers the most common interactions within Wildbook platforms. It is intended to support Wildbook users and researchers collecting data in the field and to illustrate how to use Wildbook for data storage, curation, searching, and analysis.
 
 Included Wildbook features:
 
@@ -26,7 +26,7 @@ Included Wildbook features:
 
 ## Wildbook Terminology
 
-In its simplest usage, Wildbook receives a wildlife picture and its related metadata (e.g. where the photo was taken and when), which gets uploaded by a researcher. From here Wildbook uses certain terminology to assist users in curating their wildlife data. To facilitate a better understanding of these terms, we will work through the process the Wildbook system and users take to upload and manage their wildlife data. Let’s use this picture as an example.
+In its simplest usage, Wildbook receives a wildlife picture and its related metadata (e.g. where the photo was taken and when), which gets uploaded by a researcher. The following terminology is used by Wildbook programs as users curate their wildlife data. To facilitate a better understanding of these terms, we will work through the process Wildbook and users take to upload and manage their wildlife data. Let’s use the picture below as an example:
 
 ![two wild dogs](../../static/img/field_guide_1.png)
 
@@ -34,13 +34,13 @@ In Wildbook, an uploaded picture is called a **MediaAsset**. When the system run
 
 ![two wild dogs with annotations](../../static/img/field_guide_2.png)
 
-During the uploading process, you must include the time and place where the interaction occurred. That information is paired with each Annotation to create an **Encounter**. An Encounter represents an interaction with a single animal. If you interacted with five members of a pack at a specific place and time, your result would have five Encounters. Encounters are the foundational components of Wildbooks software. They provide a reference to a time and location where an animal was spotted, forming the basis of whether that animal ultimately should or should not be included in a population analyses. In the photo above, Wildbook's ML process detected two Annotations of African wild dogs, and thus two Encounters would be generated from the one MediaAsset. Each Encounter that is generated will create its own web page within Wildbook.
+During the uploading process, you must include the time and place where the interaction occurred. That information is paired with each Annotation to create an **Encounter**. An Encounter represents an interaction with a single animal. If you interacted with five members of a pack at a specific place and time, your result would have five Encounters. Encounters are the foundational components of Wildbooks software. They provide a reference to a time and location where an animal was spotted, forming the basis of whether that animal ultimately should or should not be included in a population analyses. In the photo above, Wildbook's ML process detected two Annotations of African wild dogs, and thus two Encounters would be generated from the one MediaAsset. Wildbook creates web pages for each Encounter for referencing.
 
-Because more than one animal appears at the same time in this example MediaAsset, we want to ensure that the relationship between these two Encounters is well understood (i.e. *These two animals were sighted together.*). Therefore, Wildbook creates a **Sighting**, representing a broader observation of one or more animals. A Sighting allows researchers to include information about social relationships and observed behaviors when multiple animals are sighted together. Unlike Encounters, Sightings are one-to-many; if you interact with five members of a pack, you have one Sighting that is made up of five Encounters, one for each animal. Each Sighting also generates its own web page in Wildbook.
+Because more than one animal appears at the same time in this example MediaAsset, we want to ensure that the relationship between these two Encounters is well understood (i.e. *These two animals were sighted together.*). Therefore, Wildbook creates a **Sighting**, representing a broader observation of one or more animals. A Sighting allows researchers to include information about social relationships and observed behaviors when multiple animals are sighted together. Unlike Encounters, Sightings are one-to-many; if you interact with five members of a pack, you have one Sighting that is made up of five Encounters, one for each animal. Like Encounters, Wildbook also creates web pages for each Sighting.
 
 An **Individual** is a single animal that has been given an identifying name/Annotation within the Wildbook platform and has one or more Encounters. Individuals are animals whose identities and metadata (eg. tags, keywords, social information) have been confirmed by a researcher. Every Individual has a profile page in Wildbook, summarizing where the individual was sighted over time, any **Relationships** (e.g. mother-calf) or **Social Units** (e.g. a pack or herd) it may be a part of, and which researchers have contributed to building this Individual's profile.
 
-*Note*: Throughout the Wildbook platform, **Sightings** may also be called “Occurrences” and **Individuals** may also be called "Marked Individuals". We are currently working to shift terminology for greater user clarity. If you see an instance of outdated language, [you can post a bug report](https://community.wildbook.org).
+*Note*: Throughout Wildbook, **Sightings** may also be called “Occurrences” and **Individuals** may also be called "Marked Individuals". We are currently working to shift terminology for greater user clarity. If you see an instance of outdated language, you can post a bug report [here](https://community.wildbook.org).
 
 
 ## Navigating the Platform
@@ -53,7 +53,11 @@ When you first access Wildbook, you’ll land on the Home page. This can be reac
 
 ### Menu Options
 
-Under the **Submit** menu, there are two options: **Report an Encounter** and **Bulk Import**. Both options are used to submit data. Report an Encounter can be used by anyone, whereas Bulk Import requires a user to log in to the platform and follow the instructions to first upload photos and then their affiliated Excel data spreadsheet. Submissions include photos, videos, and related metadata, requiring at least the date of sighting, location, and species. Additional metadata fields are available.
+Under the **Submit** menu, there are two options: **Report an Encounter** and **Bulk Import**. Both options are used to submit data. Submissions include photos, videos, and related metadata, requiring at least the date of sighting, location, and species. Additional metadata fields are available.
+
+- **Report an Encounter** can be used by anyone to submit a single encounter of one or multiple individuals. For more information on how to report an encounter, [click here](https://docs.wildme.org/docs/researchers/report_encounter).
+
+- **Bulk Import** requires a user to log in to the platform before following the instructions to upload photos and their affiliated Excel data spreadsheet(s). The Bulk Import function allows users to submit both legacy and batched volumes of data in large quantities as opposed to Report an Encounter, which allows for only single uploads. For more information on how to bulk import, [click here](https://docs.wildme.org/docs/researchers/bulk_import).
 
 Under the **Learn** menu, there are the following options, which are often customized in Wildbook:
 
@@ -88,7 +92,7 @@ Under the **Encounters** menu, you have the following options:
 
 Under the **Search** menu, you have the following options:
 
-- **Encounter Search** pulls up several filters that can be leveraged to generate a filtered list of all the Encounters the signed-in user has access to. Once the list is generated, additional filtering and sorting can be performed on the **Encounter Search Results** page, as well as delving into additional data formats such as matching images and videos, mapped results, export formats, and results calendars.
+- **Encounter Search** pulls up several filters that can be leveraged to generate a filtered list of all the Encounters the signed-in user has access to. Once the list is generated, additional filtering and sorting can be performed on the **Encounter Search Results** page, as well as delving into additional data formats such as matching images and videos, mapped results, export formats, and/or an encounter calendar.
 - **Individual Search** pulls up several filters that can be leveraged to generate a filtered list of all Individuals the signed-in user has access to. Once the list is generated, additional filtering and sorting can be performed on the **Individual Search Results** page, as well as delving into additional data formats such as matching images and videos, mapped results, and exportable data formats.
 - **Sighting Search** pulls up several filters that can be leveraged to generate a tailored list of all sightings that the signed-in user has access to.
 

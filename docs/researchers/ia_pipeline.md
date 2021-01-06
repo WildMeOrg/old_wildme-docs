@@ -25,7 +25,7 @@ At the end of the detection stage, WBIA should have created the following in pre
 
 - Annotations (i.e. bounding boxes) around each animal in each photo and potentially "parts" bounding boxes, such as a fin bounding box "part" on an Orca body bounding box
 - Species labels on each Annotation
-- Viewpoint labels (e.g., left, right, top, bottom, etc.) on each Annotation
+- Viewpoint labels (e.g. left, right, top, bottom, etc.) on each Annotation
 - OPTIONAL: Background segmentation on each Annotation to remove as many non-animal pixels as possible
 - OPTIONAL: Rotational correct, standardizing the rotation of Annotations to maximize their comparability in downstream ID algorithms
 
@@ -58,7 +58,7 @@ The second major computer vision step is identification, which assigns a name la
 
 *Wildbook has a plug-and-play, configurable computer vision pipeline that allows annotations for different species and of body parts to be simultaneously routed to one or more ID algorithms.*
 
-After detection, one or more ID algorithms are run, looking for similar features between a new anotation and a list of "match against" anotations already in the database. Scores from the query that match the same individual are accumulated to produce a single potential score for each animal. The animals in the database are then ranked by their accumulated scores.
+After detection, one or more ID algorithms are run, looking for similar features between a new annotation and a list of "match against" anotations already in the database. Scores from the query that match the same individual are accumulated to produce a single potential score for each animal. The animals in the database are then ranked by their accumulated scores.
 
 ![identification](../../static/img/ExampleMatch.jpg)
 
@@ -72,7 +72,7 @@ Pose Invariant Embeddings or (PIE) is a deep learning approach to individual ID.
 
 Example Wildbook Species: Giant manta rays, humpback whale flukes, orcas, right whales
 
-PIE Paper Link:https://arxiv.org/pdf/1902.10847.pdf
+PIE Paper Link: https://arxiv.org/pdf/1902.10847.pdf
 
 ### Hotspotter
 
@@ -108,7 +108,7 @@ OC/WDTW Link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w
 
 ### Kaggle7
 
-Kaggle7 is a deep learning approach to identifying individual humpback whale flukes based on one of the winning entries from a Kaggle competition. Kaggle7 is highly effective at identifying individual humpback whales by their natural fluke patterning, however it must be re-trained when new whale individuals are added to a catalog. Like many deep learning competition winners, this algorithm is highly optimized for its task and cannot be cross-applied to other wildlife challenges. It is also highly subjective to the quality of the data in a humpback catalog, with performance degrading significantly (due to machine-learned errors) if the catalog is not already very well curated. 
+Kaggle7 is a deep learning approach to identifying individual humpback whale flukes based on one of the winning entries from a Kaggle competition. Kaggle7 is highly effective at identifying individual humpback whales by their natural fluke patterning. However, it must occasionally be re-trained when new whale individuals are added to a catalog. Like many deep learning competition winners, this algorithm is optimized for its specific task and cannot be cross-applied to other wildlife challenges. It is also highly subjective to the quality of the data in a humpback catalog, with performance degrading significantly (due to machine-learned errors) if the catalog is not already very well curated. 
 
 Example Wildbook Species: humpback whales
 
@@ -126,7 +126,7 @@ I3S Link: https://www.researchgate.net/publication/228007763_A_computer-aided_pr
 
 ## Consolidated Display
 
-At the end of the identification process, Wildbook displays a ranked lists of results, displaying one set of results per feature (e.g., whale fluke) per algorithm (e.g., PIE). You can select and set a matching IDs right from the review interface, which displays 12 ranked matched results (#1 is the predicted best) but can display more than 12 if desired.
+At the end of the identification process, Wildbook displays a ranked lists of results, displaying one set of results per feature (e.g., whale fluke) per algorithm (e.g., PIE). You can select and set a matching IDs right from the review interface, which displays 12 ranked matched results (#1 is the predicted best match) but can display more than 12 if desired.
 
 ![matchResults](../../static/img/matchResults.png)
 

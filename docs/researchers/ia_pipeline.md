@@ -58,7 +58,7 @@ The second major computer vision step is identification, which assigns a name la
 
 *Wildbook has a plug-and-play, configurable computer vision pipeline that allows annotations for different species and of body parts to be simultaneously routed to one or more ID algorithms.*
 
-After detection, one or more ID algorithms are run, looking for similar features between a new annotation and a list of "match against" anotations already in the database. Scores from the query that match the same individual are accumulated to produce a single potential score for each animal. The animals in the database are then ranked by their accumulated scores.
+After detection, one or more ID algorithms are run, looking for similar features between a new annotation and a list of "match against" annotations already in the database. Scores from the query that match the same individual are accumulated to produce a single potential score for each animal. The animals in the database are then ranked by their accumulated scores.
 
 ![identification](../../static/img/ExampleMatch.jpg)
 

@@ -55,9 +55,9 @@ When you first access Wildbook, you’ll land on the Home page. This can be reac
 
 Under the **Submit** menu, there are two options: **Report an Encounter** and **Bulk Import**. Both options are used to submit data. Submissions include photos, videos, and related metadata, requiring at least the date of sighting, location, and species. Additional metadata fields are available.
 
-- **Report an Encounter** can be used by anyone to submit a single encounter of one or multiple individuals. For more information on how to report an encounter, [click here](https://docs.wildme.org/docs/researchers/report_encounter).
+- **Report an Encounter** can be used by anyone to submit a single encounter of one or multiple individuals. For more information on how to report an encounter, [click here](/docs/researchers/report_encounter).
 
-- **Bulk Import** requires a user to log in to the platform before following the instructions to upload photos and their affiliated Excel data spreadsheet(s). The Bulk Import function allows users to submit both legacy and batched volumes of data in large quantities as opposed to Report an Encounter, which allows for only single uploads. For more information on how to bulk import, [click here](https://docs.wildme.org/docs/researchers/bulk_import).
+- **Bulk Import** requires a user to log in to the platform before following the instructions to upload photos and their affiliated Excel data spreadsheet(s). The Bulk Import function allows users to submit both legacy and batched volumes of data in large quantities as opposed to Report an Encounter, which allows for only single uploads. For more information on how to bulk import, [click here](/docs/researchers/bulk_import).
 
 Under the **Learn** menu, there are the following options, which are often customized in Wildbook:
 

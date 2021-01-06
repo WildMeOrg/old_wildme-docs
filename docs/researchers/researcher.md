@@ -10,11 +10,11 @@ Collaboration requests share your username, email, and any optional message you 
 
 ## Collaboration Search
 1. Navigate to **Administer > My Account** and scroll down to **Collaborations**.
-2. In the **Collaborations** table, you can manage your active and pending [collaborations](https://docs.wildme.org/docs/researchers/silo_security#collaborations).
+2. In the **Collaborations** table, you can manage your active and pending [collaborations](/docs/researchers/silo_security#collaborations).
 3. To **Initiate New Collaboration**, use the **User Lookup** to search for a user by name or username. Optionally add a note to the recipient, then click **Initiate*.
 
 # Collaborating through projects
-Alternatively, if you want to share your data with a collection of other users, or if you want to share a subset of your data, you can use [projects](https://docs.wildme.org/docs/researchers/projects).
+Alternatively, if you want to share your data with a collection of other users, or if you want to share a subset of your data, you can use [projects](/docs/researchers/projects).
 1. Navigate to **Administer > Manage Projects**.
 2. Use the **Add Project** button to create a new project, or select from the list if you have projects that you belong to.
 

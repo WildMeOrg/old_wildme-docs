@@ -30,6 +30,10 @@ Within each module the code is split into two logical blocks. The models.py mana
    - models.py : The definition of the database table for this module. 
        - Present in virtually all modules (not in passthrough)
        - Classes derive from the db.Model class in flask SQLAlchemy.
+       - Classes also derive from one of :
+           - HoustonModel : For objects that are stored persistently and mastered by Houston
+           - FeatherModel : For objects that are stored persistently but mastered by something else e.g. EDM
+           - GhostModel : For objects that are not stored persitently
    - resources.py : defines the actions that can performed on the database table via Rest API HTTP GET/POST/PATCH requests.
        - Present in virtually all modules (not in email, surely it will be <b><i>TBC</i></b>)
        - Classes derive from flask_restplus_patched Resource which is a derived Flask Resource class.
@@ -48,8 +52,8 @@ The full next gen wildbook system is as shown below
 ![next-gen_overview_nuts-n-bolts_draft.jpg](../../static/img/houston_1.jpg)
 
 The data stored within Houston consists of :
-   - The database model regarding what users, sumbissions, assets etc that are known about by Houston. 
-        - This is expected to be a complete set at all times.
+   - The database model regarding what users, submissions, assets, sightings etc that are known about by Houston. 
+        - This is expected to be a complete set at all times. Nothing will exist in the Wildbook that Houston is unaware of.
         - This data is stored within the `_db/database.sqlite3` file and is read by the app.run houston on startup.
    - The files associated with the submissions, images etc. 
        - The local houston is not expected to have access to all of these files at all times, just to know that they exist and can be cloned from the Submission Gitlab.
@@ -64,12 +68,24 @@ The data stored within Houston consists of :
 
 Non submission assets are stored in the `_db/Assets` directory. Nothing actually there yet.
 
+## Data accessibility within Houston
+The REST API allows access to the resources within Hoston but there needs to be management of who is permitted to access each resource. In this context a resource may be an asset, a sighting etc.
+
+For all of the requests coming in to any of the module resources.py files, access is controlled by the modules/users/permissions code. Currently implemented is ObjectReadAccessPermission. This uses the user has_permission_to_read method which checks if the user has access itself or via a project the user is in.
+
+The above functionality is all generic for all modules. It is only in the user owns_object method that the module specific ownership check is done on the requested object. This means that there should be very little code duplication.
+
+Yet to be written is the equivalent logic for ObjectWriteAccessPermission which will almost certainly have different access control to the reading although can use the same design. 
+
+Also in progress is how this stitches in with the collaboration concept but the design means that should be a simple change.
+
 ## Users and their assets within Houston and GitLab
 
 Within the Houston module there will be multiple human users registered who can upload, access and would be the owner of the local submissions that they had uploaded or cloned. All data stored in GitLab would be accessed via a non human admin user. 
 
 ## Testing
-Testing is done using pytest in the files under the test directory obviously. 
+Testing is done using pytest in the files under the test directory.
+
 What is not immediately obvious is that these run with a different houston database to that started from app.run. This is the TestingConfig set up in config.py which is different to the production or development config objects. Therefore you should not expect the model in the pytest houston to match that in the one started by app.run. 
 
 ## Scalability and customisation
@@ -81,7 +97,4 @@ The database may be Postgres or SQLLite depending upon the Wildbook deployment.
    - Low use Wildbooks will have a single Houston with an intergrated SQLLite database.
    - High use Wildbooks will have a separate Postgres Database that can be accessed by multiple load balanced Houston instances.
    - There will be database migration from SQLLite to Postgres as the usage of the Wildbook changes over time.
-
-
-_*Also some modules have files that are not imported, e.g assets has a schemas.py which is not imported from it's __init__.py. Not clear what the logic is of which modules use which files.*_
 

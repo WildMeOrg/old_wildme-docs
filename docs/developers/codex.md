@@ -61,23 +61,24 @@ The operation of Houston is described in more detail on the [Houston](/docs/deve
 
 To show how houston is expected to operate a number of use cases will be described.
 
-<b> Data upload use case : Unauthorised user uploads an image. </b>
-   - Houston accesses User database to determine if user authorised (user is citizen scientist so not an authorised user).
-   - Houston sends image to WB-IA for processing. 
-   Houston receives sighting, encounter and individual data back from WB-IA.
-   - Houston sends data to EDM for storage as unapproved.
+**Data upload use case : Unauthorised user uploads an image.** 
+   * Houston accesses User database to determine if user authorised (user is citizen scientist so not an authorised user).
+   * Houston sends image to WB-IA for processing. 
+      * Houston receives sighting, encounter and individual data back from WB-IA.
+   * Houston sends data to EDM for storage as unapproved.
 
-<b> Data query use case : Authorised user queries data. </b>
-   - Houston validates that user is authorised (they are).
-   - Houston requests data from EDM according to user request.
-   - Houston requests assets from WB-IA associated with user request.
-   - Houston displays combined ECM and ACM data to user.
+**Data query use case : Authorised user queries data.**
+   * Houston validates that user is authorised (they are).
+   * Houston requests data from EDM according to user request.
+   * Houston requests assets from WB-IA associated with user request.
+   * Houston displays combined ECM and ACM data to user.
 
-<b> Data management use case : Authorised user approves unapproved data. </b>
-   - Houston validates that user is authorised (they are).
-   - Houston requests unapproved data from EDM.
-   - Houston requests assets from WBIA associated with individual encounter.
-   - Houston displays encounter, assets and attributes to authorised user.
-   - Authorised user approves encounter.
-   - Houston updates EDM to mark the data as approved.
+**Data management use case : Authorised user approves unapproved data.** 
+   * Houston validates that user is authorised (they are).
+   * Houston requests unapproved data from EDM.
+   * Houston requests assets from WBIA associated with individual encounter.
+   * Houston displays encounter, assets and attributes to authorised user.
+   * Authorised user approves encounter.
+   * Houston updates EDM to mark the data as approved.
+   
 

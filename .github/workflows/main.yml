@@ -1,0 +1,33 @@
+name: Deployment CLI
+
+on:
+  push:
+    branches: [ master ]
+    
+jobs:
+  build:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v2
+     
+     - name: Azure login
+       uses: azure/login@v1
+       with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+     - name: Push to storage
+       uses: azure/CLI@v1
+       with:
+         azcliversion: 2.0.72
+         inlinescript: |
+           az storage blob upload-batch --account-name wildmedocs -d '$web' -s .
+     - name: Purge cache
+       uses: azure/CLI@v1
+       with:
+         azcliversion: 2.0.72
+         inlinescript: |
+           az cdn endpoint purge --content-paths  "/*" --profile-name "react-cdn" --name "wildmereact" --resource-group "react"
+           
+     - name: Logout
+       run: |
+         az logout

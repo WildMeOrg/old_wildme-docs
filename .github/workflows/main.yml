@@ -20,7 +20,8 @@ jobs:
        with:
          azcliversion: 2.0.72
          inlinescript: |
-           az storage blob upload-batch --account-name wildmedocs -d '$web' -s .
+           az storage blob sync -c '$web' -s . --account-name wildmedocs https://wildmedocs.z5.web.core.windows.net/
+           # az storage blob upload-batch --account-name wildmedocs -d '$web' -s .
      - name: Purge cache
        uses: azure/CLI@v1
        with:

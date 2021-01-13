@@ -24,10 +24,11 @@ Our detection pipeline is a cascade of deep convolutional neural networks (DCNNs
 At the end of the detection stage, WBIA should have created the following in preparation for one or more downstream individual ID algorithms:
 
 - Annotations (i.e. bounding boxes) around each animal in each photo and potentially "parts" bounding boxes, such as a fin bounding box "part" on an Orca body bounding box
-- Species labels on each Annotation
-- Viewpoint labels (e.g. left, right, top, bottom, etc.) on each Annotation
+- Species labels on each Annotation. This label may also be referred to to as "iaClass" or "Image Analysis Class" elsewhere in Wildbook. It represents the type of the Annotation box. 
+- Viewpoint labels (e.g. left, right, top, bottom, etc..) on each Annotation
 - OPTIONAL: Background segmentation on each Annotation to remove as many non-animal pixels as possible
-- OPTIONAL: Rotational correct, standardizing the rotation of Annotations to maximize their comparability in downstream ID algorithms
+- OPTIONAL: Rotational correction, standardizing the rotation of Annotations to maximize their comparability in downstream ID algorithms
+- OPTIONAL: Parts to bodies assignment, allowing "parts" (e.g., an African wild dog tail) to be assigned to parents Annotations (e.g., the dog's body) in complex, multi-individual photos
 
 ![detection](../../static/img/ia_pipeline_1.png)
 
@@ -42,6 +43,8 @@ WBIA is not originally programmed to detect every and all species. Detection rel
 *What does manual annotation look like for ML training for a detector for a new species?*
 
 [Here is a link to an example training video for annotation for a new species.](https://youtu.be/qD7LKWQIfeM)
+
+![screencapture-104-42-42-134-5015-turk-detection-2019-06-03-13_08_11](../../static/img/screencapture-104-42-42-134-5015-turk-detection-2019-06-03-13_08_11.png)
 
 *What happens if detection doesn't find one or more animals in the photo?*
 
@@ -90,6 +93,16 @@ Example Wildbook Species: humpback whales, sperm whales, bottlenose dolphins, or
 
 CurvRank Paper Link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w41/Weideman_Integral_Curvature_Representation_ICCV_2017_paper.pdf
 
+### finFindR
+
+finFindR is a machine learning-based approach to matching curvature or an “edge”, such as the leading and trailing edges of a dorsal fin. More specifically, ML is employed to identify cetacean bodies and dorsal fins in an image, extra a fin edge, create a feature matrix representing that edge, and then compare that edge to others in the catalog.
+
+Example Wildbook Species: bottlenose dolphins, orcas, fin whales, humpback whale dorsals
+
+finFindR Paper Link: https://www.biorxiv.org/content/10.1101/825661v1
+
+![a_hybrid_smooth-off_720](../../static/img/a_hybrid_smooth-off_720.png)
+
 ### Deepsense
 
 Deepsense is a deep learning approach to identify right whales based on aerial photos of the callosity patterns on their heads. Deepsense is the winning entry from Kaggle competition winner [deepsense.ai](https://deepsense.ai). It is fast and incredibly accurate, however it must occasionally be re-trained when new whale individuals are added to a catalog. Like many deep learning competition winners, this algorithm is optimized for its specific task and cannot be cross-applied to other wildlife challenges. It is also highly subjective to the quality of the data in a right whales' catalog, with performance degrading significantly (due to machine-learned errors) if the catalog is not already well curated. 
@@ -123,6 +136,8 @@ Example Wildbook Species: whale sharks, sevengill sharks, giant sea bass, and sa
 Modified Groth Link: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2664.2005.01117.x
 
 I3S Link: https://www.researchgate.net/publication/228007763_A_computer-aided_program_for_pattern-matching_of_natural_marks_on_the_spotted_raggedtooth_shark_Carcharias_taurus
+
+![screencapture-whaleshark-org-encounters-scanEndApplet-jsp-2021-01-13-10_57_05](../../static/img/screencapture-whaleshark-org-encounters-scanEndApplet-jsp-2021-01-13-10_57_05.png)
 
 ## Consolidated Display
 

@@ -116,7 +116,7 @@ Defining the boundaries of study areas is an important aspect of mark-recapture 
 
 Encounter.locationID may be the most valuable form of location identifier in Wildbook. GPS location may not be known, and verbatim descriptions of location may vary significantly by submitter.  LocationID is powerful because it specifically defines whether a data point should be included or excluded from a study area during mark-recapture analysis and can be used to define which animals to match against in the [Wildbook Image Analysis pipeline](ia_pipeline.md). 
 
-To configure the list of study sites in your Wildbook, change the values in locationID.json. [Click here for more information about location ID and its configuration.](locationID.json)
+To configure the list of study sites in your Wildbook, change the values in locationID.json. [Click here for more information about location ID and its configuration.](https://github.com/WildbookOrg/Wildbook/blob/flukebook/src/main/resources/bundles/locationID.json)
 
 #### Configuring encounter measurements
 

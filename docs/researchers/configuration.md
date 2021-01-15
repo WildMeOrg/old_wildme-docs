@@ -116,36 +116,7 @@ Defining the boundaries of study areas is an important aspect of mark-recapture 
 
 Encounter.locationID may be the most valuable form of location identifier in Wildbook. GPS location may not be known, and verbatim descriptions of location may vary significantly by submitter.  LocationID is powerful because it specifically defines whether a data point should be included or excluded from a study area during mark-recapture analysis and can be used to define which animals to match against in the [Wildbook Image Analysis pipeline](ia_pipeline.md). 
 
-To configure the list of study sites in your Wildbook, change the values in locationID.json. Values can be nested and hierarchical, allowing for regional and specific site reflection of your research areas.
-
-<code>
-
-{
-  "description": "Hierarchical Encounter.locationID list in Wildbook",
-  "source": "http://en.wikipedia.org/wiki/List_of_seas",
-  "locationID": [
-		{
-		"name": "Pacific Ocean",
-		"locationID": [
-			 {
-			  "name": "Arafura Sea", "id": "6" },
-
-			 {
-			  "name": "Chilean Sea","id":"Chilean Sea" },
-			 {
-			  "name": "Sea of Chiloé", "id": "Sea of Chiloé" },
-			 {
-			  "name": "Coral Sea", "id": "Coral Sea", "locationID":[
-	
-				{"name": "Gold Coast", "id": "GC" }
-	
-				]
-			  },
-...
-
-</code>
-
-Restart Tomcat after making changes.
+To configure the list of study sites in your Wildbook, change the values in locationID.json. [Click here for more information about location ID and its configuration.](https://github.com/WildbookOrg/Wildbook/blob/flukebook/src/main/resources/bundles/locationID.json)
 
 #### Configuring encounter measurements
 

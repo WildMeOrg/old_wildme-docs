@@ -11,7 +11,8 @@ When you [Report an Encounter](report_encounter.md) of a single animal, if you s
 
 1. Send each submitted image to Detection to find one or more Annotations in each photo. When Detection 
 2. Depending on the type of Annotations returned (its "Image Analysis Class"), such as "whale_orca" or "panthera_uncia", route each Annotation to one or more ID algorithms.
-3. Consolidate all Annotation match results into a single page for your review and ID assignment (e.g., setting an existing individual ID or assigning a new ID). See [Reviewing Match Results](#reviewing-match-results) to understand the results page. The Encounter page also allows you to set individual ID later, and you can return to these match results in the future as well.
+3. If the location ID (or "study site") was set during the submission, the pipeline will limit candidate matches to only that study site.
+4. Consolidate all Annotation match results into a single page for your review and ID assignment (e.g., setting an existing individual ID or assigning a new ID). See [Reviewing Match Results](#reviewing-match-results) to understand the results page. The Encounter page also allows you to set individual ID later, and you can return to these match results in the future as well.
 
 Because Detection and Identification reside in a queue of computer vision actions requested by all users of your Wildbook, you may not immediately see the results of the [Image Analysis Pipeline](ia_pipeline.md). 
 
@@ -57,6 +58,16 @@ Removing an Annotation has these behaviors:
 For a matchable Annotation, you can start or re-run matching from the Encounter page Gallery by selecting **start match** or **start another match** from the menu for the Annotation.
 
 <img src="../../static/img/startMatch.png" alt="startMatch" width="50%" height="50%" />
+
+The **Choose criteria to match against** dialog box appears and allows you to:
+
+- multi-select location IDs to match against, allowing you to remove unlikely locations from the results. If set, the location ID of the Encounter will be selected by default.
+- filter to only your data
+- select one or more algorithms to use for identification
+
+<img src="../../static/img/matchCriteria.png" alt="matchCriteria" height="50%" width="50%" />
+
+Click **Match** to start the matching process.
 
 ## Reviewing Match Results
 

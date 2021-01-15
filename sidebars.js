@@ -20,6 +20,7 @@ module.exports = {
       "researchers/matching_process",
       "researchers/manual_annotation",
       "researchers/projects",
+	  "researchers/locationID",
       "researchers/r_package",
     ],
     Security: [

@@ -69,4 +69,6 @@ To use an image in a page, use the following format:
 
 ```![Description of image](../../static/img/your_image_name.png)```
 
+By default images scale to 100% of the content width. To specify the size of an image, you must use MDX to insert an HTML img tag. See the [relevant docusaurus documentation](https://v2.docusaurus.io/docs/static-assets/) for more information.
+
 Even though the description of the image will not be visible in the final web page, it is important to include a description for accessibility purposes. 

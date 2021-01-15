@@ -3,6 +3,8 @@ id: matching_process
 title: Matching Process
 ---
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 Wildbook provides several ways to automatically and manually access the [Image Analysis Pipeline](ia_pipeline.md) to identify individual animals, as well as to perform by-eye individual ID. Wildbook assists you in photo ID but never makes a decision for you. 
 
 ## Automated Detection and ID with Encounter submission
@@ -18,7 +20,7 @@ Because Detection and Identification reside in a queue of computer vision action
 
 If you see green bounding boxes on images in your submitted Encounter, then Detection has completed. After submission, you may need to periodically refresh the Encounter page for the bounding boxes to appear.
 
-<img src="../../static/img/simpleGalleryBoundingBox.png" alt="simpleGalleryBoundingBox" width="50%" height="50%" />
+<img src={useBaseUrl('img/simpleGalleryBoundingBox.png')} alt="simpleGalleryBoundingBox" width="50%" height="50%" />
 
 In the example above, two annotations have been found:
 
@@ -27,7 +29,7 @@ In the example above, two annotations have been found:
 
 If you see green bounding boxes on images in your submitted Encounter and **match results** appears in the menu of any image, then Identification has started or completed. After submission, you may need to periodically refresh the Encounter page for the bounding boxes to appear and match results to be ready. Click **match results** to review potential ID matches. See [Reviewing Match Results](#reviewing-match-results) for more information.
 
-<img src="../../static/img/simpleGalleryBoundingBoxMatchResults.png" alt="simpleGalleryBoundingBoxMatchResults"  width="50%" height="50%"/>
+<img src={useBaseUrl('img/simpleGalleryBoundingBoxMatchResults.png')}alt="simpleGalleryBoundingBoxMatchResults"  width="50%" height="50%"/>
 
 
 
@@ -39,13 +41,13 @@ After a successful [Bulk Import](bulk_import.md), Detection and Identification c
 
 While Wildbook uses advance machine learning to find and label animals in images, it always has a probability of missing an Annotation. Wildbook allows you to draw additional bounding boxes on an image, label their viewpoints (e.g., "left", "right", etc.), and their classes (e.g., "whale_fluke", "panthera_uncia", etc.). Once a manual Annotation has been created, its will appear as a normal Annotation on an image and will allow you to [manually start a match](#manually-starting-a-match). See [Manual Annotation](manual_annotation.md) for more information.
 
-<img src="../../static/img/addAnnotation.png" alt="addAnnotation"  width="50%" height="50%"/>
+<img src={useBaseUrl('img/addAnnotation.png')} alt="addAnnotation"  width="50%" height="50%"/>
 
 ### Removing an Annotation
 
 If you don't like an Annotation from machine learning-based Detection or from [Manual Annotation](manual_annotation.md), you can delete it by selecting **remove annotation** from the Encounter Gallery.
 
-<img src="../../static/img/deleteAnnotation.png" alt="deleteAnnotation" width="50%" height="50%"  />
+<img src={useBaseUrl('img/deleteAnnotation.png')}alt="deleteAnnotation" width="50%" height="50%"  />
 
 Removing an Annotation has these behaviors:
 
@@ -57,7 +59,7 @@ Removing an Annotation has these behaviors:
 
 For a matchable Annotation, you can start or re-run matching from the Encounter page Gallery by selecting **start match** or **start another match** from the menu for the Annotation.
 
-<img src="../../static/img/startMatch.png" alt="startMatch" width="50%" height="50%" />
+<img src={useBaseUrl('img/startMatch.png')} alt="startMatch" width="50%" height="50%" />
 
 The **Choose criteria to match against** dialog box appears and allows you to:
 
@@ -65,7 +67,7 @@ The **Choose criteria to match against** dialog box appears and allows you to:
 - filter to only your data
 - select one or more algorithms to use for identification
 
-<img src="../../static/img/matchCriteria.png" alt="matchCriteria" height="50%" width="50%" />
+<img src={useBaseUrl('img/matchCriteria.png')} alt="matchCriteria" height="50%" width="50%" />
 
 Click **Match** to start the matching process.
 
@@ -73,7 +75,7 @@ Click **Match** to start the matching process.
 
 To review the results of the automated matching process, select **match results** from the menu on the Annotation in the Encounter Gallery. If you recently submitted the Encounter, you may need to wait and then refresh your browser periodically for Wildbook to process the results from automated Detection before the **match results** menu option appears.
 
-<img src="../../static/img/simpleGalleryBoundingBoxMatchResults.png" alt="simpleGalleryBoundingBoxMatchResults" width="50%" height="50%" />
+<img src={useBaseUrl('img/simpleGalleryBoundingBoxMatchResults.png')} alt="simpleGalleryBoundingBoxMatchResults" width="50%" height="50%" />
 
 Each match result is a unique page and has a unique URL that can be emailed and shared with colleagues for review. New matching tasks replace the old results on the **match results** menu option. Each match result page may show one or more sets of matches, potentially displaying:
 
@@ -83,7 +85,7 @@ Each match result is a unique page and has a unique URL that can be emailed and 
 
 The information displayed depends on where in Wildbook the [Image Analysis Pipeline](ia_pipeline.md) was called from and for which species.
 
-<img src="../../static/img/matchResults.png" alt="matchResults"  />
+<img src={useBaseUrl('img/matchResults.png')} alt="matchResults"  />
 
 ### Match results page sections
 
@@ -110,7 +112,7 @@ Click to expand the **Instructions** section to get instructions for reviewing m
 
 Each block of ranked results represents the top-*N* matches (default top 12) to an Annotation in descending order. Rank 1 is the top suggested match, and each successive match is presented with relatively less confidence. Roll over each row in the list to review the potentially matched annotations. The annotation from your encounter appears on the left, labeled as the TARGET image. Potential candidates for matching appear on the right side, labeled to match their position in the list.
 
-<img src="../../static/img/matchResultsSection.png" alt="matchResultsSection"  />
+<img src={useBaseUrl('img/matchResultsSection.png')} alt="matchResultsSection"  />
 
 This list contains the following information:
 
@@ -134,4 +136,4 @@ In addition to setting the Individual ID from the [Encounter page](encounter_gui
 
 Visual Matcher is a separate, very limited user interface to support visual matching of encounters without computer vision. To access the Visual Matcher, select **visual matcher** on the annotation menu. Visual Matcher was largely developed to support giant manta matching before the availability of computer vision. It has very limited value outside of that task and the MantaMatcher.org platform.
 
-<img src="../../static/img/visualMatcher.png" alt="visualMatcher" height="50%" width="50%" />
+<img src={useBaseUrl('img/visualMatcher.png')} alt="visualMatcher" height="50%" width="50%" />

@@ -3,19 +3,21 @@ id: manual_annotation
 title: Manual Annotation (Beta)
 ---
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 When looking at an Encounter page, you may see that a MediaAsset does not have a dashed rectangle (e.g. Annotation bounding box) around an animal in the picture. In this case, the detection stage did not recognized the animal.
 
 ## Navigating to the Manual Annotation Page
 
 In an Encounter page's **Gallery**, open the menu over an image and select **add annotation** to open the manual annotation screen.
 
-<img src="../../static/img/manual_annotation_1.png" alt="add anotation button" width="50%" height="50%" />
+<img src={useBaseUrl('img/manual_annotation_1.png')} alt="add anotation button" width="50%" height="50%" />
 
 ## Understanding the Manual Annotation Page
 
 The Manual Annotation page has the following sections, which appear in order as you make selections.
 
-<img src="../../static/img/manual_annotation_2.png" alt="manual_annotation_2" height="50%" width="50%" />
+<img src={useBaseUrl('img/manual_annotation_2.png')} alt="manual_annotation_2" height="50%" width="50%" />
 
 ## Creating a Manual Annotation
 
@@ -31,7 +33,7 @@ Each step needs to be completed for the next step to appear on the screen.
 4. Click **Save** to save your new annotation. A confirmation page appears with a link back to the Encounter page. It is important to note that if another annotation is already on this MediaAsset, Wildbook may clone this Encounter and create a new one, recognizing that two annotations in one image means that two animals are present and thus at least two Encounters by definition (one animal at a location and date) must exist.
 5. Navigate back to the Encounter page and click **start match** to begin the identification pipeline for this new annotation. See [Manually starting a match](matching_process.md#manually-starting-a-match) for more information.
 
-<img src="../../static/img/manual_annotation_4.png" alt="manual_annotation_4" width="50%" height="50%" />
+<img src={useBaseUrl('img/manual_annotation_4.png')} alt="manual_annotation_4" width="50%" height="50%" />
 
 ## Troubleshooting 
 

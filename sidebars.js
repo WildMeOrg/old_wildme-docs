@@ -19,6 +19,7 @@ module.exports = {
       "researchers/bulk_import",
       "researchers/matching_process",
       "researchers/manual_annotation",
+	  "researchers/searching",
       "researchers/projects",
 	  "researchers/locationID",
       "researchers/r_package",

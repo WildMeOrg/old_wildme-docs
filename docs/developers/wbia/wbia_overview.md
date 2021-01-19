@@ -6,7 +6,7 @@ sidebar_label: Wildbook IA Overview
 
 Wildbook IA (WBIA) program for the storage and management of images and derived data for use in computer vision algorithms. It aims to compute who an animal is, what species an animal is, and where an animal is with the ultimate goal being to ask important why biological questions.
 
-This project is the Machine Learning (ML) / computer vision component of the WildBook project: See https://github.com/WildbookOrg/.  This project is an actively maintained fork of the popular IBEIS (Image Based Ecological Information System) software suite for wildlife conservation.  The original IBEIS project is maintained by Jon Crall (@Erotemic) at https://github.com/Erotemic/ibeis.  The IBEIS toolkit originally was a wrapper around HotSpotter, which original binaries can be downloaded from: http://cs.rpi.edu/hotspotter/
+This project is the Machine Learning (ML) / computer vision component of the WildBook project: See https://github.com/WildMeOrg/.  This project is an actively maintained fork of the popular IBEIS (Image Based Ecological Information System) software suite for wildlife conservation.  The original IBEIS project is maintained by Jon Crall (@Erotemic) at https://github.com/Erotemic/ibeis.  The IBEIS toolkit originally was a wrapper around HotSpotter, which original binaries can be downloaded from: http://cs.rpi.edu/hotspotter/
 
 Currently the system is build around and SQLite database, a web GUI, and matplotlib visualizations. Algorithms employed are: convolutional neural network detection and localization and classification, hessian-affine keypoint detection, SIFT keypoint description, LNBNN identification using approximate nearest neighbors.
 
@@ -14,7 +14,7 @@ Currently the system is build around and SQLite database, a web GUI, and matplot
 
 - Python 3.5+
 - OpenCV 3.4.10
-- Python dependencies listed in requirements.txt in https://github.com/WildbookOrg/wildbook-ia
+- Python dependencies listed in requirements.txt in https://github.com/WildMeOrg/wildbook-ia
 
 ## Installation Instructions
 
@@ -52,81 +52,81 @@ This project depends on an array of other repositories for functionality.
 
 First Party Toolkits (Required)
 
-- https://github.com/WildbookOrg/wbia-utool
+- https://github.com/WildMeOrg/wbia-utool
 
-- https://github.com/WildbookOrg/wbia-vtool
+- https://github.com/WildMeOrg/wbia-vtool
 
 First Party Dependencies for Third Party Libraries (Required)
 
-- https://github.com/WildbookOrg/wbia-tpl-pyhesaff
+- https://github.com/WildMeOrg/wbia-tpl-pyhesaff
 
-- https://github.com/WildbookOrg/wbia-tpl-pyflann
+- https://github.com/WildMeOrg/wbia-tpl-pyflann
 
-- https://github.com/WildbookOrg/wbia-tpl-pydarknet
+- https://github.com/WildMeOrg/wbia-tpl-pydarknet
 
-- https://github.com/WildbookOrg/wbia-tpl-pyrf
+- https://github.com/WildMeOrg/wbia-tpl-pyrf
 
 First Party Plug-ins (Optional)
 
-- https://github.com/WildbookOrg/wbia-plugin-cnn
+- https://github.com/WildMeOrg/wbia-plugin-cnn
 
-- https://github.com/WildbookOrg/wbia-plugin-flukematch
+- https://github.com/WildMeOrg/wbia-plugin-flukematch
 
-- https://github.com/WildbookOrg/wbia-plugin-deepsense
+- https://github.com/WildMeOrg/wbia-plugin-deepsense
 
-- https://github.com/WildbookOrg/wbia-plugin-finfindr
+- https://github.com/WildMeOrg/wbia-plugin-finfindr
 
-- https://github.com/WildbookOrg/wbia-plugin-curvrank
+- https://github.com/WildMeOrg/wbia-plugin-curvrank
 
-- - https://github.com/WildbookOrg/wbia-tpl-curvrank
+- - https://github.com/WildMeOrg/wbia-tpl-curvrank
 
-- https://github.com/WildbookOrg/wbia-plugin-kaggle7
+- https://github.com/WildMeOrg/wbia-plugin-kaggle7
 
-- - https://github.com/WildbookOrg/wbia-tpl-kaggle7
+- - https://github.com/WildMeOrg/wbia-tpl-kaggle7
 
-- https://github.com/WildbookOrg/wbia-plugin-2d-orientation
+- https://github.com/WildMeOrg/wbia-plugin-2d-orientation
 
-- - https://github.com/WildbookOrg/wbia-tpl-2d-orientation
+- - https://github.com/WildMeOrg/wbia-tpl-2d-orientation
 
-- https://github.com/WildbookOrg/wbia-plugin-lca
+- https://github.com/WildMeOrg/wbia-plugin-lca
 
-- - https://github.com/WildbookOrg/wbia-tpl-lca
+- - https://github.com/WildMeOrg/wbia-tpl-lca
 
 Deprecated Toolkits (Deprecated)
 
-- https://github.com/WildbookOrg/wbia-deprecate-ubelt
+- https://github.com/WildMeOrg/wbia-deprecate-ubelt
 
-- https://github.com/WildbookOrg/wbia-deprecate-dtool
+- https://github.com/WildMeOrg/wbia-deprecate-dtool
 
-- https://github.com/WildbookOrg/wbia-deprecate-guitool
+- https://github.com/WildMeOrg/wbia-deprecate-guitool
 
-- https://github.com/WildbookOrg/wbia-deprecate-plottool
+- https://github.com/WildMeOrg/wbia-deprecate-plottool
 
-- https://github.com/WildbookOrg/wbia-deprecate-detecttools
+- https://github.com/WildMeOrg/wbia-deprecate-detecttools
 
-- https://github.com/WildbookOrg/wbia-deprecate-plugin-humpbacktl
+- https://github.com/WildMeOrg/wbia-deprecate-plugin-humpbacktl
 
-- https://github.com/WildbookOrg/wbia-deprecate-tpl-lightnet
+- https://github.com/WildMeOrg/wbia-deprecate-tpl-lightnet
 
-- https://github.com/WildbookOrg/wbia-deprecate-tpl-brambox
+- https://github.com/WildMeOrg/wbia-deprecate-tpl-brambox
 
 Plug-in Templates (Reference)
 
-- https://github.com/WildbookOrg/wbia-plugin-template
+- https://github.com/WildMeOrg/wbia-plugin-template
 
-- https://github.com/WildbookOrg/wbia-plugin-id-example
+- https://github.com/WildMeOrg/wbia-plugin-id-example
 
 Miscellaneous (Reference)
 
-- https://github.com/WildbookOrg/wbia-pypkg-build
+- https://github.com/WildMeOrg/wbia-pypkg-build
 
-- https://github.com/WildbookOrg/wbia-project-website
+- https://github.com/WildMeOrg/wbia-project-website
 
-- https://github.com/WildbookOrg/wbia-aws-codedeploy
+- https://github.com/WildMeOrg/wbia-aws-codedeploy
 
 ## Documentation
 
-The documentation is built and available online at [wildbookorg.github.io/wildbook-ia/](http://wildbookorg.github.io/wildbook-ia/). However, if you need to build a local copy of the source, the following instructions can be used.
+The documentation is built and available online at [wildmeorg.github.io/wildbook-ia/](http://wildmeorg.github.io/wildbook-ia/). However, if you need to build a local copy of the source, the following instructions can be used.
 
 ```
 # checkout the source code
@@ -569,5 +569,5 @@ Support for WBIA and this plug-in example is maintained by Wild Me
 
 Wild Me is a non-profit located in Portland, OR, USA
 
-Please refer any questions to: dev@wildme.org or https://github.com/WildbookOrg/wildbook-ia
+Please refer any questions to: dev@wildme.org or https://github.com/WildMeOrg/wildbook-ia
 

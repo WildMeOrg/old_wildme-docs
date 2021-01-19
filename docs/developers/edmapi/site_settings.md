@@ -85,8 +85,8 @@ The contents of the definition is to guide the UI/UX and its structure is under 
 (more here soon?)
 
 ### Related code repo README files:
-* [java configuration package](https://github.com/WildbookOrg/Wildbook/tree/uiux/src/main/java/org/ecocean/configuration)
-* [config-json JSON files](https://github.com/WildbookOrg/Wildbook/blob/uiux/src/main/resources/bundles/config-json/README.md)
+* [java configuration package](https://github.com/WildMeOrg/Wildbook/tree/uiux/src/main/java/org/ecocean/configuration)
+* [config-json JSON files](https://github.com/WildMeOrg/Wildbook/blob/uiux/src/main/resources/bundles/config-json/README.md)
 
 
 ## Taxonomy endpoints (deprecated / TBD)

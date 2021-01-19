@@ -73,7 +73,7 @@ In particular, this should be used (as a string) for json values output via api.
 
 ### EDM/Java
 
-The class [org.ecocean.ComplexDateTime](https://github.com/WildbookOrg/Wildbook/blob/next-gen/src/main/java/org/ecocean/ComplexDateTime.java)
+The class [org.ecocean.ComplexDateTime](https://github.com/WildMeOrg/Wildbook/blob/next-gen/src/main/java/org/ecocean/ComplexDateTime.java)
 we developed to handle introduction of ambiguity through existing solutions.  It is based on
 [java.time.ZonedDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/ZonedDateTime.html),
 but ensures the original time zone data is retained when persisted.

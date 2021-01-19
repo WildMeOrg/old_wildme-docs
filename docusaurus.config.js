@@ -6,7 +6,7 @@ module.exports = {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
-  organizationName: "WildbookOrg", // Usually your GitHub org/user name.
+  organizationName: "WildMeOrg", // Usually your GitHub org/user name.
   projectName: "wildme-docs", // Usually your repo name.
   themeConfig: {
     algolia: {
@@ -40,7 +40,7 @@ module.exports = {
           position: "left",
         },
         {
-          href: "https://github.com/WildbookOrg/wildme-docs",
+          href: "https://github.com/WildMeOrg/wildme-docs",
           label: "GitHub",
           position: "right",
         },
@@ -92,7 +92,7 @@ module.exports = {
             },
             {
               label: "GitHub",
-              href: "https://github.com/WildbookOrg",
+              href: "https://github.com/WildMeOrg",
             },
             {
               label: "Twitter",
@@ -111,13 +111,13 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: "https://github.com/WildbookOrg/wildme-docs/edit/master/",
+          editUrl: "https://github.com/WildMeOrg/wildme-docs/edit/master/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            "https://github.com/WildbookOrg/wildme-docs/edit/master/website/blog/",
+            "https://github.com/WildMeOrg/wildme-docs/edit/master/website/blog/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

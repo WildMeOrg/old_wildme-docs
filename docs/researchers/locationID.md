@@ -47,4 +47,4 @@ Restart Tomcat after making changes.
 
 ### Example locationID.json
 
-[Here is an example locationID.json file from the Flukebook.org platform.](https://github.com/WildbookOrg/Wildbook/blob/flukebook/src/main/resources/bundles/locationID.json)
+[Here is an example locationID.json file from the Flukebook.org platform.](https://github.com/WildMeOrg/Wildbook/blob/flukebook/src/main/resources/bundles/locationID.json)

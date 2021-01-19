@@ -3,7 +3,7 @@ id: houston
 title: Houston
 ---
 
-Houston is the controller of the Next Gen Wildbook. How the Houston code is to be used is well documented in the  <a href="https://github.com/WildbookOrg/houston"> README.md </a> file which will not be duplicated here. This page is a higher level overview of what Houston is trying to achieve; some basic concepts for those unfamiliar and a few things that tripped me up. 
+Houston is the controller of the Next Gen Wildbook. How the Houston code is to be used is well documented in the <a href="https://github.com/WildMeOrg/houston">README.md </a> file which will not be duplicated here. This page is a higher level overview of what Houston is trying to achieve; some basic concepts for those unfamiliar and a few things that tripped me up. 
 
 Houston uses the <a href="https://restcookbook.com/"> REST</a> API interfaces into the EDM and WB-IA but is itself also a REST API implementation based on the <a href="https://flask-restplus.readthedocs.io/en/stable/"> Flask Rest API </a>.
 

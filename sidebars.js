@@ -10,18 +10,16 @@ module.exports = {
       "researchers/security_overview",
       "researchers/whatsnew",
     ],
-    Quickstart: [
-      "researchers/firstlogin",
-    ],
+    Quickstart: ["researchers/firstlogin"],
     Data: [
       "researchers/photography_guidelines",
       "researchers/report_encounter",
       "researchers/bulk_import",
       "researchers/matching_process",
       "researchers/manual_annotation",
-	  "researchers/searching",
+      "researchers/searching",
       "researchers/projects",
-	  "researchers/locationID",
+      "researchers/locationID",
       "researchers/r_package",
     ],
     Security: [
@@ -29,7 +27,7 @@ module.exports = {
       "researchers/my_account",
       "researchers/silo_security",
       "researchers/org_admin",
-      "researchers/site_admin"
+      "researchers/site_admin",
     ],
     Specifications: [
       "researchers/system_requirements",
@@ -42,6 +40,7 @@ module.exports = {
       "developers/overview",
       "developers/terms",
       "developers/datetime",
+      "developers/faq",
     ],
     Wildbook: ["developers/wildbook_overview"],
     "Wildbook IA": ["developers/wbia/wbia_overview"],

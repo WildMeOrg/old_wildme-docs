@@ -49,4 +49,4 @@ Collectively, these changes will result in a new product that we call Codex.
 
 ## Github Repositories
 
-[Wild Me's Github repositories include past work on Wildbook and new work on Codex and WBIA.](https://github.com/wildbookorg)
+[Wild Me's Github repositories include past work on Wildbook and new work on Codex and WBIA.](https://github.com/WildMeOrg)

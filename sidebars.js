@@ -42,7 +42,15 @@ module.exports = {
       "developers/datetime",
       "developers/faq",
     ],
-    Wildbook: ["developers/wildbook_overview"],
+    Wildbook: [
+      "developers/wildbook_overview",
+      {
+        type: "link",
+        label: "Azure Wildbook setup",
+        href:
+          "https://docs.google.com/document/d/1o1BDHzf2FV-LTShPLgqoNJBLJnQN-tfe50lHlm92qX8/edit#heading=h.1ylnnzcj18n1",
+      },
+    ],
     "Wildbook IA": ["developers/wbia/wbia_overview"],
     Codex: [
       "developers/codex_overview",

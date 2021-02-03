@@ -47,5 +47,5 @@ When selecting the annotation iaClass, look for the species, plus the part symbo
 
 #### How do I associate a part with the body in my encounter?
 
-Unfortunately, this function is not currently supported.
+The iaClass dropdown should show all classes that are available for the associated species. If your species includes a part option, it will be in the dropdown. The standardformat is `species + part`.
 

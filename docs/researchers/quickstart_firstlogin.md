@@ -64,7 +64,7 @@ Wildbook may require further configuration to better suit your research. Common 
 - Adding additional species to Wildbook.
 - Working with Wild Me to create new machine learning or cross-apply existing techniques for a species.
 
-If these categories apply, please request support on the [Wildbook community site](https://community.wildbook.org) or contact your Wildbook system administrator.
+If these categories apply, please request support on the [Wildbook Community site](https://community.wildme.org) or contact your Wildbook system administrator.
 
 ### Bulk Import Legacy Data for Matching
 

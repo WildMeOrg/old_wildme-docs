@@ -48,4 +48,4 @@ If you are submitting as a signed-in user, you will also have the following opti
 
 ### Fields not listed 
 
-You may see a number of fields on your Wildbook that are not listed here. Wildbook allows for some degree of customization, which means that options may be available that are specific to your Wildbook. If you have questions about these fields, post to the [Wildbook Community](https://community.wildbook.org) or contact the platform managers identified under the **Learn** tab.
+You may see a number of fields on your Wildbook that are not listed here. Wildbook allows for some degree of customization, which means that options may be available that are specific to your Wildbook. If you have questions about these fields, post to the [Wildbook Community](https://community.wildme.org) or contact the platform managers identified under the **Learn** tab.

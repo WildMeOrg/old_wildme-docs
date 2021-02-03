@@ -73,6 +73,8 @@ Wildbook currently supports at least the following algorithms:
 
 Pose Invariant Embeddings or (PIE) is a deep learning approach to individual ID. PIE is trained to learn embeddings that are useful for distinguishing among individuals in a wildlife population. Unlike HotSpotter, which is a “static” pattern matcher (i.e. a fixed algorithm not trained to detect separate species), PIE can be trained on a per-species basis. Wild Me has generated separate PIE models optimized for manta rays, humpback whales, orcas, right whales, among others. Unlike fixed-catalog classifiers like Deepsense or Kaggle7, PIE can gracefully add new individuals to its catalog without being retrained. It learns the general task of mapping images into embeddings that represent individuals, rather than the specific task of sorting images into a fixed number of IDs. PIE strikes a lovely balance between a flexible, general-purpose identifier and one that can be trained, refocused, and refined on a given problem. In summary, PIE is a very powerful, reusable machine learning technique that can be trained to identify individuals across a variety of species.
 
+![pie_architecture](../../static/img/pie_architecture.png)
+
 Example Wildbook Species: Giant manta rays, humpback whale flukes, orcas, right whales
 
 PIE Paper Link: https://arxiv.org/pdf/1902.10847.pdf

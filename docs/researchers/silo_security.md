@@ -53,12 +53,10 @@ Ana and Barry can view each other's data, but they cannot edit it.
 
 You can view an encounter if:
 
-* You own the encounter.
-* You are a site admin.
+* You own the encounter and are logged in.
+* You are a site admin and logged in.
 * You have a collaboration with another user that allows for view access.
-* The encounter is public.
-
-Note: To view encounters, you must be signed in. Your viewing permissions are based off your username.
+* The encounter was publicly submitted and not assigned to another User.
 
 ## Editing Permissions
 
@@ -66,3 +64,11 @@ You can edit an encounter if:
 * You are a site admin.
 * You are the owner of the encounter.
 * You have a collaboration with the owner and the owner grants you edit rights. Edit rights can be revoked at any time.
+
+## Collaborating with Citizen Scientists
+
+While the Silo Security model is very protective of data, you can allow members of the public (e.g., citizen scientists who submit data) to see your catalog (Encounter and Marked Individuals) by following these steps:
+
+1. Create a User in Wildbook with username 'public'. This User should have no roles and is not intended for login. Make sure to give it a secure password.
+2. Extend a Collaboration invite to User 'public'. You will only be allowed to create a view-only collaboration. The public user account will automatically accept the collaboration.
+

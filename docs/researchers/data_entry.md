@@ -11,21 +11,19 @@ Wildbook has different ways of submitting data, affecting where and how data is 
 
 Wildbook supports reporting an Encounter with one or more photos (i.e. one or more MediaAssets containing only the same animal), such as a great sighting of a lone whale shark while diving. Wildbook allows the user to upload these pictures to Wildbook, along with the associated metadata, such date, location, and species. For this upload, the system creates an Encounter in the database. Upon successful upload, the submitter is presented a permanent link to the Encounter record, showing all of the data captured.
 
-<a target="_blank" href="https://www.whaleshark.org/submit.jsp">As an example, here is a link to an example Wildbook submission form in the Wildbook for whale sharks (*Rhincodon typus*).</a>
+As an example, here is a link to an <a target="_blank" href="https://www.whaleshark.org/submit.jsp">example Wildbook submission form</a> in the Wildbook for whale sharks (*Rhincodon typus*).
 
-<a target="_blank" href="https://www.whaleshark.org/encounters/encounter.jsp?number=3b54a8cb-f899-4bb5-aa7c-13c2b6aa9fb1">And here is a link to a stored Encounter submission.</a>
+And here is a link to a <a target="_blank" href="https://www.whaleshark.org/encounters/encounter.jsp?number=3b54a8cb-f899-4bb5-aa7c-13c2b6aa9fb1">stored Encounter submission.</a>
 
 After a successful submission, if the submitter reported a species for which Wildbook's ML detection and/or identification is configured, automated ML will proceed, searching MediaAssets for individual animals and attempting to match the found Annotations. See [Image Analysis Pipeline](ia_pipeline) for more information.
 
-[See more comprehensive information about Reporting an Encounter here.](report_encounter.md)
+See more comprehensive information about [Reporting an Encounter here.](report_encounter.md)
 
 ### Submitting a single picture of multiple animals
 
 Some animals are difficult to photograph singly, such as social animals (e.g., packs, pods, etc.). Multiple animals are often in every photo. A Wildbook user can upload a single picture of multiple animals to Wildbook using the Encounter form discussed above, along with the associated metadata (e.g., date, location, and species). After submission, for each detected animal (assuming Wildbook's ML has been configured to support the species), an Annotation is created and then split into an its own Encounter, copying the originally provided metadata. This means that one photo can ultimately yield multiple Encounters that will be connected by a Sighting. Because the Annotations are generated from the same image, Wildbook preserves knowledge of that connection by associating all the related encounters with a single Sighting. An ID is associated with the Sighting, and that ID is available in each Encounter. Sightings allow users to associate information with all of the encounters tied to that event without having to update each of the encounters individually.
 
 From here, each Annotation of each Encounter goes through the identification process individually.
-
-[See more comprehensive information about Reporting an Encounter here.](report_encounter.md)
 
 #### Complications arising from metadata
 
@@ -42,6 +40,4 @@ If you choose to upload multiple pictures with multiple animals at once, it is r
 - A legacy catalog (e.g., thousands of Encounters from past years of research)
 - Multiple Encounter submissions (e.g., all of last month's Encounters)
 - Data for social species, with one photo per Encounter (one photo per Excel row), allowing ML to split each Annotation into new Encounters without assuming relationships among photos
-
-[See more comprehensive information about Bulk Import here.](bulk_import)
 

@@ -40,7 +40,7 @@ Because more than one animal appears at the same time in this example MediaAsset
 
 An **Individual** is a single animal that has been given an identifying name/Annotation within the Wildbook platform and has one or more Encounters. Individuals are animals whose identities and metadata (eg. tags, keywords, social information) have been confirmed by a researcher. Every Individual has a profile page in Wildbook, summarizing where the individual was sighted over time, any **Relationships** (e.g. mother-calf) or **Social Units** (e.g. a pack or herd) it may be a part of, and which researchers have contributed to building this Individual's profile.
 
-*Note*: Throughout Wildbook, **Sightings** may also be called “Occurrences” and **Individuals** may also be called "Marked Individuals". We are currently working to shift terminology for greater user clarity. If you see an instance of outdated language, you can post a bug report [here](https://community.wildbook.org).
+*Note*: Throughout Wildbook, **Sightings** may also be called “Occurrences” and **Individuals** may also be called "Marked Individuals". We are currently working to shift terminology for greater user clarity. If you see an instance of outdated language, you can post a bug report [here](https://community.wildme.org).
 
 
 ## Navigating the Platform

@@ -42,13 +42,13 @@ WBIA is not originally programmed to detect every and all species. Detection rel
 
 *What does manual annotation look like for ML training for a detector for a new species?*
 
-[Here is a link to an example training video for annotation for a new species.](https://youtu.be/qD7LKWQIfeM)
+Here is a link to an [example training video](https://youtu.be/qD7LKWQIfeM) for annotation for a new species.
 
 ![screencapture-104-42-42-134-5015-turk-detection-2019-06-03-13_08_11](../../static/img/screencapture-104-42-42-134-5015-turk-detection-2019-06-03-13_08_11.png)
 
 *What happens if detection doesn't find one or more animals in the photo?*
 
-Even machine learning makes mistakes. If detection doesn't find an animal, [Wildbook allows users to manually annotate the photo to add Annotations and support matching of individuals missed by detection. Click here to learn more.](manual_annotation.md)
+Even machine learning makes mistakes. If detection doesn't find an animal, Wildbook allows users to manually annotate the photo to add Annotations and support matching of individuals missed by detection. [Click here to learn more.](manual_annotation.md)
 
 *I am a software developer of ML engineer. How can I learn more about WBIA?*
 

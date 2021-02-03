@@ -15,7 +15,7 @@ Because two animals appear at the same time in this picture, we want to ensure t
 
 Unlike encounters, sightings are one-to-many; each sighting is one interaction with one or more animals. If you interact with five members of a pack, you have one sighting that is made up of five encounters, one for each animal.
 
-Note: throughout the Wildbook platform, sightings may also be called “occurrences”. We are working to shift terminology for greater user clarity. If you see an instance of outdated language, you can [post a bug report](https://community.wildbook.org/).
+Note: throughout the Wildbook platform, sightings may also be called “occurrences”. We are working to shift terminology for greater user clarity. If you see an instance of outdated language, you can [post a bug report](https://community.wildme.org/).
 
 ## Navigating to a sighting page 
 

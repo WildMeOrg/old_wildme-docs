@@ -66,7 +66,7 @@ First Party Dependencies for Third Party Libraries (Required)
 
 - https://github.com/WildMeOrg/wbia-tpl-pyrf
 
-First Party Plug-ins (Optional)
+First Party Plugins (Optional)
 
 - https://github.com/WildMeOrg/wbia-plugin-cnn
 
@@ -110,7 +110,7 @@ Deprecated Toolkits (Deprecated)
 
 - https://github.com/WildMeOrg/wbia-deprecate-tpl-brambox
 
-Plug-in Templates (Reference)
+Plugin Templates (Reference)
 
 - https://github.com/WildMeOrg/wbia-plugin-template
 

@@ -70,7 +70,7 @@ Once selected, the keyword appears on the image in the format label: value.
 
 Labeled keyword "bush_type" is set to "mixed". Value for labeled keyword "soil" is in the process of being selected.
 
-Labeled keywords are set in the commonConfiguration.properties file; reach out to your admin or to [Wildbook support](https://community.wildbook.org) for configuration assistance. [See Configuration for more information.](configuration.md)
+Labeled keywords are set in the commonConfiguration.properties file; reach out to your admin or to [Wildbook support](https://community.wildme.org) for configuration assistance. [See Configuration for more information.](configuration.md)
 
 #### Keywords 
 
@@ -226,7 +226,7 @@ Observations can only be edited one at a time.
 
 ### Measurements
 
-Measurements are used to track numeric information associated with an encounter. These are set in the commonConfiguration.properties file. [See Configuration for more information.](configuration.md) To request measurements be added, [contact Wildbook support for assistance](https://community.wildbook.org).
+Measurements are used to track numeric information associated with an encounter. These are set in the commonConfiguration.properties file. [See Configuration for more information.](configuration.md) To request measurements be added, [contact Wildbook support for assistance](https://community.wildme.org).
 
 You can edit multiple measurements before clicking **Set**.
 

@@ -25,7 +25,7 @@ Assigning your Encounters to the correct location IDs will ensure your data is e
 
 ## Adding a New Study Site
 
-To add a new study site, you'll need to contact your Wildbook's administrator or make the request at the [Wildbook Community](https://community.wildbook.org). Location IDs are added to a file in Wildbook named locationID.json. Each location ID is defined in the JSON format as follows:
+To add a new study site, you'll need to contact your Wildbook's administrator or make the request at the [Wildbook Community](https://community.wildme.org). Location IDs are added to a file in Wildbook named locationID.json. Each location ID is defined in the JSON format as follows:
 
 ```
 { "name":"Iceland", "id":"Iceland", "locationID":[] }

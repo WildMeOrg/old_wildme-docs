@@ -4,7 +4,7 @@ title: Wildbook IA Overview
 sidebar_label: Wildbook IA Overview
 ---
 
-Wildbook IA (WBIA) is a program for the storage and management of images and derived data for use in computer vision algorithms specifically applied to photos of animals. It aims to compute who an animal is, what species an animal is, and where an animal is with the ultimate goal of answering important biological questions.
+Wildbook Image Analysis (WBIA or Wildbook IA) is a program for the storage and management of images and derived data for use in computer vision algorithms specifically applied to photos of animals. It aims to compute who an animal is, what species an animal is, and where an animal is with the ultimate goal of answering important biological questions.
 
 This project is the Machine Learning (ML) / computer vision component of the WildBook project: See https://github.com/WildMeOrg/.  This project is an actively maintained fork of the popular IBEIS (Image Based Ecological Information System) software suite for wildlife conservation.  The original IBEIS project is maintained by Jon Crall (@Erotemic) at https://github.com/Erotemic/ibeis.  The IBEIS toolkit originally was a wrapper around HotSpotter, which original binaries can be downloaded from: http://cs.rpi.edu/hotspotter/
 

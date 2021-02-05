@@ -4,11 +4,11 @@ title: Wildbook IA Overview
 sidebar_label: Wildbook IA Overview
 ---
 
-Wildbook Image Analysis (WBIA or Wildbook IA) is a program for the storage and management of images and derived data for use in computer vision algorithms specifically applied to photos of animals. It aims to compute who an animal is, what species an animal is, and where an animal is with the ultimate goal of answering important biological questions.
+Wildbook Image Analysis (WBIA or Wildbook IA) is a computer vision program for analyzing photos of animals and answering important biological questions. It aims to detect animals in photographs, label their species, and identify which individual animals they are; answering who, what, and where in wildlife images. WBIA contains tools to answer these questions as well as a structured database to store images and their derived data.
 
-This project is the Machine Learning (ML) / computer vision component of the WildBook project: See https://github.com/WildMeOrg/.  This project is an actively maintained fork of the popular IBEIS (Image Based Ecological Information System) software suite for wildlife conservation.  The original IBEIS project is maintained by Jon Crall (@Erotemic) at https://github.com/Erotemic/ibeis.  The IBEIS toolkit originally was a wrapper around HotSpotter, which original binaries can be downloaded from: http://cs.rpi.edu/hotspotter/
+This project is the machine learning and computer vision component of the [Wildbook project](wildbook_overview.md).  WBIA began as a fork of the IBEIS (Image Based Ecological Information System) software suite for wildlife conservation, which is maintained by Jon Crall (@Erotemic) at https://github.com/Erotemic/ibeis. The IBEIS toolkit was originally a wrapper around HotSpotter, an individual identification algorithm authored by Jon Crall that we still use to identify species such as zebras and humpback whales.
 
-Currently the system is build around and SQLite database, a web GUI, and matplotlib visualizations. Algorithms employed include convolutional neural network detection, localization, and classification; hessian-affine keypoint detection; SIFT keypoint description; LNBNN identification using approximate nearest neighbors; and even simple decision trees.
+WBIA is build around an SQLite database, a web GUI, and matplotlib visualizations, and it communicates with Wildbook via http requests. Algorithms employed include convolutional neural networks for detection, localization, and classification; hessian-affine keypoint detection; SIFT keypoint description; LNBNN identification using approximate nearest neighbors; and even simple decision trees. Optional plugins provide features such as species-specific identification algorithms; their design is described on our [WBIA Plugin Integration](wbia_plugins.md) page.
 
 ## Requirements
 
@@ -92,25 +92,7 @@ First Party Plugins (Optional)
 
 - - https://github.com/WildMeOrg/wbia-tpl-lca
 
-Deprecated Toolkits (Deprecated)
-
-- https://github.com/WildMeOrg/wbia-deprecate-ubelt
-
-- https://github.com/WildMeOrg/wbia-deprecate-dtool
-
-- https://github.com/WildMeOrg/wbia-deprecate-guitool
-
-- https://github.com/WildMeOrg/wbia-deprecate-plottool
-
-- https://github.com/WildMeOrg/wbia-deprecate-detecttools
-
-- https://github.com/WildMeOrg/wbia-deprecate-plugin-humpbacktl
-
-- https://github.com/WildMeOrg/wbia-deprecate-tpl-lightnet
-
-- https://github.com/WildMeOrg/wbia-deprecate-tpl-brambox
-
-Plugin Templates (Reference)
+Plugin Templates (Reference--see also the [WBIA Plugin Integration](wbia_plugins.md) page)
 
 - https://github.com/WildMeOrg/wbia-plugin-template
 
@@ -126,7 +108,7 @@ Miscellaneous (Reference)
 
 ## Documentation
 
-The documentation is built and available online at [wildmeorg.github.io/wildbook-ia/](http://wildmeorg.github.io/wildbook-ia/). However, if you need to build a local copy of the source, the following instructions can be used.
+The package documentation is built and available online at [wildmeorg.github.io/wildbook-ia/](http://wildmeorg.github.io/wildbook-ia/). To build the docs locally,
 
 ```
 # checkout the source code
@@ -137,50 +119,8 @@ pip install -e .
 scripts/build-docs.sh
 ```
 
-The WBIA documentation style uses a modified version of Sphinx `doctests` for all documentation and testing.  The ability to write good documentation directly in the header of the function is of high value by any contributor to the WBIA code base and any plug-in maintainer.  We provide examples of how to correctly document your code throughout this `_plugin.py` file.
+The WBIA documentation style uses a modified version of Sphinx `doctests` for all documentation and testing.  The ability to write good documentation directly in the header of the function is of high value to any contributor to the WBIA code base and any plugin maintainer; please document your contributions!
 
-To build the documentation, run the script `build_documentation.sh` in the top-level folder of this repository.  The built documentation will be rendered into a web HTML format in the folder `_page/`.  The documentation can be searched and navigated by loading `_page/index.html`.
-
-The WBIA API Documentation can be found here: https://wildbook-ia.readthedocs.io/en/latest/
-
-## Citation
-
-If you use this code or its models in your research, please cite:
-
-```
-@inproceedings{crall2013hotspotter,
-    title={Hotspotter — patterned species instance recognition},
-    author={Crall, Jonathan P and Stewart, Charles V and Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Sundaresan, Siva R},
-    booktitle={2013 IEEE workshop on applications of computer vision (WACV)},
-    pages={230--237},
-    year={2013},
-    organization={IEEE}
-}
-
-@inproceedings{parham2018animal,
-    title={An animal detection pipeline for identification},
-    author={Parham, Jason and Stewart, Charles and Crall, Jonathan and Rubenstein, Daniel and Holmberg, Jason and Berger-Wolf, Tanya},
-    booktitle={2018 IEEE Winter Conference on Applications of Computer Vision (WACV)},
-    pages={1075--1083},
-    year={2018},
-    organization={IEEE}
-}
-
-@inproceedings{berger2015ibeis,
-    title={IBEIS: Image-based ecological information system: From pixels to science and conservation},
-    author={Berger-Wolf, TY and Rubenstein, DI and Stewart, CV and Holmberg, J and Parham, J and Crall, J},
-    booktitle={Bloomberg Data for Good Exchange Conference, New York, NY, USA},
-    volume={2},
-    year={2015}
-}
-
-@article{berger2017wildbook,
-    title={Wildbook: Crowdsourcing, computer vision, and data science for conservation},
-    author={Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Stewart, Charles V and Holmberg, Jason A and Parham, Jason and Menon, Sreejith and Crall, Jonathan and Van Oast, Jon and Kiciman, Emre and Joppa, Lucas},
-    journal={arXiv preprint arXiv:1710.08880},
-    year={2017}
-}
-```
 
 ## Code Style and Development Guidelines
 
@@ -217,7 +157,7 @@ This will use the flake8 configuration within ``setup.cfg``,
 which ignores several errors and stylistic considerations.
 See the ``setup.cfg`` file for a full and accurate listing of stylistic codes to ignore.
 
-All WBIA Python code requires a Linter to be run on any code contributions for the main code base.  While we do not explicitly require this for WBIA plug-ins, we STRONGLY suggest using one for all Python code.  We do acknowledge, however, that the full Python Flake8 (http://flake8.pycqa.org/en/latest/) specification is quire restrictive.  We have a set of allowed errors and warnings to ignore, below:
+All WBIA Python code requires a Linter to be run on any code contributions for the main code base.  While we do not explicitly require this for WBIA plugins, we STRONGLY suggest using one for all Python code.  We do acknowledge, however, that the full Python Flake8 (http://flake8.pycqa.org/en/latest/) specification is quire restrictive.  We have a set of allowed errors and warnings to ignore, below:
 
 ```
 D100, D101, D102, D103, D105
@@ -437,13 +377,11 @@ Alternatively, a user can opt to expose an endpoint that does not apply any JSON
 
 WBIA also supports a basic web interface with viewing and curation tools. For example, the routes `/view/imagesets/`, `/view/images/`, `/view/annotations/`, and `/view/parts/` allow for a user to quickly see the state of the database. There is also a batch uploading function to easily add a handful of images to a database without needing to use the full Python or REST APIs for larger imports.
 
-The web-tools for turking (borrowing the phrase from *Amazon Mechanical Turk*) support a wide range of helpful functions.  The most helpful interface is arguably the annotation bounding box and metadata interface.  This interface can be viewed at `/turk/detection/?gid=X` and shows the current annotations for Image RowID=X, where they are located, what metadata is set on them, what parts (if any) have been added to the annotations, and what metadata is on the parts.
-
-While not required, we STRONGLY suggest all API endpoints in a plug-in to be prefixed with `/api/plugin/<Plug-in Name>/.../.../` to keep the registered APIs from conflicting.  We also suggest doing the same with your function names as well that are injected into the WBIA controller on load, for example using a function name of `ibs.wbia_plugin_<Plug-in Name>_..._...()`.
+The web tools for turking (borrowing the phrase from *Amazon Mechanical Turk*) support a wide range of helpful functions.  The most helpful interface is arguably the annotation bounding box and metadata interface.  This interface can be viewed at `/turk/detection/?gid=X` and shows the current annotations for Image RowID=X, where they are located, what metadata is set on them, what parts (if any) have been added to the annotations, and what metadata is on the parts.
 
 ### Background API Job Engine
 
-The REST API has a background job engine.  The purpose of the job engine is to preserve the special properties of a responsive and state-less web paradigm.  In short, the WBIA web controller will automatically serialize concurrent requests but some API calls involve a very long processing delay. If a long API call is called in the main thread, it will deny any and all simultaneous web calls from resolving.  The solution is to mode any long API calls that are exposed by the web interface to the job engine to promote responsiveness and reduce or eliminate client-side web time outs.  Any API that uses the job engine (as shown in an example below) should return a job UUID and should be prefixed with `/api/engine/plugin/<Plug-in Name>/.../.../` to differentiate it from an instantaneous call.  We also recommend having any engine calls accept the POST HTTP method by default.
+The REST API has a background job engine.  The purpose of the job engine is to preserve the special properties of a responsive and state-less web paradigm.  In short, the WBIA web controller will automatically serialize concurrent requests but some API calls involve a very long processing delay. If a long API call is called in the main thread, it will deny any and all simultaneous web calls from resolving.  The solution is to mode any long API calls that are exposed by the web interface to the job engine to promote responsiveness and reduce or eliminate client-side web time outs.  Any API that uses the job engine (as shown in an example below) should return a job UUID and should be prefixed with `/api/engine/plugin/<Plugin Name>/.../.../` to differentiate it from an instantaneous call.  We also recommend having any engine calls accept the POST HTTP method by default.
 
 A user or application can query on the status of a background job, get its original request metadata, and retrieve any results.  The job engine supports automatic callbacks with a specified URL and HTTP method when the job is complete.
 
@@ -563,11 +501,52 @@ Out [5]: Help on method get_image_paths in module wbia.control.manual_image_func
 
 The embedded session will dump out the doctest (hopefully with parameter and example usage documentation) for that controller function.
 
+## Citation
+
+If you use this code or its models in your research, please cite:
+
+```
+@inproceedings{crall2013hotspotter,
+    title={Hotspotter — patterned species instance recognition},
+    author={Crall, Jonathan P and Stewart, Charles V and Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Sundaresan, Siva R},
+    booktitle={2013 IEEE workshop on applications of computer vision (WACV)},
+    pages={230--237},
+    year={2013},
+    organization={IEEE}
+}
+
+@inproceedings{parham2018animal,
+    title={An animal detection pipeline for identification},
+    author={Parham, Jason and Stewart, Charles and Crall, Jonathan and Rubenstein, Daniel and Holmberg, Jason and Berger-Wolf, Tanya},
+    booktitle={2018 IEEE Winter Conference on Applications of Computer Vision (WACV)},
+    pages={1075--1083},
+    year={2018},
+    organization={IEEE}
+}
+
+@inproceedings{berger2015ibeis,
+    title={IBEIS: Image-based ecological information system: From pixels to science and conservation},
+    author={Berger-Wolf, TY and Rubenstein, DI and Stewart, CV and Holmberg, J and Parham, J and Crall, J},
+    booktitle={Bloomberg Data for Good Exchange Conference, New York, NY, USA},
+    volume={2},
+    year={2015}
+}
+
+@article{berger2017wildbook,
+    title={Wildbook: Crowdsourcing, computer vision, and data science for conservation},
+    author={Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Stewart, Charles V and Holmberg, Jason A and Parham, Jason and Menon, Sreejith and Crall, Jonathan and Van Oast, Jon and Kiciman, Emre and Joppa, Lucas},
+    journal={arXiv preprint arXiv:1710.08880},
+    year={2017}
+}
+```
+
+
+
 ## Conclusion
 
-Support for WBIA and this plug-in example is maintained by Wild Me
+Support for WBIA is maintained by Wild Me.
 
-Wild Me is a non-profit located in Portland, OR, USA
+Wild Me is a non-profit located in Portland, OR, USA.
 
-Please refer any questions to: dev@wildme.org or https://github.com/WildMeOrg/wildbook-ia
+Please refer any questions to dev@wildme.org or https://github.com/WildMeOrg/wildbook-ia .
 

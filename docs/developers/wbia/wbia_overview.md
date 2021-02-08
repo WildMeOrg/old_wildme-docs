@@ -4,11 +4,11 @@ title: Wildbook IA Overview
 sidebar_label: Wildbook IA Overview
 ---
 
-Wildbook IA (WBIA) program for the storage and management of images and derived data for use in computer vision algorithms. It aims to compute who an animal is, what species an animal is, and where an animal is with the ultimate goal being to ask important why biological questions.
+Wildbook Image Analysis (WBIA or Wildbook IA) is a computer vision program for analyzing photos of animals and answering important biological questions. It aims to detect animals in photographs, label their species, and identify which individual animals they are; answering who, what, and where in wildlife images. WBIA contains tools to answer these questions as well as a structured database to store images and their derived data.
 
-This project is the Machine Learning (ML) / computer vision component of the WildBook project: See https://github.com/WildMeOrg/.  This project is an actively maintained fork of the popular IBEIS (Image Based Ecological Information System) software suite for wildlife conservation.  The original IBEIS project is maintained by Jon Crall (@Erotemic) at https://github.com/Erotemic/ibeis.  The IBEIS toolkit originally was a wrapper around HotSpotter, which original binaries can be downloaded from: http://cs.rpi.edu/hotspotter/
+This project is the machine learning and computer vision component of the [Wildbook project](wildbook_overview.md).  WBIA began as a fork of the IBEIS (Image Based Ecological Information System) software suite for wildlife conservation, which is maintained by Jon Crall (@Erotemic) at https://github.com/Erotemic/ibeis. The IBEIS toolkit was originally a wrapper around HotSpotter, an individual identification algorithm authored by Jon Crall that we still use to identify species such as zebras and humpback whales.
 
-Currently the system is build around and SQLite database, a web GUI, and matplotlib visualizations. Algorithms employed are: convolutional neural network detection and localization and classification, hessian-affine keypoint detection, SIFT keypoint description, LNBNN identification using approximate nearest neighbors.
+WBIA is build around an SQLite database, a web GUI, and matplotlib visualizations, and it communicates with Wildbook via http requests. Algorithms employed include convolutional neural networks for detection, localization, and classification; hessian-affine keypoint detection; SIFT keypoint description; LNBNN identification using approximate nearest neighbors; and even simple decision trees. Optional plugins provide features such as species-specific identification algorithms; their design is described on our [WBIA Plugin Integration](wbia_plugins.md) page.
 
 ## Requirements
 
@@ -66,7 +66,7 @@ First Party Dependencies for Third Party Libraries (Required)
 
 - https://github.com/WildMeOrg/wbia-tpl-pyrf
 
-First Party Plug-ins (Optional)
+First Party Plugins (Optional)
 
 - https://github.com/WildMeOrg/wbia-plugin-cnn
 
@@ -92,25 +92,7 @@ First Party Plug-ins (Optional)
 
 - - https://github.com/WildMeOrg/wbia-tpl-lca
 
-Deprecated Toolkits (Deprecated)
-
-- https://github.com/WildMeOrg/wbia-deprecate-ubelt
-
-- https://github.com/WildMeOrg/wbia-deprecate-dtool
-
-- https://github.com/WildMeOrg/wbia-deprecate-guitool
-
-- https://github.com/WildMeOrg/wbia-deprecate-plottool
-
-- https://github.com/WildMeOrg/wbia-deprecate-detecttools
-
-- https://github.com/WildMeOrg/wbia-deprecate-plugin-humpbacktl
-
-- https://github.com/WildMeOrg/wbia-deprecate-tpl-lightnet
-
-- https://github.com/WildMeOrg/wbia-deprecate-tpl-brambox
-
-Plug-in Templates (Reference)
+Plugin Templates (Reference--see also the [WBIA Plugin Integration](wbia_plugins.md) page)
 
 - https://github.com/WildMeOrg/wbia-plugin-template
 
@@ -126,7 +108,7 @@ Miscellaneous (Reference)
 
 ## Documentation
 
-The documentation is built and available online at [wildmeorg.github.io/wildbook-ia/](http://wildmeorg.github.io/wildbook-ia/). However, if you need to build a local copy of the source, the following instructions can be used.
+The package documentation is built and available online at [wildmeorg.github.io/wildbook-ia/](http://wildmeorg.github.io/wildbook-ia/). To build the docs locally,
 
 ```
 # checkout the source code
@@ -137,50 +119,8 @@ pip install -e .
 scripts/build-docs.sh
 ```
 
-The WBIA documentation style uses a modified version of Sphinx `doctests` for all documentation and testing.  The ability to write good documentation directly in the header of the function is of high value by any contributor to the WBIA code base and any plug-in maintainer.  We provide examples of how to correctly document your code throughout this `_plugin.py` file.
+The WBIA documentation style uses a modified version of Sphinx `doctests` for all documentation and testing.  The ability to write good documentation directly in the header of the function is of high value to any contributor to the WBIA code base and any plugin maintainer; please document your contributions!
 
-To build the documentation, run the script `build_documentation.sh` in the top-level folder of this repository.  The built documentation will be rendered into a web HTML format in the folder `_page/`.  The documentation can be searched and navigated by loading `_page/index.html`.
-
-The WBIA API Documentation can be found here: https://wildbook-ia.readthedocs.io/en/latest/
-
-## Citation
-
-If you use this code or its models in your research, please cite:
-
-```
-@inproceedings{crall2013hotspotter,
-    title={Hotspotter — patterned species instance recognition},
-    author={Crall, Jonathan P and Stewart, Charles V and Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Sundaresan, Siva R},
-    booktitle={2013 IEEE workshop on applications of computer vision (WACV)},
-    pages={230--237},
-    year={2013},
-    organization={IEEE}
-}
-
-@inproceedings{parham2018animal,
-    title={An animal detection pipeline for identification},
-    author={Parham, Jason and Stewart, Charles and Crall, Jonathan and Rubenstein, Daniel and Holmberg, Jason and Berger-Wolf, Tanya},
-    booktitle={2018 IEEE Winter Conference on Applications of Computer Vision (WACV)},
-    pages={1075--1083},
-    year={2018},
-    organization={IEEE}
-}
-
-@inproceedings{berger2015ibeis,
-    title={IBEIS: Image-based ecological information system: From pixels to science and conservation},
-    author={Berger-Wolf, TY and Rubenstein, DI and Stewart, CV and Holmberg, J and Parham, J and Crall, J},
-    booktitle={Bloomberg Data for Good Exchange Conference, New York, NY, USA},
-    volume={2},
-    year={2015}
-}
-
-@article{berger2017wildbook,
-    title={Wildbook: Crowdsourcing, computer vision, and data science for conservation},
-    author={Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Stewart, Charles V and Holmberg, Jason A and Parham, Jason and Menon, Sreejith and Crall, Jonathan and Van Oast, Jon and Kiciman, Emre and Joppa, Lucas},
-    journal={arXiv preprint arXiv:1710.08880},
-    year={2017}
-}
-```
 
 ## Code Style and Development Guidelines
 
@@ -217,7 +157,7 @@ This will use the flake8 configuration within ``setup.cfg``,
 which ignores several errors and stylistic considerations.
 See the ``setup.cfg`` file for a full and accurate listing of stylistic codes to ignore.
 
-All WBIA Python code requires a Linter to be run on any code contributions for the main code base.  While we do not explicitly require this for WBIA plug-ins, we STRONGLY suggest using one for all Python code.  We do acknowledge, however, that the full Python Flake8 (http://flake8.pycqa.org/en/latest/) specification is quire restrictive.  We have a set of allowed errors and warnings to ignore, below:
+All WBIA Python code requires a Linter to be run on any code contributions for the main code base.  While we do not explicitly require this for WBIA plugins, we STRONGLY suggest using one for all Python code.  We do acknowledge, however, that the full Python Flake8 (http://flake8.pycqa.org/en/latest/) specification is quire restrictive.  We have a set of allowed errors and warnings to ignore, below:
 
 ```
 D100, D101, D102, D103, D105
@@ -332,7 +272,7 @@ def new_plugin_function(ibs, parameter1, *args, **kwargs):
 will be accessible at `ibs.new_plugin_function('test')` and will return the value `test for testdb_identification` when executed if the database's containing folder is named `testdb_identification`.
 
 ### Database Structure
-An WBIA database, at it's core, is simply a folder on the local file system. WBIA uses SQLite3 and static folders for all of its database and asset storage and has the following structure:
+A WBIA database, at its core, is simply a folder on the local file system. WBIA uses SQLite3 and static folders for all of its database and asset storage and has the following structure:
 
 ```
 wbia_database_folder/
@@ -367,8 +307,8 @@ There are 5 main data constructs in WBIA:
 | Object      | Prefix   | Description |
 | ----------- | -------- | ----------- |
 | Image       | GID      | Original images provided by the user or contributor. ImageSets and Images have a many-to-many relationship as more than one image can be in an ImageSet and an image can be a member of multiple ImageSets. |
-| Annotation  | AID      | Pixel regions within an Image to designate a single animal. Annotations are, in their most basic form, a bounding box. Bounding boxes in WBIA are parameterized by (xtl, ytl, w, h) where `xtl` designates "x pixel coordinate for the top-left corner", `ytl` designates "y pixel coordinate for the top-left corner", `w` designates "the width of the box in pixel coordinates", and `h` designates "the height of the box in pixel coordinates". Images and Annotations have a one-to-many relationship. |
-| Part        | PID      | A sub-region of an Annotation that designates a part of that animal (e.g. head, tail, fluke).  The Part object has almost 100% feature parity with Annotations except it has an additional parent Annotation attribute.  Parts are not the same as Annotations, most algorithms do not accept Parts natively. |
+| Annotation  | AID      | Pixel regions within an Image to designate a single animal. Annotations are, in their most basic form, a bounding box. Bounding boxes in WBIA are parameterized by (xtl, ytl, w, h) where `xtl` designates "x pixel coordinate for the top-left corner", `ytl` designates "y pixel coordinate for the top-left corner", `w` designates "the width of the box in pixel coordinates", and `h` designates "the height of the box in pixel coordinates". Annotations can also have a `theta` parameter describing rotation of the bounding box in cases where the region of interest is not parallel to the image boundaries, but annotations are always rectangular. Images and Annotations have a one-to-many relationship.  |
+| Part        | PID      | A sub-region of an Annotation that designates a part of that animal (e.g. head, tail, fluke).  The Part object has almost 100% feature parity with Annotations except it has an additional parent Annotation attribute.  Parts are not the same as Annotations, and most algorithms do not accept Parts natively. |
 | Name        | NID      | A ID label for an annotation.  A one-to-many relationship between Names and Annotations is usually the end-result of using the WBIA system. |
 | ImageSet    | IMGSETID | A collection of images into a single group.  This grouping is used as a very general association and can indicate, for example, the set of images taken at the same time and place or the images that all contain a target species or the images that are to be used by a machine learning algorithm for training or testing. |
 
@@ -399,13 +339,13 @@ or compute some value, it probably already exists.
 
 Any function that is decorated by `@register_ibs_method` should accept the WBIA `ibs` controller object as the first parameter.
 
-IMPORTANT: To be enabled, a plug-in must be manually registered with the WBIA controller.  The registration process involves adding the module import name for this `_plugin.py` file to a list of plugins.  This list lives in the main WBIA repository at:
+IMPORTANT: To be enabled, a plugin must be manually registered with the WBIA controller.  The registration process involves adding the module import name for this `_plugin.py` file to a list of plugins.  This list lives in the main WBIA repository at:
 
 ```
 wbia/wbia/control/WBIAControl.py
 ```
 
-and added to the list with variable name `AUTOLOAD_PLUGIN_MODNAMES` at the top of the file.  On load, the WBIA controller will add its own injected controller functions and will then proceed to add any external plug-in functions.  The injection code will look primarily for any functions with the `@register_ibs_method decorator`, but will also add any of the decorators described below for web requests.
+The plugin must be added to the list with variable name `AUTOLOAD_PLUGIN_MODNAMES` at the top of the file.  On load, the WBIA controller will add its own injected controller functions and will then proceed to add any external plugin functions.  The injection code will look primarily for any functions with the `@register_ibs_method decorator`, but will also add any of the decorators described below for web requests.
 
 ```
 _, register_ibs_method = controller_inject.make_ibs_register_decorator(__name__)
@@ -413,7 +353,7 @@ _, register_ibs_method = controller_inject.make_ibs_register_decorator(__name__)
 
 WBIA supports a web-based REST API that allows for local functions to be called from public end-points.  The POST and GET arguments that are passed to the web server by the client are automatically parsed into Python-valid objects using a customized JSON converter.  Any responses from API calls are also wrapped by a JSON encoding and thus also need to be serialize-able.
 
-Any function that you with to expose to the web simply needs a `@register_api decorator` added above the function's definition (after any `@register_ibs_method)` decorators.  This decorator takes in the endpoint and the allowed HTTP method(s) (e.g. GET, POST, PUT, DELETE) that are allowed.  The same REST endpoint can point to different functions through the specifications of different methods.
+Any function that you wish to expose to the web simply needs a `@register_api` decorator added above the function's definition (after any `@register_ibs_method)` decorators.  This decorator takes in the endpoint and the allowed HTTP method(s) (e.g. GET, POST, PUT, DELETE) that are allowed.  The same REST endpoint can point to different functions through the specifications of different methods.
 
 ### WBIA REST API
 
@@ -431,19 +371,17 @@ has a mirrored REST API interface at the endpoint
 ```
 and returns a JSON-formatted response with the same contents for gps_list.
 
-Alternatively, a user can opt to expose an endpoint that does not apply any JSON response serialization.  Specific examples of this need include wanting to serve HTML pages, raw image bytes, CSV or XML downloads, redirects or HTTP errors or any other non-JSON response.  Functions that are decorated with `@register_route` also benefit from the same parameter JSON serialization as `@register_api`.
+Alternatively, a user can opt to expose an endpoint that does not apply any JSON response serialization.  Specific examples of this include serving HTML pages, raw image bytes, CSV or XML downloads, redirects, HTTP errors or any other non-JSON response.  Functions that are decorated with `@register_route` also benefit from the same parameter JSON serialization as `@register_api`.
 
 ### WBIA Web Interface
 
-WBIA also supports a basic web interface with viewing tools and curation tools. For example, the routes `/view/imagesets/`, `/view/images/`, `/view/annotations/`, and `/view/parts/` allow for a user to quickly see the state of the database. There is also a batched uploading function to easily add a handful of images to a database without needing to use the full Python or REST APIs for larger imports.
+WBIA also supports a basic web interface with viewing and curation tools. For example, the routes `/view/imagesets/`, `/view/images/`, `/view/annotations/`, and `/view/parts/` allow for a user to quickly see the state of the database. There is also a batch uploading function to easily add a handful of images to a database without needing to use the full Python or REST APIs for larger imports.
 
-The web-tools for turking (borrowing the phrase from *Amazon Mechanical Turk*) support a wide range of helpful functions.  The most helpful interface is arguably the annotation bounding box and metadata interface.  This interface can be viewed at `/turk/detection/?gid=X` and shows the current annotations for Image RowID=X, where they are located, what metadata is set on them, what parts (if any) have been added to the annotations, and what metadata is on the parts.
-
-While not required, we STRONGLY suggest all API endpoints in a plug-in to be prefixed with `/api/plugin/<Plug-in Name>/.../.../` to keep the registered APIs from conflicting.  We also suggest doing the same with your function names as well that are injected into the WBIA controller on load, for example using a function name of `ibs.wbia_plugin_<Plug-in Name>_..._...()`.
+The web tools for turking (borrowing the phrase from *Amazon Mechanical Turk*) support a wide range of helpful functions.  The most helpful interface is arguably the annotation bounding box and metadata interface.  This interface can be viewed at `/turk/detection/?gid=X` and shows the current annotations for Image RowID=X, where they are located, what metadata is set on them, what parts (if any) have been added to the annotations, and what metadata is on the parts.
 
 ### Background API Job Engine
 
-The REST API has a background job engine.  The purpose of the job engine is to preserve the special properties of a responsive and state-less web paradigm.  In short, the WBIA web controller will automatically serialized concurrent requests but some API calls involve a very long processing delay. If a long API call is called in the main thread, it will deny any and all simultaneous web calls from resolving.  The solution is to mode any long API calls that are exposed by the web interface to the job engine to promote responsiveness and reduce or eliminate client-side web time outs.  Any API that uses the job engine (as shown in an example below) should return a job UUID and should be prefixed with `/api/engine/plugin/<Plug-in Name>/.../.../` to differentiate it from an instantaneous call.  We also recommend having any engine calls accept the POST HTTP method by default.
+The REST API has a background job engine.  The purpose of the job engine is to preserve the special properties of a responsive and state-less web paradigm.  In short, the WBIA web controller will automatically serialize concurrent requests but some API calls involve a very long processing delay. If a long API call is called in the main thread, it will deny any and all simultaneous web calls from resolving.  The solution is to mode any long API calls that are exposed by the web interface to the job engine to promote responsiveness and reduce or eliminate client-side web time outs.  Any API that uses the job engine (as shown in an example below) should return a job UUID and should be prefixed with `/api/engine/plugin/<Plugin Name>/.../.../` to differentiate it from an instantaneous call.  We also recommend having any engine calls accept the POST HTTP method by default.
 
 A user or application can query on the status of a background job, get its original request metadata, and retrieve any results.  The job engine supports automatic callbacks with a specified URL and HTTP method when the job is complete.
 
@@ -482,7 +420,7 @@ In general, a dependency cache (referred to by `depc` in the code base) is a cod
                   +-----------+     +-----------+
 ```
 
-To compute the HashSum on an Image, we first need to compute a Hash on the Image.  The dependency cache will preserve this ordering by computing and storing intermediate results for use by the depc node you want to retrieve. Therefore, e would expect that any call to HashSum for Image RowID=10 would also compute the Hash for Image RowID=10.  Subsequently calling the call for HashProd on Image RowID=10 (with the same configuration) will simply retrieve the pre-computed Hash for RowID=10.
+To compute the HashSum on an Image, we first need to compute a Hash on the Image.  The dependency cache will preserve this ordering by computing and storing intermediate results for use by the depc node you want to retrieve. Therefore, we would expect that any call to HashSum for Image RowID=10 would also compute the Hash for Image RowID=10.  Subsequently calling the call for HashProd on Image RowID=10 (with the same configuration) will simply retrieve the pre-computed Hash for RowID=10.
 
 The WBIA dependency cache infrastructure designates three ROOT object types for this type of computation: Images, Annotations, and Parts.  There exists three parallel decorators that allow one to make a new function for the appropriate dependency graph tree.  Adding a new node to the graph requires writing a function with the correct inputs and a specific configured decorator. We provide a working example below on how to write the decorator for Hash and HashSum.
 
@@ -505,7 +443,7 @@ wbia.constants.PRODUCTION     (Set to True if running in production mode)
 
 When PRODUCTION is set to True, please observe a restraint in resource utilization for system memory, number of concurrent threads, and GPU memory.
 
-Note 2: We suggest to use interactive embedding with utool.embed() whenever and whenever possible.  The use of ut.embed() (we commonly import `utool` with the shorthand namespace of `ut`) is used throughout the WBIA code base and is supremely helpful when debugging troublesome code.  We have set an example below that uses ut.embed() in the ibs.wbia_plugin_id_hello_world() documentation.  We highly recommend calling this function's example test and play around with the ibs controller object.  The ibs controller supports `TAB` completion for all method functions.  For example, when in the embedded iPython terminal, you can input:
+Note 2: We suggest to use interactive embedding with utool.embed() whenever and wherever possible.  The use of ut.embed() (we commonly import `utool` with the shorthand namespace of `ut`) is used throughout the WBIA code base and is supremely helpful when debugging troublesome code.  We have set an example below that uses ut.embed() in the ibs.wbia_plugin_id_hello_world() documentation.  We highly recommend calling this function's example test and play around with the ibs controller object.  The ibs controller supports `TAB` completion for all method functions.  For example, when in the embedded iPython terminal, you can input:
 
 ```
 In [1]: ibs
@@ -563,11 +501,52 @@ Out [5]: Help on method get_image_paths in module wbia.control.manual_image_func
 
 The embedded session will dump out the doctest (hopefully with parameter and example usage documentation) for that controller function.
 
+## Citation
+
+If you use this code or its models in your research, please cite:
+
+```
+@inproceedings{crall2013hotspotter,
+    title={Hotspotter — patterned species instance recognition},
+    author={Crall, Jonathan P and Stewart, Charles V and Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Sundaresan, Siva R},
+    booktitle={2013 IEEE workshop on applications of computer vision (WACV)},
+    pages={230--237},
+    year={2013},
+    organization={IEEE}
+}
+
+@inproceedings{parham2018animal,
+    title={An animal detection pipeline for identification},
+    author={Parham, Jason and Stewart, Charles and Crall, Jonathan and Rubenstein, Daniel and Holmberg, Jason and Berger-Wolf, Tanya},
+    booktitle={2018 IEEE Winter Conference on Applications of Computer Vision (WACV)},
+    pages={1075--1083},
+    year={2018},
+    organization={IEEE}
+}
+
+@inproceedings{berger2015ibeis,
+    title={IBEIS: Image-based ecological information system: From pixels to science and conservation},
+    author={Berger-Wolf, TY and Rubenstein, DI and Stewart, CV and Holmberg, J and Parham, J and Crall, J},
+    booktitle={Bloomberg Data for Good Exchange Conference, New York, NY, USA},
+    volume={2},
+    year={2015}
+}
+
+@article{berger2017wildbook,
+    title={Wildbook: Crowdsourcing, computer vision, and data science for conservation},
+    author={Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Stewart, Charles V and Holmberg, Jason A and Parham, Jason and Menon, Sreejith and Crall, Jonathan and Van Oast, Jon and Kiciman, Emre and Joppa, Lucas},
+    journal={arXiv preprint arXiv:1710.08880},
+    year={2017}
+}
+```
+
+
+
 ## Conclusion
 
-Support for WBIA and this plug-in example is maintained by Wild Me
+Support for WBIA is maintained by Wild Me.
 
-Wild Me is a non-profit located in Portland, OR, USA
+Wild Me is a non-profit located in Portland, OR, USA.
 
-Please refer any questions to: dev@wildme.org or https://github.com/WildMeOrg/wildbook-ia
+Please refer any questions to dev@wildme.org or https://github.com/WildMeOrg/wildbook-ia .
 

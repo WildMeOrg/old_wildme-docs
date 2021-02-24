@@ -42,7 +42,7 @@ Overview of functionality mapping between Wildbook and Codex
 
 Houston is used to refer to 
    - The new flask based python component to manage user interactions with the system.
-   - The entire frontend container containing Houston (flask python), the react frontend and the user databases to manage access. 
+   - The entire frontend container containing Houston (flask python), the frontend and the user databases to manage access. 
 
 ## WB-IA and ACM
 
@@ -67,12 +67,12 @@ To show how houston is expected to operate a number of use cases will be describ
 
 **Data upload use case : Unauthorised user uploads an image.** 
    * Houston accesses User database to determine if user authorised (user is citizen scientist so not an authorised user).
-   * Houston intakes images and metadata from the React frontend.
+   * Houston intakes images and metadata from the frontend interface.
       * Metadata is used to create Sighting and Encounter records.
-      * All Images for the upload are saved into a singleSubmission on a local Gitlab instance.
+      * All Images for the upload are saved into a single Submission on a local Gitlab instance.
       * Images are used to create Assets, which are then associated with encounters. 
    * Houston sends image to WB-IA for processing. 
-      * Houston recieves Annotation data from WB-IA and creates lightweight Annotation records.
+      * Houston receives Annotation data from WB-IA and creates lightweight Annotation records.
       * The derived Annotation records are associated with the sent Asset, and available for researchers to use in matching.
       * An Asset does not require an Annotation, as WBIA detection may not find anything useful. 
    * Houston sends data to EDM for storage as unapproved.
@@ -105,7 +105,7 @@ The lightweight database records in Houston do not contain any researcher metada
 
 **Primary EDM stored records:**
 These records are quite similar to ones found prior to Codex in Wildbook software, but there are some differences like the required encounter/sighting association.
-Each EDM record has a lightweight counterpart on Houston that contains no ecological information and is used as a pointer of for access control.
+Each EDM record has a lightweight counterpart on Houston that contains no ecological information and is used as a pointer for access control.
 * Encounter: Single animal at a single place in time.
    * Every encounter belongs to a sighting.
 * Sighting: One or more animals at a single place and time.
@@ -124,13 +124,13 @@ Each EDM record has a lightweight counterpart on Houston that contains no ecolog
 Data is added to Codex using a form for creating sightings, or in bulk through upload of a CSV file and folder of images.
 This data is processed and added to the database if it is valid, and then can be curated further or used for image analysis matching.
 
-The bulk import and form submissions overviews below should explain differences in the pipline for these methods.
+The bulk import and form submissions overviews below should explain differences in the pipeline for these methods.
 
 **Bulk Import overview:**
 * User adds metadata to a standardized format of CSV file.
 * CSV file contains a row for each encounter.
    * Each encounter row will have columns for metadata like species and location.
-   * Each encounter row will have a columns for any number of image filenames provided. This is how images and encounters are associated.
+   * Each encounter row will have a column for any number of image filenames provided. This is how images and encounters are associated.
    * Since every encounter must have a sighting, if no sighting name is described for the encounter one will be automatically generated.
    * Sighting metadata is in general derived from the contained Encounter records. Metadata stored on the Sighting is primarily observational notes as custom fields. 
 * User places all image files references in the CSV file in a folder.
@@ -145,21 +145,23 @@ The bulk import and form submissions overviews below should explain differences 
 * The form allows designation of multiple encounter records within the sighting.
    * These can be different species and have different metadata, but must be in the same time span and location.
    * Multiple encounters within the sighting should reference the same image only if the image contains multiple animals.
-* Images from form submission sightings are automatically sent to WBIA once validated.
+* Images from form submission sightings are automatically sent to WBIA once metadata is validated in the EDM.
 
 The back-end overview below describes behaviors common to bulk and form data submission.
+These actions occur in Houston and the EDM after one of the two above input paths are followed.
 
 **Back-end submission overview:**
 * Data from the form or bulk import is submitted to the Sightings REST API.
-* All image files recieved are stored as a Submission in a local gitlab repository.
+
+* All image files received are stored together as a Submission in a local gitlab repository.
    * This becomes a convenient way to reference sets of images in the system.
-   * These submissions are unique and can be modified in cases like retrying a failed bulk import.
+   * Single images are used to create Asset objects in Houston. Encounters retain collections of assets.
+
 * Metadata for submitted sightings is sent directly to the EDM for validation.
    * This is done blindly by Houston. In its role directing traffic Houston has no sense of ecological data validity.
-* On successful validation the submitted data is used to create sightings and encounters.
-   * Individual records can be added too, typically when a user is bulk uploading a historical catalog.
+   * On successful validation the submitted data is used to create sightings and encounters and sometimes individuals.
    * On failed data validation, no Encounter or Sighting records are created in Houston or the EDM.
-* Individual images are used to create Asset objects in Houston that are tied to the encounter records referencing the image names.
+
 * Assets processed by WBIA will return Annotation data to Houston if the image contains identifiable information.
    * An Asset can have any number of annotations.
    * Annotation data is includes bounding box dimensions, detected class, pipeline status and identification viability. 

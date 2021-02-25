@@ -19,7 +19,7 @@ Note: throughout the Wildbook platform, sightings may also be called “occurren
 
 ## Navigating to a sighting page 
 
-To see sighting information, you might be signed into the system. Once signed in, you can use Search > Sighting Search to find sightings that meet certain criteria. Additionally, there may be a Sighting menu that will allow you to see all Sightings you have access to by clicking View All.
+To see sighting information, you must be signed into the system. Once signed in, you can use Search > Sighting Search to find sightings that meet certain criteria. Additionally, there may be a Sighting menu that will allow you to see all Sightings you have access to by clicking View All.
 
 Additionally, you can access a sighting associated with a specific encounter; from the [encounter page](/docs/researchers/encounter_guide), navigating to the Identity section and clicking on the Occurrence ID.
 

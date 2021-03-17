@@ -27,8 +27,8 @@ At the end of the detection stage, WBIA should have created the following in pre
 - Species labels on each Annotation. This label may also be referred to to as "iaClass" or "Image Analysis Class" elsewhere in Wildbook. It represents the type of the Annotation box. 
 - Viewpoint labels (e.g. left, right, top, bottom, etc..) on each Annotation
 - OPTIONAL: Background segmentation on each Annotation to remove as many non-animal pixels as possible
-- OPTIONAL: Rotational correction, standardizing the rotation of Annotations to maximize their comparability in downstream ID algorithms
-- OPTIONAL: Parts to bodies assignment, allowing "parts" (e.g., an African wild dog tail) to be assigned to parents Annotations (e.g., the dog's body) in complex, multi-individual photos
+- OPTIONAL: Rotational correction, standardizing the rotation of Annotations to maximize their comparability in downstream ID algorithms. [More information about the Orientation network can be found here.](https://github.com/WildMeOrg/wbia-plugin-orientation/tree/develop/wbia_orientation)
+- OPTIONAL: Parts to bodies assignment, allowing "parts" (e.g., an African wild dog tail) to be assigned to parents Annotations (e.g., the dog's body) in complex, multi-individual photos. [More information about the Assigner network can be found here.](https://community.wildme.org/t/the-assigner-building-an-ml-component-start-to-finish/596)
 
 ![detection](../../static/img/ia_pipeline_1.png)
 

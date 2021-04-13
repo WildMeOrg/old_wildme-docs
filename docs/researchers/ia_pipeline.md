@@ -87,11 +87,11 @@ Example Wildbook Species: jaguars, cheetahs, leopards, African wild dogs, zebras
 
 Hotspotter Paper Link: http://cs.rpi.edu/hotspotter/crall-hotspotter-wacv-2013.pdf	
 
-### CurvRank
+### CurvRank v2
 
-CurvRank is a machine learning-based approach to matching curvature or an “edge”, such as the trailing edge of a cetacean fluke or a dorsal fin. More specifically, ML is employed to weight sections of a fin or fluke that contain individually identifying information and to represent the curvature in a comparable format less subject to deformation from changes in the pose of the animal in the image.
+CurvRank is a machine learning-based approach to matching curvature or an "edge", such as the trailing edge of a cetacean fluke or a dorsal fin. More specifically, ML is employed to weight sections of a fin or fluke that contain individually identifying information and to represent the curvature in a comparable format less subject to deformation from changes in the pose of the animal in the image.
 
-Example Wildbook Species: humpback whales, sperm whales, bottlenose dolphins, orcas, right whales
+Example Wildbook Species: humpback whales, sperm whales, bottlenose dolphins, orcas, right whales, spinner dolphins, fin whales, and more
 
 CurvRank Paper Link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w41/Weideman_Integral_Curvature_Representation_ICCV_2017_paper.pdf
 

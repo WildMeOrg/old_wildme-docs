@@ -20,6 +20,7 @@ module.exports = {
       "researchers/matching_process",
       "researchers/manual_annotation",
 	  "researchers/searching",
+	  "researchers/social",
       "researchers/projects",
 	  "researchers/locationID",
       "researchers/r_package",

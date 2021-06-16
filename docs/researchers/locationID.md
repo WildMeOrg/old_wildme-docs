@@ -9,7 +9,7 @@ A study site in Wildbook (also called an Encounter's "location ID") is a fixed v
 
 <img src={useBaseUrl('img/encounterLocationID.png')} alt="encounterLocationID" width="33%" height="33%" />
 
-In this example, "Maldives" is the location ID for this reported Encounter. Location IDs can be as large as oceans or continents and as small as specific SCUBA diving buoys. The base definition of a study site is a location that you repeatedly visit to observe wildlife. 
+In this example, "Maldives" is the location ID for this reported Encounter. Location IDs can be as large as oceans or continents and as small as specific SCUBA diving buoys. The base definition of a study site is a location that you repeatedly visit to observe wildlife.
 
 ## Reporting an Encounter with a Location ID
 
@@ -19,7 +19,7 @@ When you [report an Encounter](report_encounter.md), you can set its location ID
 
 An important aspect of setting a location ID on an Encounter submission is that the location ID will be used to filter automatic matching to only that study site and species. If you wish to match against the entire Flukebook catalog or other study sites (such as regional study sites nearby), [you can start a manual match from the Encounter](matching_process.md#manually-starting-a-match), which allows you to multi-select location IDs to match an Annotation against, as shown below.
 
-<img src={useBaseUrl('img/matchCriteria.png')} alt="matchCriteria" height="50%" width="50%" /> 
+<img src={useBaseUrl('img/matchCriteria.png')} alt="matchCriteria" height="50%" width="50%" />
 
 Assigning your Encounters to the correct location IDs will ensure your data is easy to find and that computer vision matching can be filtered to a specific site and other logical sites in the region. Avoiding global photo ID matching for a species and excluding implausible movement can help improve matching accuracy by removing potential false positives in the match results.
 
@@ -28,7 +28,7 @@ Assigning your Encounters to the correct location IDs will ensure your data is e
 To add a new study site, you'll need to contact your Wildbook's administrator or make the request at the [Wildbook Community](https://community.wildme.org). Location IDs are added to a file in Wildbook named locationID.json. Each location ID is defined in the JSON format as follows:
 
 ```
-{ "name":"Iceland", "id":"Iceland", "locationID":[] }
+{ "name":"Iceland", "id":"Iceland", "locationID":[], "prefix": "Ice-", "prefixDigitPadding": 4, "defaultLatitude": 64.4577778110883, "defaultLongitude": -22.454850367706463 }
 ```
 
 and can be nested.
@@ -42,6 +42,11 @@ The fields are used as follows:
 - *name* - the descriptive, human-readable name of the study site
 - *id* - the value of the study site to store in the "ENCOUNTER" table of the Wildbook database in the "LOCATIONID" column. This value must be unique in locationID.json
 - *locationID* - a JSON array of other location IDs that are nested and logical subsites of this location
+- *prefix*(optional) - an abbreviation to the study site that can optionally be used to name new individuals when an incremental naming system is desired (e.g., "Ice-0001", "Ice-0002", "Ice-0003", etc.)
+- *prefixDigitPadding* (optional) - the number of orders of magnitude that you expect with the (optional) incremental individual naming system. For instance, picking `"prefixDigitPadding": 5` (instead of 4 as in the example above) would result in individual names such as "Ice-00001", "Ice-00002", "Ice-00003", etc. (note the additional 0).
+- *defaultLatitude* (optional) - if there are no explicitly designated GPS coordinates for a particular encounter, the locationID can be used to designate a default latitude when exporting encounter search results using the "Exported Excel spreadsheet (.xls) file in OBIS format with locale inclusion for unreported GPS" option.
+- *defaultLongitude* (optional) - if there are no explicitly designated GPS coordinates for a particular encounter, the locationID can be used to designate a default longitude when exporting encounter search results using the "Exported Excel spreadsheet (.xls) file in OBIS format with locale inclusion for unreported GPS" option.
+
 
 Restart Tomcat after making changes.
 

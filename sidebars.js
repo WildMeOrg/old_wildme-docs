@@ -59,6 +59,7 @@ module.exports = {
       "developers/codex_overview",
       "developers/houston",
       "developers/codex_frontend",
+      "developers/debugging",	
       {
         type: "category",
         label: "EDM API",

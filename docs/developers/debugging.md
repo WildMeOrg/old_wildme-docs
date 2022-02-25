@@ -16,7 +16,7 @@ The utilities are visible via the 'invoke -l' command and they well not be descr
    
 ## Web Utilities
 
-The web debugginig utilities are split up into
+The web debugging utilities are split up into
    - Debug information for a particular object
    - Job data, system wide and for a particular object
    - Audit log data, system wide and for a particular object

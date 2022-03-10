@@ -9,6 +9,7 @@ module.exports = {
       "researchers/sighting",
       "researchers/security_overview",
       "researchers/whatsnew",
+      "researchers/faq",
     ],
     Quickstart: ["researchers/firstlogin"],
     Data: [

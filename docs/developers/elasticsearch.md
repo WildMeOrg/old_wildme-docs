@@ -1,9 +1,7 @@
 ---
 id: elasticsearch
-title: Elasticsearch in Houston
+title: Elasticsearch
 ---
-
-# Overview
 
 Houston supports Elasticsearch, with automatic and explicit definitions of schemas.  You may add Elasticsearch support to an existing model with `app.extensions.register_elasticsearch_model`, which registers the specified model with the automatic Elasticsearch indexing.  The name of each index is derived automatically from the location of the registered model.  For example, the `app.modules.users.models.User` model is automatically given the index name `app.modules.users.models.user` without any further input from the user.
 
@@ -39,7 +37,7 @@ The following `HoustonModels` now support indexing and searching with Elasticsea
 - `SocialGroup`
 - `User`
 
-# Usage
+## Usage
 
 For all registered objects, the primary entry point for using Elasticsearch is `objs = cls.elasticsearch(body)`.  This function will search a class with the provided Elasticsearch body and will ALWAYS return objects for that class.  To retrieve all results out of Elasticsearch, use `body=None` or `body={}`.  When the results from Elasticsearch are returned, we receive only a list of GUIDs that match the given query.  All GUIDs are then checked against the local Houston database.  If the GUID does not exist in the local database, it is automatically pruned out of Elasticsearch.  If the GUID exists in the database, the objects are loaded from the local Houston database.  We do not rely on the cached copy in Elasticsearch, we always use Elasticsearch to resolve GUIDs for a given class and then load the objects fresh out of the Houston DB.
 
@@ -49,35 +47,38 @@ The `cls.elasticsearch()` function also takes in an additional `load=False` para
 
 Note: This API does not support Elasticsearch-based sorting or paging.  Any sorting or pagination arguments passed to Elasticsearch are ignored.  All sorting and pagination are performed by Houston and support Houston model attributes.
 
-# Supported Serialization Schemas
+## Supported Serialization Schemas
 
 All registered models are serialized automatically unless a schema is specified.  The `get_elasticsearch_schema()` function can be used to tell Elasticsearch how to serialize an object and is defined for the following models:
-- `Annotation` -> `DetailedAnnotationSchema`
-- `AssetGroup` -> `CreateAssetGroupSchema`
-- `AssetGroupSighting` -> `BaseAssetGroupSightingSchema`
-- `Asset` -> `DetailedAssetTableSchema`
-- `AuditLog` -> `DetailedAuditLogSchema`
-- `Collaboration` -> `DetailedCollaborationSchema`
-- `EmailRecord` -> `BaseEmailRecordSchema`
-- `Encounter` -> `ElasticsearchEncounterSchema`
-- `FileUpload` -> `DetailedFileUploadSchema`
-- `Individual` -> `ElasticsearchSightingSchema`
-- `Integrity` -> `BaseIntegritySchema`
-- `Mission` -> `DetailedMissionSchema`
-- `MissionCollection` -> `CreateMissionCollectionSchema`
-- `MissionTask` -> `BaseMissionTaskTableSchema`
-- `Name` -> `DetailedNameSchema`
-- `Notification` -> `BaseNotificationSchema`
-- `Organization` -> `DetailedOrganizationSchema`
-- `Project` -> `BaseProjectSchema`
-- `Relationship` -> `DetailedRelationshipSchema`
-- `Sighting` -> `ElasticsearchSightingSchema`
-- `SocialGroup` -> `DetailedSocialGroupSchema`
-- `User` -> `UserListSchema`
+
+| HoustonModel         | Schema                          |
+|----------------------|---------------------------------|
+| `Annotation`         | `DetailedAnnotationSchema`      |              
+| `AssetGroup`         | `CreateAssetGroupSchema`        |          
+| `AssetGroupSighting` | `BaseAssetGroupSightingSchema`  |                  
+| `Asset`              | `DetailedAssetTableSchema`      |              
+| `AuditLog`           | `DetailedAuditLogSchema`        |          
+| `Collaboration`      | `DetailedCollaborationSchema`   |              
+| `EmailRecord`        | `BaseEmailRecordSchema`         |          
+| `Encounter`          | `ElasticsearchEncounterSchema`  |                  
+| `FileUpload`         | `DetailedFileUploadSchema`      |              
+| `Individual`         | `ElasticsearchSightingSchema`   |              
+| `Integrity`          | `BaseIntegritySchema`           |      
+| `Mission`            | `DetailedMissionSchema`         |          
+| `MissionCollection`  | `CreateMissionCollectionSchema` |                  
+| `MissionTask`        | `BaseMissionTaskTableSchema`    |              
+| `Name`               | `DetailedNameSchema`            |      
+| `Notification`       | `BaseNotificationSchema`        |          
+| `Organization`       | `DetailedOrganizationSchema`    |              
+| `Project`            | `BaseProjectSchema`             |      
+| `Relationship`       | `DetailedRelationshipSchema`    |              
+| `Sighting`           | `ElasticsearchSightingSchema`   |              
+| `SocialGroup`        | `DetailedSocialGroupSchema`     |              
+| `User`               | `UserListSchema`                |  
 
 The Elasticsearch extension will dynamically walk over an object and look for JSON serializable attributes if a schema is not specified.  This automatic parsing supports all build-in JSON types and adds support for `datetime.datetime` and `uuid.UUID`.
 
-# Database Models
+## Database Models
 
 All of the existing FeatureModels inherit from `ElasticsearchModel`.  In addition, all `FeatherModels` now support an `indexed` timestamp and an `elasticsearchable` flag to know if a given model is searchable in Elasticsearch.
 
@@ -153,120 +154,120 @@ class ElasticsearchModel(object):
         # Serialize (convert to JSON) the object using the defined schema (or automatic)
 ```
 
-# Serializing Objects
+## Serializing Objects
 
 ![elasticsearch_schema.png](../../static/img/elasticsearch_schema.png)
 
-# Indexing Objects
+## Indexing Objects
 
 ![elasticsearch_index.png](../../static/img/elasticsearch_index.png)
 
-# Fetching Objects
+## Fetching Objects
 
 ![elasticsearch_fetch.png](../../static/img/elasticsearch_fetch.png)
 
-# Pruning Objects
+## Pruning Objects
 
 ![elasticsearch_prune.png](../../static/img/elasticsearch_prune.png)
 
-# Elasticsearch Extension Features
+## Elasticsearch Extension Features
 
 ``` python
 from app.extensions import elasticsearch as es
 
-# Turn Elasticsearch off globally
+## Turn Elasticsearch off globally
 es.off()
 
-# Turn Elasticsearch on globally (on by default if the extension is enabled)
+## Turn Elasticsearch on globally (on by default if the extension is enabled)
 es.on()
 
-# Returns True if Elasticsearch is disabled (off)
+## Returns True if Elasticsearch is disabled (off)
 es.is_disabled()
 
-# Returns True if Elasticsearch is enabled (on)
+## Returns True if Elasticsearch is enabled (on)
 es.is_enabled()
 
 #######################################################
 
-# Check the status of the background celery tasks in use by Elasticsearch
-# This call will automatically clean up any jobs that have finished and restart any jobs that have failed
-# The `revoke=True` argument will shutdown all active jobs
+## Check the status of the background celery tasks in use by Elasticsearch
+## This call will automatically clean up any jobs that have finished and restart any jobs that have failed
+## The `revoke=True` argument will shutdown all active jobs
 es.check_celery()
 
-# Get the status of Elasticsearch.
-# Will return the number of objects that are out of date, and the number of active background tasks
+## Get the status of Elasticsearch.
+## Will return the number of objects that are out of date, and the number of active background tasks
 es.es_status()
 
-# Wait for the status of Elasticsearch to catch up, then continue
+## Wait for the status of Elasticsearch to catch up, then continue
 es.es_checkpoint()
 
 #######################################################
 
-# Get the index name from a registered class
-# For example, `index = 'app.modules.users.models.user'`
+## Get the index name from a registered class
+## For example, `index = 'app.modules.users.models.user'`
 index = es.es_index_name(cls)
 
-# Check if a given index exists, returns True if so
+## Check if a given index exists, returns True if so
 es.es_index_exists(index)
 
-# Get the mappings for a given index, returns {} if not found
+## Get the mappings for a given index, returns {} if not found
 es.es_index_mappings(index)
 
-# Delete a given index by name
+## Delete a given index by name
 es.es_delete_index(index)
 
-# Refresh (force all items to be available for searching) a given index 
+## Refresh (force all items to be available for searching) a given index 
 es.es_refresh_index(index)
 
 #######################################################
 
-# Build the serialization body for an object (don't call directly, used by functions below)
-# Additional argument `allow_schema=False` which will force automatic serialization
+## Build the serialization body for an object (don't call directly, used by functions below)
+## Additional argument `allow_schema=False` which will force automatic serialization
 index, guid, body = es.es_serialize(obj)
 
-# Check if an object exists in Elasticsearch
+## Check if an object exists in Elasticsearch
 es.es_exists(obj)
 
-# Index an object into Elasticsearch using `es.build_elasticsearch_index_body(obj)`
+## Index an object into Elasticsearch using `es.build_elasticsearch_index_body(obj)`
 es.es_index(obj)
 
-# An alias of `es.es_index(obj)`
+## An alias of `es.es_index(obj)`
 es.es_add(obj)
 
-# An alias of `es.es_index(obj)`
+## An alias of `es.es_index(obj)`
 es.es_insert(obj)
 
-# An alias of `es.es_index(obj)`
+## An alias of `es.es_index(obj)`
 es.es_update(obj)
 
-# Retrieve the serialized information for an object in Elasticsearch
+## Retrieve the serialized information for an object in Elasticsearch
 es.es_get(obj)
 
-# Retrieve the raw results for an index out of Elasticsearch
+## Retrieve the raw results for an index out of Elasticsearch
 results = es.es_search(index, body)
 
-# Delete an object out of Elasticsearch
+## Delete an object out of Elasticsearch
 es.es_delete(obj)
 
-# Delete an item out of Elasticsearch using the class and GUID
+## Delete an item out of Elasticsearch using the class and GUID
 es.es_delete_guid(cls, guid)
 
 #######################################################
 
-# Index all objects for all classes registered with Elasticsearch
+## Index all objects for all classes registered with Elasticsearch
 es.es_index_all()
 
-# Prune (delete) all objects for all classes registered with Elasticsearch
+## Prune (delete) all objects for all classes registered with Elasticsearch
 es.es_prune_all()
 
-# Invalidate (force a future index refresh) all objects for all classes registered with Elasticsearch
+## Invalidate (force a future index refresh) all objects for all classes registered with Elasticsearch
 es.es_invalidate_all()
 
-# Refresh (force all items to be available for searching) all indices registered with Elasticsearch
+## Refresh (force all items to be available for searching) all indices registered with Elasticsearch
 es.es_refresh_all()
 ```
 
-# Automatic Database Changes & Elasticsearch Sessions
+## Automatic Database Changes & Elasticsearch Sessions
 
 By default, anytime a Houston DB object is added, modified, or deleted, we instantly update the Elasticsearch for that object if it is registered.  This happens automatically and does not require any additional code.  Furthermore, there is a new context manager to allow all changes to Elasticsearch to be done in bulk.  This is handy when large amounts of objects are changed in a single transaction and need to be sent to Elasticsearch.  Just as individual database changes are slow, the same is true when updating the Elasticsearch index one item at a time.
 
@@ -287,7 +288,7 @@ The context manager supports nesting, resets on exceptions, and configuration.  
 
 ![elasticsearch_session.png](../../static/img/elasticsearch_session.png)
 
-# Background Celery Updates & Configuration
+## Background Celery Updates & Configuration
 
 Adding Elasticsearch to all database transactions adds about a 40% overhead during the automated testing.  Houston also supports background Celery workers to process all indexing operations to prevent this from being a performance hit with the production web server.  This happens automatically with each Elasticsearch session when the `app/extensions/elasticsearch` extension is enabled.  By default, all changes are done in batch and done in the background.
 
@@ -299,7 +300,7 @@ Furthermore, two additional background Celery tasks happen on a schedule:
  - `es_task_refresh_index_all` - Runs every hour to update any out-of-date objects in the database (which may happen if the on-demand updates fail for any reason).  The frequency can be specified with as `es.ELASTICSEARCH_UPDATE_FREQUENCY`
  - `es_task_invalidate_indexed_timestamps` - Runs every 12 hours to re-index the entire Elasticsearch index for all registered models (this ensures that all objects are continually refreshed at a known cadence and ensures any cruft in the index is automatically deleted).    The frequency can be specified with as `es.  ELASTICSEARCH_FIREWALL_FREQUENCY `
 
-# REST APIs
+## REST APIs
 
 We query Elasticsearch for matching results when provided a search body.  The response from Elasticsearch is a list of GUIDs and the results are sorted, paginated, and loaded from the Houston database directly.  While the contents of specific search results may be slightly outdated, the returned schemas are based on the local DB version of an object.  Furthermore, we pass Elasticsearch APIs errors back to the user as a `BAD_REQUEST` with the same error message.
 
@@ -333,7 +334,7 @@ Additional APIs are available to interact with Elasticsearch as a service
 - `[GET] /api/v1/search/status` to list how outdated the Elasticsearch database is relative to Houston.  This API also shows the number of active background Celery jobs in use by Elasticsearch
 - `[GET] /api/v1/search/sync` to force an Elasticsearch re-index on-demand.
 
-# Pagination & List Filtering
+## Pagination & List Filtering
 
 The Elasticsearch APIs all support pagination, which has also been updated for all listing APIs for each module.  The pagination threshold has been increased from 20 to 100 and applied globally for all relevant modules.  All paginated APIs also now support sorting before paging.  In the event a tie is encountered during sorting, all results will be secondarily sorted by the primary key of the table.
 
@@ -382,19 +383,19 @@ def query_search_term_hook(cls, term):
     return (cast_if(cls.guid, String).contains(term),)
 ```
 
-# Web Server Start-up
+## Web Server Start-up
 
 The logs will show the registered models and that the database listeners have been attached on start-up.  After this, the start-up will re-index the entire Houston database and (by default) ask Celery to update the index with fresh copies of all data.
 
 ![elasticsearch_startup.png](../../static/img/elasticsearch_startup.png)
 
-# Docker Services
+## Docker Services
 
 The Elasticsearch service uses multi-node setup and uses version 7.17.0.  Kibana is also available for visualizing / manipulating the index.  Flower is also available to visualize Celery (3 workers by default).
 
 ![elasticsearch_docker.png](../../static/img/elasticsearch_docker.png)
 
-# Testing
+## Testing
 
 When testing, all Elasticsearch index names are given a prefix of `testing.`.  This means that all of the index names for testing are disjoint from the main application, and the automated Celery tasks will not conflict when tests are running.
 
@@ -406,9 +407,9 @@ The benchmarking of tests will automatically report all tests that take longer t
 
 ``` bash
 102.51s setup    tests/modules/encounters/resources/test_read_encounters.py::test_read_encounters[None-False]
-# The setup time for this test includes the time to create the database and set up Elasticsearch
+## The setup time for this test includes the time to create the database and set up Elasticsearch
 44.32s teardown tests/modules/social_groups/resources/test_social_group.py::test_individual_delete[None-False]
-# This teardown time for this test includes the time to delete the database and purge Elasticsearch
+## This teardown time for this test includes the time to delete the database and purge Elasticsearch
 39.92s call     tests/extensions/test_elasticsearch.py::test_elasticsearch_utilities[None-False]
 24.41s call     tests/modules/individuals/resources/test_merge.py::test_get_data_and_voting[None-False]
 16.33s call     tests/modules/users/resources/test_modifying_users_info.py::test_user_profile_fileupload[None-False]
@@ -443,7 +444,7 @@ Lastly, a `pytest --no-elasticsearch` CLI flag to disable Elasticsearch globally
 
 ![elasticsearch_tests.png](../../static/img/elasticsearch_tests.png)
 
-# Known Issues
+## Known Issues
 
 ### 1.  SYSCTL Resource Limits
 
@@ -492,4 +493,4 @@ When updating an existing database that has pre-existing `HoustonConfig` rows, y
 
 ### 3.  Partial Support for Attributes when Sorting
 
-Sorting for all paginated APIs only supports attributes listed in the corresponding Houston model.  This is done during the SQL SELECT query for efficiency and does not support derived attributes.  This can be supported later but will likely be slow.  This may be accomplished by using a hybrid property in SQLAlchemy.  https://docs.sqlalchemy.org/en/14/orm/mapped_sql_expr.html#using-a-hybrid
+Sorting for all paginated APIs only supports attributes listed in the corresponding Houston model.  This is done during the SQL SELECT query for efficiency and does not support derived attributes.  This can be supported later but will likely be slow.  This may be accomplished by using a <a href="https://docs.sqlalchemy.org/en/14/orm/mapped_sql_expr.html#using-a-hybrid">hybrid property</a> in SQLAlchemy.  

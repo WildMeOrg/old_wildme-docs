@@ -80,7 +80,7 @@ The Elasticsearch extension will dynamically walk over an object and look for JS
 
 ## Database Models
 
-All of the existing FeatureModels inherit from `ElasticsearchModel`.  In addition, all `FeatherModels` now support an `indexed` timestamp and an `elasticsearchable` flag to know if a given model is searchable in Elasticsearch.
+All of the existing FeatureModels inherit from `ElasticsearchModel`.  In addition, all `FeatherModels` support an `indexed` timestamp and an `elasticsearchable` flag to know if a given model is searchable in Elasticsearch.
 
 ``` python
 class ElasticsearchModel(object):
@@ -269,7 +269,7 @@ es.es_refresh_all()
 
 ## Automatic Database Changes & Elasticsearch Sessions
 
-By default, anytime a Houston DB object is added, modified, or deleted, we instantly update the Elasticsearch for that object if it is registered.  This happens automatically and does not require any additional code.  Furthermore, there is a new context manager to allow all changes to Elasticsearch to be done in bulk.  This is handy when large amounts of objects are changed in a single transaction and need to be sent to Elasticsearch.  Just as individual database changes are slow, the same is true when updating the Elasticsearch index one item at a time.
+By default, anytime a Houston DB object is added, modified, or deleted, we instantly update the Elasticsearch for that object if it is registered.  This happens automatically and does not require any additional code.  There is also a context manager to allow all changes to Elasticsearch to be done in bulk.  This is handy when large amounts of objects are changed in a single transaction and need to be sent to Elasticsearch.  Just as individual database changes are slow, the same is true when updating the Elasticsearch index one item at a time.
 
 All `db.session.begin()` contexts automatically begin an Elasticsearch session.  A session may be started manually with the following code:
 
@@ -290,7 +290,7 @@ The context manager supports nesting, resets on exceptions, and configuration.  
 
 ## Background Celery Updates & Configuration
 
-Adding Elasticsearch to all database transactions adds about a 40% overhead during the automated testing.  Houston also supports background Celery workers to process all indexing operations to prevent this from being a performance hit with the production web server.  This happens automatically with each Elasticsearch session when the `app/extensions/elasticsearch` extension is enabled.  By default, all changes are done in batch and done in the background.
+Adding Elasticsearch to all database transactions adds about a 40% overhead during the automated testing.  Houston supports background Celery workers to process all indexing operations to prevent this from being a performance hit with the production web server.  This happens automatically with each Elasticsearch session when the `app/extensions/elasticsearch` extension is enabled.  By default, all changes are done in batch and in the background.
 
 The base config supports the following new values:
 - `ELASTICSEARCH_BLOCKING` - Defaults to False, which will perform all bulk Elasticsearch operations in the background (non-blocking)
@@ -302,7 +302,7 @@ Furthermore, two additional background Celery tasks happen on a schedule:
 
 ## REST APIs
 
-We query Elasticsearch for matching results when provided a search body.  The response from Elasticsearch is a list of GUIDs and the results are sorted, paginated, and loaded from the Houston database directly.  While the contents of specific search results may be slightly outdated, the returned schemas are based on the local DB version of an object.  Furthermore, we pass Elasticsearch APIs errors back to the user as a `BAD_REQUEST` with the same error message.
+We query Elasticsearch for matching results when provided with a search body.  The response from Elasticsearch is a list of GUIDs and the results are sorted, paginated, and loaded from the Houston database directly.  While the contents of specific search results may be slightly outdated, the returned schemas are based on the local DB version of an object.  Furthermore, we pass Elasticsearch APIs errors back to the user as a `BAD_REQUEST` with the same error message.
 
 You may search supported models with Elasticsearch using the APIs listed below:
 
@@ -329,14 +329,14 @@ You may search supported models with Elasticsearch using the APIs listed below:
 ```
 
 Additional APIs are available to interact with Elasticsearch as a service
-- `[GET] /api/v1/search/` to list all of the available indes names in Elasticsearch
+- `[GET] /api/v1/search/` to list all of the available index names in Elasticsearch
 - `[GET] /api/v1/search/<index>/mappings` to list all available attributes in Elasticsearch
 - `[GET] /api/v1/search/status` to list how outdated the Elasticsearch database is relative to Houston.  This API also shows the number of active background Celery jobs in use by Elasticsearch
 - `[GET] /api/v1/search/sync` to force an Elasticsearch re-index on-demand.
 
 ## Pagination & List Filtering
 
-The Elasticsearch APIs all support pagination, which has also been updated for all listing APIs for each module.  The pagination threshold has been increased from 20 to 100 and applied globally for all relevant modules.  All paginated APIs also now support sorting before paging.  In the event a tie is encountered during sorting, all results will be secondarily sorted by the primary key of the table.
+All of the Elasticsearch APIs support pagination and sorting. By default all requests return a maximum of 100 search results. In the event a tie is encountered during sorting, the table's primary key will be used to break the tie.
 
 ``` python
 class PaginationParameters(Parameters):
@@ -372,7 +372,7 @@ class PaginationParameters(Parameters):
     )
 ```
 
- Furthermore, all APIs now support a basic listing filter through a model's `query_search_term_hook(cls, term)` function.  This function is called automatically by the `@api.paginate()` decorator and will support basic attributes in the local Houston database. Again, this list filtering is NOT intended to replace Elasticsearch, but simply a way to provide some basic searching on GUIDs, etc.
+ Furthermore, all search APIs support a basic listing filter through a model's `query_search_term_hook(cls, term)` function.  This function is called automatically by the `@api.paginate()` decorator and will support basic attributes in the local Houston database. This list filtering is NOT intended to replace Elasticsearch, but simply a way to provide some basic searching on GUIDs, etc.
 
 ``` python 
 @classmethod
@@ -399,9 +399,9 @@ The Elasticsearch service uses multi-node setup and uses version 7.17.0.  Kibana
 
 When testing, all Elasticsearch index names are given a prefix of `testing.`.  This means that all of the index names for testing are disjoint from the main application, and the automated Celery tasks will not conflict when tests are running.
 
-Testing utilities for:
-- `prep_randomized_tus_dir()` to create a Tus test directory with random images (128 pixels by 128 pixels by RGB) with random noise
-- `wait_for_elasticsearch_status()` to wait for Elaticsearch to catch up
+Testing utilities:
+- `prep_randomized_tus_dir()` creates a Tus test directory with random images (128 pixels by 128 pixels by RGB) with random noise
+- `wait_for_elasticsearch_status()` wait for Elaticsearch to catch up
 
 The benchmarking of tests will automatically report all tests that take longer than 3 seconds.
 
@@ -440,7 +440,7 @@ The benchmarking of tests will automatically report all tests that take longer t
 3.08s call     tests/modules/asset_groups/resources/test_create_asset_group.py::test_create_asset_group_no_assets[None-False]
 ```
 
-Lastly, a `pytest --no-elasticsearch` CLI flag to disable Elasticsearch globally during testing (makes the test setup much faster)
+Lastly, use the `pytest --no-elasticsearch` flag to disable Elasticsearch globally during testing (makes the test setup much faster)
 
 ![elasticsearch_tests.png](../../static/img/elasticsearch_tests.png)
 
@@ -462,35 +462,6 @@ vm.max_map_count=270000
 
 Alternatively, you can apply this in real-time by running `sudo sysctl -w vm.max_map_count=270000`
 
-### 2.  Houston DB Migration Failure
-
-``` Bash
-sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column houston_config.indexed does not exist
-LINE 1: ...houston_config.updated AS houston_config_updated, houston_co...
-```
-
-When updating an existing database that has pre-existing `HoustonConfig` rows, you need to update the database manually prior to running `app.run`.    Perform the following:1. 2. Edit the `docker-compose.yml` file and update the Houston command to 
-
-1. Stop all Docker services `docker-compose down`, repeat the command to ensure all services are deleted, not simply stopped
-2. Edit the `docker-compose.yml` file and change the first few lines of the Houston service to look like this (remove the `depends_on` block and change the `command`):
-
-``` Docker
-  houston:
-    # https://github.com/WildMeOrg/houston
-    image: wildme/houston:latest
-    build: &houston-build
-      context: .
-      target: main
-    command: ["invoke", "app.db.upgrade"]
-    healthcheck:
-       ...
-```
-
-3. Start your Houston services with `docker-compose up db houston`
-4. Once you see the line `houston-houston-1 exited with code 0`, stop the Houston service with `Ctrl-C` and then  `docker-compose down`
-5. Revert all changes to your `docker-compose.yml` file.
-6. Start the Docker services as normal with `docker-compose up`
-
-### 3.  Partial Support for Attributes when Sorting
+### 2.  Partial Support for Attributes when Sorting
 
 Sorting for all paginated APIs only supports attributes listed in the corresponding Houston model.  This is done during the SQL SELECT query for efficiency and does not support derived attributes.  This can be supported later but will likely be slow.  This may be accomplished by using a <a href="https://docs.sqlalchemy.org/en/14/orm/mapped_sql_expr.html#using-a-hybrid">hybrid property</a> in SQLAlchemy.  

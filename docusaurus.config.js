@@ -1,7 +1,7 @@
 module.exports = {
   title: "Wild Me Docs",
   tagline: "Documentation for Wildbook, Codex, and other Wild Me software.",
-  url: "https://your-docusaurus-test-site.com",
+  url: "https://docs.wildme.org",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -12,10 +12,6 @@ module.exports = {
     algolia: {
       apiKey: "d7ed0de7b37ad70fdd0b8213f5e5e1c1",
       indexName: "wildme",
-    },
-    googleAnalytics: {
-      trackingID: "UA-30944767-19",
-      anonymizeIP: true,
     },
     colorMode: {
       disableSwitch: true,
@@ -121,6 +117,10 @@ module.exports = {
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
+        },
+        googleAnalytics: {
+          trackingID: "UA-30944767-19",
+          anonymizeIP: true,
         },
       },
     ],

@@ -11,6 +11,7 @@ module.exports = {
   themeConfig: {
     algolia: {
       apiKey: "d7ed0de7b37ad70fdd0b8213f5e5e1c1",
+      appId: "CI1FXFSI2S",
       indexName: "wildme",
     },
     colorMode: {

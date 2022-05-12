@@ -161,9 +161,11 @@ The bulk import and form submissions overviews below should explain differences 
 **Twitter submission overview:**
 
 - For administrators of a Codex instance, it is possible to configure the instance to allow submissions from Twitter via the General Settings page.
-- Once configured, users will be able to submit data via tweets. In order to be a valid submission, the tweet must include image(s), a hashtag of the species (e.g., #grevys), region/location id (e.g., #Kenya or Kenya), and time/date information (e.g., "yesterday" or "at 5:01 PM on January 7, 2010"). If any of these are missing, the platform's twitter account will automatically prompt the original tweeter to include the missing information in a subsequent tweet.
-- We recommend including a reminder to users about the information required for a successful submission in the platform's twitter bio.
-- In addition to the shared workflow described below, it should be noted that tweets coming from users who have saved their twitter handle in their user information will retain ownership of the sightings that get generated from their tweets. Otherwise, sighting data is made public. Furthermore, any images in which a single animal is detected will be run through the matching pipeline automatically.
+- Once configured, users will be able to submit data via tweets. For a submission to be valid, the tweet must include image(s), a hashtag of the species, region/location id, and time/date information. Example tweet content: "Saw a cool #grevys at 5:01PM on January 7, 2010 in Kenya". If any of these are missing, the platform’s twitter account automatically prompts the original tweeter to include the missing information in a subsequent tweet.
+- Users should save their twitter handle in their user information on the platform to retain ownership of the data that is generated from their tweets. Otherwise sighting data is made public.
+- Any images in which a single animal is detected will be run through the matching pipeline automatically.
+- We recommend pasting the following into your platform twitter bio:
+  Tweets must include image, species hashtag, region/location id, and time/date information. Add your Twitter handle to your codex account.
 
 The back-end overview below describes behaviors common to bulk, form data, and Twitter submissions.
 These actions occur in Houston and the EDM after one of the two above input paths are followed.

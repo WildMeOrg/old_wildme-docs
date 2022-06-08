@@ -10,11 +10,11 @@ const features = [
   {
     title: "Researcher guide",
     imageUrl: "img/undraw_researching.svg",
-    buttonUrl: "docs/researchers/overview",
+    buttonUrl: "docs/researchers/codex/introduction",
     buttonText: 'View guide',
     description: (
       <>
-        A researcher's guide to Wildbook, our flagship product.
+        A researcher's guide to Codex and Wildbook, our mark-recapture products.
       </>
     ),
   },

@@ -15,7 +15,7 @@ The classic Wildbook is 15+ year old and has grown from a one-person pet project
 ## Issues with Wildbook and goals for Codex
 When moving to a new system it is important to understand the issues that the new system is intended to solve.
 
-In Wildbook, all uploads and queries all go through the java stack.  Once in the world of java/postgresql there is a significant amount of duplication and coordination between that and IBEIS (was WBIA, now SAGE) to do the computer vision. This creates a bottleneck, complexity (and inconsistent data), and is difficult to maintain.
+In Wildbook, all uploads and queries all go through the java stack.  Once in the world of java/postgresql there is a significant amount of duplication and coordination between that and Sage (previously known as WBIA and IBEIS) to do the computer vision. This creates a bottleneck, complexity (and inconsistent data), and is difficult to maintain.
 
 The major difference between the wildbooks is that each has custom attributes in both the SAGE and EDM data. Water depth is a valid attribute for a whaleshark but not a giraffe. These are managed as different git branches in the respository. This means the code is duplicated rather than shared across wildbooks. In Codex there will be one version of the code and the wildbook specific attributes will be set up using configuration files.
 
@@ -37,7 +37,7 @@ Overview of functionality mapping between Wildbook and Codex
 | Wildbook          | Codex                                                                                                                                           | Amount of work                                          |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
 | Java Application | Split into front end houston block (new) that handles access and back end EDM block that handles the ecological data (port from classic Wildbook). | Very large                                              |
-| Ibeis            | Renamed to SAGE. Scalability to be added.                                                                                                         | Was already accessed via REST API so not a huge amount. |
+| WBIA            | Renamed to SAGE. Scalability to be added.                                                                                                         | Was already accessed via REST API so not a huge amount. |
 | N/A              | Submission gitlab for storing incoming data before processing and potentially data backup                                                          | Minimal.                                                |
 
 Houston is used to refer to 

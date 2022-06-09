@@ -3,13 +3,13 @@ module.exports = {
 	Codex[
 		Quickstart: ["researchers/codex/firstlogin"],
 		Introduction: [
-		"researchers/codex/introduction",
+		  "researchers/codex/introduction",
 		  "researchers/codex/standard_reporting",
 		  "researchers/codex/bulk_reporting",
 		  "researchers/codex/image_analysis"
 		],
 		Data: [
-		"researchers/codex/data",
+		  "researchers/codex/data",
 		  "researchers/codex/data_format",
 		  "researchers/codex/data_search",
 		  "researchers/codex/data_match"
@@ -21,11 +21,11 @@ module.exports = {
 		  "researchers/codex/security_collaborations"
 		],
 		"Set Up": [
+		  "researchers/codex/setup",
 		  "researchers/codex/setup_systemrequirements",
 		  "researchers/codex/setup_initialconfiguration",
-		  "researchers/codex/configuration",
 		  "Control Panel":[
-		  "researchers/codex/setup_controlpanel",
+		    "researchers/codex/setup_controlpanel",
 			"researchers/codex/setup_controlpanel_generalsettings",
 			"researchers/codex/setup_controlpanel_splashpage",
 			"researchers/codex/setup_controlpanel_managefields",

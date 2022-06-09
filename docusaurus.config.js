@@ -108,13 +108,13 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: "https://github.com/WildMeOrg/wildme-docs/edit/master/",
+          editUrl: "https://github.com/WildMeOrg/wildme-docs/edit/main/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            "https://github.com/WildMeOrg/wildme-docs/edit/master/website/blog/",
+            "https://github.com/WildMeOrg/wildme-docs/edit/main/website/blog/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

@@ -21,7 +21,7 @@ Every page (including this one) has an button at the bottom labeled "Edit this p
 
 ## Creating a new page 
 
-To create a new page, start at the [docs root](https://github.com/WildMeOrg/docusaurus-test/tree/master/docs) navigate to the appropriate folder on Github and click "Add file" in the upper right hand corner. Name your file using the format `your_article_title.md`. Copy the following template into the new page:
+To create a new page, start at the [docs root](https://github.com/WildMeOrg/wildme-docs/tree/main/docs) navigate to the appropriate folder on Github and click "Add file" in the upper right hand corner. Name your file using the format `your_article_title.md`. Copy the following template into the new page:
 
 ```
 ---
@@ -44,7 +44,7 @@ Now it's just a matter of replacing the content above with the actual page conte
 
 ## Adding pages to the side navigation
 
-First, you have to determine your page reference. The *page reference* is a combination of the path to the page from the [docs](https://github.com/WildMeOrg/wildme-docs/tree/master/docs) folder and the ID of the page. These two bits of information are combined with a forward slash `/`.
+First, you have to determine your page reference. The *page reference* is a combination of the path to the page from the [docs](https://github.com/WildMeOrg/wildme-docs/tree/main/docs) folder and the ID of the page. These two bits of information are combined with a forward slash `/`.
 
 For example, if your page is located at `/docs/researchers/features/newpage.md` and newpage.md contains
 
@@ -57,13 +57,13 @@ title: Manual Annotation
 This article is about a new feature called...
 ```
 
-then your reference would be `researchers/features/manual_annotation`. Now all you need to do is edit the [sidebar definition file](https://github.com/WildMeOrg/wildme-docs/edit/master/sidebars.js) to include your new menu item. After you add the page reference in the appropriate location, scroll to the bottom of the page and write a brief description of your change. Click "propose changes" and they will be sent to Wild Me staff for review.
+then your reference would be `researchers/features/manual_annotation`. Now all you need to do is edit the [sidebar definition file](https://github.com/WildMeOrg/wildme-docs/edit/main/sidebars.js) to include your new menu item. After you add the page reference in the appropriate location, scroll to the bottom of the page and write a brief description of your change. Click "propose changes" and they will be sent to Wild Me staff for review.
 
 ## Adding images
 
 Images must be added to the docs _before_ they can be used in a page. First, rename your image files using the following format: `page_name_imagenumber.format`. For example, the third image on the "Researcher overview page" should be named `researcher_overview_3.jpg`.
 
-Go to the [img folder](https://github.com/WildMeOrg/docusaurus-test/tree/master/static/img) and click "add file" in the upper right hand corner.  Click "upload files", drag the images in, and wait for the upload to finish.  When the uploads finish, scroll to the bottom of the page and write a brief description of the images you added. Click "propose changes" and they will be sent to Wild Me staff for review.
+Go to the [img folder](https://github.com/WildMeOrg/wildme-docs/tree/main/static/img) and click "add file" in the upper right hand corner.  Click "upload files", drag the images in, and wait for the upload to finish.  When the uploads finish, scroll to the bottom of the page and write a brief description of the images you added. Click "propose changes" and they will be sent to Wild Me staff for review.
 
 To use an image in a page, use the following format:
 

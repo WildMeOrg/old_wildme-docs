@@ -21,7 +21,7 @@ The fastest and easiest way to contribute is to clone the repository and run the
 
 ## Editing documentation 
 
-The documentation is located in the `docs` folder. Each markdown file is used to generate a single page of documentation. To set this up properly, each markdown file has a header that starts and ends with `---`. There are a number of options you can specify, but the required options are `id` and `title`. Take a look at the [markdown file](https://github.com/WildMeOrg/wildme-docs/blob/master/docs/technical_how_to_edit.md) that generates this page for an example. 
+The documentation is located in the `docs` folder. Each markdown file is used to generate a single page of documentation. To set this up properly, each markdown file has a header that starts and ends with `---`. There are a number of options you can specify, but the required options are `id` and `title`. Take a look at the [markdown file](https://github.com/WildMeOrg/wildme-docs/blob/main/docs/technical_how_to_edit.md) that generates this page for an example. 
 
 When you create a new page, you can add it to the navigation component by registering it in `sidebars.js`. In this file each page is referred to by its path relative to the `docs` folder plus the page ID. For example if you create a page with ID `new_features` in `/docs/researchers/news/newFeatures.md`, you could refer to that page as `researchers/news/new_features`. 
 

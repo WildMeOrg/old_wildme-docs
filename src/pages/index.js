@@ -10,7 +10,7 @@ const features = [
   {
     title: "Researcher guide",
     imageUrl: "img/undraw_researching.svg",
-    buttonUrl: "docs/researchers/codex/introduction",
+    buttonUrl: "docs/researchers/codex/codex-introduction",
     buttonText: 'View guide',
     description: (
       <>

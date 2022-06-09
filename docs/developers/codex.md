@@ -17,7 +17,7 @@ When moving to a new system it is important to understand the issues that the ne
 
 In Wildbook, all uploads and queries all go through the java stack.  Once in the world of java/postgresql there is a significant amount of duplication and coordination between that and Sage (previously known as WBIA and IBEIS) to do the computer vision. This creates a bottleneck, complexity (and inconsistent data), and is difficult to maintain.
 
-The major difference between the wildbooks is that each has custom attributes in both the SAGE and EDM data. Water depth is a valid attribute for a whaleshark but not a giraffe. These are managed as different git branches in the respository. This means the code is duplicated rather than shared across wildbooks. In Codex there will be one version of the code and the wildbook specific attributes will be set up using configuration files.
+The major difference between the wildbooks is that each has custom attributes in both the Sage and EDM data. Water depth is a valid attribute for a whaleshark but not a giraffe. These are managed as different git branches in the respository. This means the code is duplicated rather than shared across wildbooks. In Codex there will be one version of the code and the wildbook specific attributes will be set up using configuration files.
 
 Further, Wildbook used java jsp to construct the user interface, which is slow, error-prone, inconsistent in look and feel, and very difficult to maintain or learn.
 
@@ -26,7 +26,7 @@ The goal with Codex is to streamline the architecture of the entire system, redu
 # Codex
 Codex reuses some of the parts of the Wildbook while adding new components an a new architecture. 
 
-Wildbook accesses SAGE via a REST API. The main aspect of the move to Codex is to split the java in Wildbook into:
+Wildbook accesses Sage via a REST API. The main aspect of the move to Codex is to split the java in Wildbook into:
    - The EDM that manages the ecological data.
    - The management of access to the data by houston.
 
@@ -37,14 +37,14 @@ Overview of functionality mapping between Wildbook and Codex
 | Wildbook          | Codex                                                                                                                                           | Amount of work                                          |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
 | Java Application | Split into front end houston block (new) that handles access and back end EDM block that handles the ecological data (port from classic Wildbook). | Very large                                              |
-| WBIA            | Renamed to SAGE. Scalability to be added.                                                                                                         | Was already accessed via REST API so not a huge amount. |
+| WBIA            | Renamed to Sage. Scalability to be added.                                                                                                         | Was already accessed via REST API so not a huge amount. |
 | N/A              | Submission gitlab for storing incoming data before processing and potentially data backup                                                          | Minimal.                                                |
 
 Houston is used to refer to 
    - The new flask based python component to manage user interactions with the system.
    - The entire frontend container containing Houston (flask python), the frontend and the user databases to manage access. 
 
-## SAGE
+## Sage
  
    - Uses the images received from users to generate annotations: A record of the location and class (usually species) of things it found. 
    - These annotations are returned to Houston and used to make system decisions like creating more encounters for multi animal images, and gathering sets of images for identification. 
@@ -55,7 +55,7 @@ Houston is used to refer to
 
 The Houston flask component is the new frontend system co-ordinator that will manage user access and all inter module communication. It receives all user requests, determines which modules process the requests and how the responses are handled.
 
-The Houston database contains lightweight reference versions of data found both in the EDM and SAGE, and retrieves the full record from each to display to users when permitted.
+The Houston database contains lightweight reference versions of data found both in the EDM and Sage, and retrieves the full record from each to display to users when permitted.
 
 The operation of Houston is described in more detail on the [Houston](/docs/developers/houston) page.
 
@@ -67,23 +67,23 @@ To show how houston is expected to operate a number of use cases will be describ
       * Metadata is used to create AssetGroup and AssetGroupSighting records.
       * All Images for the upload are saved into a single AssetGroup on a local Gitlab instance.
       * Images are used to create Assets, which will be later associated with encounters. 
-   * Houston sends image to SAGE for detectionn. 
-      * Houston receives Annotation data from SAGE and creates lightweight Annotation records.
+   * Houston sends image to Sage for detectionn.
+      * Houston receives Annotation data from Sage and creates lightweight Annotation records.
       * The derived Annotation records are associated with the sent Asset, and available for researchers to use in matching.
-      * An Asset does not always require an Annotation. SAGE detection may not find anything useful but this Asset will be reported as part of the Integrity checking for potential removal.
+      * An Asset does not always require an Annotation. Sage detection may not find anything useful but this Asset will be reported as part of the Integrity checking for potential removal.
 
 **Data query use case : Authorised user queries data.**
    * Houston validates that user is authorised (they are).
    * Houston requests data from EDM according to user request.
-   * Houston requests assets from SAGE associated with user request.
-   * Houston displays combined ECM and SAGE data to user.
+   * Houston requests assets from Sage associated with user request.
+   * Houston displays combined ECM and Sage data to user.
 
 **Data management use case : Researcher user curates and commits AssetGroupSighting from anonymous user.** 
    * Houston validates that user is authorised (they are).
    * Front End promts user to curate the annotations into clusters, one per animal that will be used to create Encounters.
    * Once all Annotations are associated with Encounters the user commits the AssetGroupSighting in the frontend.
    * On commit a Sighting and the Encounters are created in Houston and the appropriate data is stored in EDM.
-   * Commit also starts the Identification process in SAGE.
+   * Commit also starts the Identification process in Sage.
    * Once Identification is complete, the Frontend promts the user to associate the annotation with an existing Individual or create a new one.
    
 
@@ -134,7 +134,7 @@ The bulk import and form submissions overviews below should explain differences 
 * The form allows designation of multiple encounter records within the sighting.
    * These can be different species and have different metadata, but must be in the same time span and location.
    * Multiple encounters within the sighting should reference the same image only if the image contains multiple animals.
-* Images from form submission sightings are automatically sent to SAGE once metadata is validated.
+* Images from form submission sightings are automatically sent to Sage once metadata is validated.
 
 The back-end overview below describes behaviors common to bulk and form data submission.
 These actions occur in Houston and the EDM after one of the two above input paths are followed.
@@ -146,9 +146,9 @@ These actions occur in Houston and the EDM after one of the two above input path
    * This becomes a convenient way to reference sets of images in the system.
    * Single images are used to create Asset objects in Houston. Encounters retain collections of assets.
 
-* Assets processed by SAGE will return Annotation data to Houston if the image contains identifiable information.
+* Assets processed by Sage will return Annotation data to Houston if the image contains identifiable information.
    * An Asset can have any number of annotations.
    * Annotation data is includes bounding box dimensions, detected class, pipeline status and identification viability. 
-   * Houston does not store the Annotation data beyond creating a lightweight pointer to SAGE attached to the Asset.
+   * Houston does not store the Annotation data beyond creating a lightweight pointer to Sage attached to the Asset.
    * If an asset is found to contain multiple animal annotation, it is the responsibility of the researcher user to curate the annotations into multiple Encounters.
 

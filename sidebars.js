@@ -79,6 +79,7 @@ module.exports = {
 					"researchers/sighting",
 					"researchers/security_overview",
 					"researchers/whatsnew",
+					"researchers/faq",
 				]
 			},
 			"researchers/firstlogin",

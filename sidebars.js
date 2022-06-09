@@ -1,40 +1,124 @@
 module.exports = {
   researcherSidebar: {
-    Introduction: [
-      "researchers/overview",
-      "researchers/ia_pipeline",
-      "researchers/data_entry",
-      "researchers/encounter_guide",
-      "researchers/marked_individual",
-      "researchers/sighting",
-      "researchers/security_overview",
-      "researchers/whatsnew",
-      "researchers/faq",
+    Codex: [
+      "researchers/codex/codex-firstlogin",
+      {
+        "type": "category",
+        "label": "Introduction",
+        "items": [
+          "researchers/codex/codex-introduction",
+          "researchers/codex/codex-standardreporting",
+          "researchers/codex/codex-bulkreporting",
+          "researchers/codex/codex-imageanalysis"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Data",
+        "items": [
+          "researchers/codex/codex-data",
+          "researchers/codex/codex-dataformat",
+          "researchers/codex/codex-datasearch",
+          "researchers/codex/codex-datamatch"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Security",
+        "items": [
+          "researchers/codex/codex-security",
+          "researchers/codex/codex-securityoverview",
+          "researchers/codex/codex-securitymyaccount",
+          "researchers/codex/codex-securitycollaborations"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Set Up",
+        "items": [
+          "researchers/codex/codex-setup",
+          "researchers/codex/codex-systemrequirements",
+          "researchers/codex/codex-initialconfiguration",
+          {
+            "type": "category",
+            "label": "Control Panel",
+            "items": [
+              "researchers/codex/codex-controlpanel",
+              "researchers/codex/codex-controlpanel-generalsettings",
+              "researchers/codex/codex-controlpanel-splashpage",
+              "researchers/codex/codex-controlpanel-managefields",
+              "researchers/codex/codex-controlpanel-sitestatus",
+              "researchers/codex/codex-controlpanel-generalsettings"
+            ]
+          },
+          {
+            "type": "category",
+            "label": "Manage Users",
+            "items": [
+              "researchers/codex/codex-controlpanel-manageusers",
+              "researchers/codex/codex-controlpanel-manageusers-dataroles",
+            ]
+          },
+          "researchers/codex/codex-controlpanel-administration",
+
+        ]
+      },
+      "researchers/codex/codex-faq"
     ],
-    Quickstart: ["researchers/firstlogin"],
-    Data: [
-      "researchers/photography_guidelines",
-      "researchers/report_encounter",
-      "researchers/bulk_import",
-      "researchers/matching_process",
-      "researchers/manual_annotation",
-      "researchers/searching",
-      "researchers/projects",
-      "researchers/locationID",
-      "researchers/r_package",
-    ],
-    Security: [
-      "researchers/security_overview",
-      "researchers/my_account",
-      "researchers/silo_security",
-      "researchers/org_admin",
-      "researchers/site_admin",
-    ],
-    Specifications: [
-      "researchers/system_requirements",
-      "researchers/unsupported_developer_tools",
-      "researchers/configuration",
-    ],
+
+    Wildbook: [
+      {
+        "type": "category",
+        "label": "Introduction",
+        "items": [
+          "researchers/overview",
+          "researchers/ia_pipeline",
+          "researchers/data_entry",
+          "researchers/encounter_guide",
+          "researchers/marked_individual",
+          "researchers/sighting",
+          "researchers/security_overview",
+          "researchers/whatsnew",
+          "researchers/faq",
+        ]
+      },
+      "researchers/firstlogin",
+      {
+        "type": "category",
+        "label": "Data",
+        "items": [
+          "researchers/photography_guidelines",
+          "researchers/report_encounter",
+          "researchers/bulk_import",
+          "researchers/matching_process",
+          "researchers/manual_annotation",
+          "researchers/searching",
+          "researchers/projects",
+          "researchers/locationID",
+          "researchers/r_package",
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Security",
+        "items": [
+          "researchers/security_overview",
+          "researchers/my_account",
+          "researchers/silo_security",
+          "researchers/org_admin",
+          "researchers/site_admin",
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Specifications",
+        "items": [
+          "researchers/system_requirements",
+          "researchers/unsupported_developer_tools",
+          "researchers/configuration",
+        ]
+      }
+    ]
   },
   developerSidebar: {
     Introduction: [
@@ -59,9 +143,8 @@ module.exports = {
     Codex: [
       "developers/codex_overview",
       "developers/houston",
-      "developers/elasticsearch",
       "developers/codex_frontend",
-      "developers/debugging",	
+      "developers/debugging",
       {
         type: "category",
         label: "EDM API",

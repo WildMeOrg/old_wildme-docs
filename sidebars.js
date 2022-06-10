@@ -143,6 +143,7 @@ module.exports = {
     Codex: [
       "developers/codex_overview",
       "developers/houston",
+      "developers/elasticsearch",
       "developers/codex_frontend",
       "developers/debugging",
       {

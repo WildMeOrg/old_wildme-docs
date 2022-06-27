@@ -26,7 +26,7 @@ On your computer, organize the photos you'd like to upload into a single folder.
 
 If you have file names that are the same, either rename the duplicates or upload the duplicates in a separate batch.
 
-Remember, the image names must correspond exactly to the "Encounter.MediaAsset" entries in your Wildbook Standard Format spreadsheet.
+Remember, the image names must correspond exactly to the "Encounter.MediaAsset" entries in your Wildbook Standard Format spreadsheet. Special characters are removed from file names. File names must be unique, even with special characters removed. We recommend removing special characters before uploading to check for potential collisions.
 
 ### Spreadsheet set-up
 

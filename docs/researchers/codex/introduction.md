@@ -5,7 +5,7 @@ title: An Introduction to Codex
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-Codex is a web-based, multi-user software platform designed to help researchers collaboratively track individual animals in wildlife populations and estimate population size. Each Codex installation can be used by multiple researchers and organizations to study multiple species across disperse or narrow regions. Codex is also valuable as a catalog reconciliation tool.
+Codex is a web-based, multi-user software platform designed to help researchers collaboratively track individual animals in wildlife populations and estimate population size. Each Codex installation can be used by multiple researchers and organizations to study multiple species across diverse regions. Codex is also valuable as a catalog reconciliation tool.
 
 ## About Codex
 

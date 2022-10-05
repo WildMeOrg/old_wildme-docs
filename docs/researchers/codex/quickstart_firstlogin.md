@@ -9,7 +9,11 @@ This Quickstart topic covers some basic tasks and concepts when first logging in
 
 ## Account Registration
 
-TBD
+Navigate to the invitation request page by clicking “Request an invitation” on the Login page or at the very bottom of the Welcome page under the Account section of the footer. Alternatively, you may directly visit the page by adding "/request" to the end of your codex instance's base URL.
+
+To request your invitation, simply provide the email address you’d like to be associated with your account, your full name, and an optional message detailing the reason(s) for your request.
+
+If invited, you will receive an email at the provided address with your temporary login information.
 
 ## Change Your Password 
 

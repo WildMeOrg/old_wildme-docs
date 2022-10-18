@@ -1231,7 +1231,7 @@ for aids in aids_list:
 
 ## Conclusion
 
-All of the above detection components are trained separately and evaulated independently.  In general, the process is to exract the training data as a separate dataset on disk, train a new model on that dataset, evaulate the model by downloading it from an external CDN, and then deploying the model by editing the WBIA (or plug-in) code to enable the new configuration.  Once the code has been modified, a new WBIA Docker image can be built and a given WBIA instance can be updated to the latest image version to get access to the latest models.
+All of the above detection components are trained separately and evaluated independently.  In general, the process is to exract the training data as a separate dataset on disk, train a new model on that dataset, evaluate the model by downloading it from an external CDN, and then deploying the model by editing the WBIA (or plug-in) code to enable the new configuration.  Once the code has been modified, a new WBIA Docker image can be built and a given WBIA instance can be updated to the latest image version to get access to the latest models.
 
 ### Download Example WBIA Database
 

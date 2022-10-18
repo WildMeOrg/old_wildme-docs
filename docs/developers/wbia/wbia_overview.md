@@ -1,7 +1,7 @@
 ---
 id: wbia_overview
 title: Wildbook IA Overview
-sidebar_label: Wildbook IA Overview
+sidebar_label: Overview
 ---
 
 Wildbook Image Analysis (WBIA or Wildbook IA) is a computer vision program for analyzing photos of animals and answering important biological questions. It aims to detect animals in photographs, label their species, and identify which individual animals they are; answering who, what, and where in wildlife images. WBIA contains tools to answer these questions as well as a structured database to store images and their derived data.
@@ -22,13 +22,13 @@ WBIA is build around an SQLite database, a web GUI, and matplotlib visualization
 
 The WBIA software is now available on [pypi](https://pypi.org/project/wbia/) for Linux systems. This means if you have [Python installed](https://xdoctest.readthedocs.io/en/latest/installing_python.html). You can simply run:
 
-```
+```bash
 pip install wbia
 ```
 
 to install the software. Then the command to run the GUI is:
 
-```
+```bash
 wbia
 ```
 
@@ -38,7 +38,7 @@ We highly recommend using a Python virtual environment: https://docs.python-guid
 
 The WBIA software is built and deployed as a Docker image `wildme/wbia`.  You can download and run the pre-configured instance from the command line using:
 
-```
+```bash
 # Install Docker - https://docs.docker.com/engine/install/
 docker pull wildme/wbia:latest
 docker container run -p <external port>:5000 --name wildbook-ia -v /path/to/local/database/:/data/docker/ wildme/wbia:latest
@@ -110,7 +110,7 @@ Miscellaneous (Reference)
 
 The package documentation is built and available online at [wildmeorg.github.io/wildbook-ia/](http://wildmeorg.github.io/wildbook-ia/). To build the docs locally,
 
-```
+```bash
 # checkout the source code
 # install the project in development mode
 pip install -e .
@@ -121,7 +121,6 @@ scripts/build-docs.sh
 
 The WBIA documentation style uses a modified version of Sphinx `doctests` for all documentation and testing.  The ability to write good documentation directly in the header of the function is of high value to any contributor to the WBIA code base and any plugin maintainer; please document your contributions!
 
-
 ## Code Style and Development Guidelines
 
 ### Contributing
@@ -130,7 +129,7 @@ It's recommended that you use ``pre-commit`` to ensure linting procedures are ru
 
 Reference [pre-commit's installation instructions](https://pre-commit.com/#install) for software installation on your OS/platform. After you have the software installed, run ``pre-commit install`` on the command line. Now every time you commit to this project's code base the linter procedures will automatically run over the changed files.  To run pre-commit on files preemtively from the command line use:
 
-```
+```bash
 git add .
 pre-commit run
 
@@ -149,7 +148,7 @@ Try to conform to PEP8.  You should set up your preferred editor to use flake8 a
 
 To run flake8 from the command line use:
 
-```
+```bash
 flake8
 ```
 
@@ -176,31 +175,31 @@ Writing good Python code is subjective but a linter will help to make all Python
 
 Our code uses Google-style documentation tests (doctests) that uses pytest and xdoctest to enable full support.  To run the tests from the command line use:
 
-```
+```bash
 pytest
 ```
 
 To run doctests with `+REQUIRES(--web-tests)` do:
 
-```
+```bash
 pytest --web-tests
 ```
 
 The immediate benefit of this structure  is that documentation can live alongside parameter specifications, REST API endpoints, and unit testing code block(s). To run a given test code block, one must simply tell python to execute the module and pass in the function name and the test index.  For example, if you want to run the first code test for the function ibs.wbia_plugin_id_hello_world() in this file, you can call
 
-```
+```bash
 python -m wbia_id._plugin --test-wbia_plugin_id_hello_world:0
 ```
 
 Note the `:0` index specifier at the end of this Command Line call.  To run all of the tests for a specified function, you must remove any post-fix.  For example,
 
-```
+```bash
 python -m wbia_id._plugin --test-wbia_plugin_id_hello_world
 ```
 
 will run all of the tests for that function.  To run all tests for an entire file, you can simply call:
 
-```
+```bash
 python -m wbia_id._plugin --allexamples
 ```
 We also provide a handy script at the top level path for this repository called `run_tests.py` that will execute all of the tests for all files.  A summary report `timeings.txt` and `failed_doctests.txt` will be created for each run.
@@ -211,7 +210,7 @@ When run in bulk, you may with to disable a specific test from the set of all te
 
 On top of a large suite of tools, utool (referred to as `ut`) also offers profiling functions for code segments.  To see this in action, run any Python CLI command (e.g. a test) with the extra CLI parameter `--profile` at the end. Any function that has the `@profile` decorator on the function will be profiled for run-time efficiency.  For example, running from the CLI:
 
-```
+```bash
 python -m wbia_id._plugin --test-wbia_plugin_id_file_download:1 --profile
 ```
 
@@ -256,14 +255,13 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
 
 This output tells us that we spent 0.1369 seconds and 99.9% of our total run-time in this function downloading the file on line 587.  This output is very helpful for any developer wishing to optimize the run-time performance of their code.
 
-
 ## WBIA Controller and Database
 
 WBIA supports dynamically-injected methods to the controller object.  Any function that you wrap with the `@register_ibs_method` decorator is automatically added to the controller as `ibs.<function_name>()` method.  The function then becomes accessible anywhere in the codebase if one has access to the WBIA controller.
 
 For example,
 
-```
+```python
 @register_ibs_method
 def new_plugin_function(ibs, parameter1, *args, **kwargs):
     return '%s in %s' (parameter1, ibs.dbname, )
@@ -272,9 +270,10 @@ def new_plugin_function(ibs, parameter1, *args, **kwargs):
 will be accessible at `ibs.new_plugin_function('test')` and will return the value `test for testdb_identification` when executed if the database's containing folder is named `testdb_identification`.
 
 ### Database Structure
+
 A WBIA database, at its core, is simply a folder on the local file system. WBIA uses SQLite3 and static folders for all of its database and asset storage and has the following structure:
 
-```
+```bash
 wbia_database_folder/
     _ibsdb/
         _wbia_backups/
@@ -314,7 +313,7 @@ There are 5 main data constructs in WBIA:
 
 In general, a single instance of the WBIA code base only has one WBIA controller (commonly referred to by the variable name `ibs`) and is the primary development handle for any new features.  The controller is packed with very handy functions, including:
 
-```
+```python
 gid_list = ibs.get_valid_gids()  # returns the internal rowids for images
 aid_list = ibs.get_valid_aids()  # returns the internal rowids for annotations
 nid_list = ibs.get_valid_nids()  # returns the internal rowids for names
@@ -322,7 +321,7 @@ nid_list = ibs.get_valid_nids()  # returns the internal rowids for names
 
 These lists of internal rowids allow for a wide range of adders, getters, setters, deleters and algorithm calls.  For example,
 
-```
+```python
 image_gps_list  = ibs.get_image_gps(gid_list)    # Returns a parallel list of image 2-tuple (lat, lon) GPS coordinates
 
 annot_uuid_list = ibs.get_annot_uuids(aid_list)  # Returns a parallel list of annotation UUIDs
@@ -341,13 +340,13 @@ Any function that is decorated by `@register_ibs_method` should accept the WBIA 
 
 IMPORTANT: To be enabled, a plugin must be manually registered with the WBIA controller.  The registration process involves adding the module import name for this `_plugin.py` file to a list of plugins.  This list lives in the main WBIA repository at:
 
-```
+```bash
 wbia/wbia/control/WBIAControl.py
 ```
 
 The plugin must be added to the list with variable name `AUTOLOAD_PLUGIN_MODNAMES` at the top of the file.  On load, the WBIA controller will add its own injected controller functions and will then proceed to add any external plugin functions.  The injection code will look primarily for any functions with the `@register_ibs_method decorator`, but will also add any of the decorators described below for web requests.
 
-```
+```python
 _, register_ibs_method = controller_inject.make_ibs_register_decorator(__name__)
 ```
 
@@ -361,12 +360,12 @@ There already exists an extensive REST API that mirrors the existing Python
 API, but is a curated subset of useful functions.  For example, the Python API
 function
 
-```
+```python
 gps_list = ibs.get_image_gps(gid_list=[1,2,3] )
 ```
 
 has a mirrored REST API interface at the endpoint
-```
+```http
 [GET] /api/image/gps/?gid_list=[1,2,3]
 ```
 and returns a JSON-formatted response with the same contents for gps_list.
@@ -385,7 +384,7 @@ The REST API has a background job engine.  The purpose of the job engine is to p
 
 A user or application can query on the status of a background job, get its original request metadata, and retrieve any results.  The job engine supports automatic callbacks with a specified URL and HTTP method when the job is complete.
 
-```
+```python
 register_api = controller_inject.get_wbia_flask_api(__name__)
 register_route = controller_inject.get_wbia_flask_route(__name__)
 ```
@@ -426,7 +425,7 @@ The WBIA dependency cache infrastructure designates three ROOT object types for 
 
 We provide an example below on how to create your own custom depc and decorator function
 
-```
+```python
 register_preproc_image = controller_inject.register_preprocs['image']
 register_preproc_annot = controller_inject.register_preprocs['annot']
 register_preproc_part  = controller_inject.register_preprocs['part']
@@ -436,7 +435,7 @@ register_preproc_part  = controller_inject.register_preprocs['part']
 
 Note 1: The WBIA code base has a constants file for a lot of convenient conversions and names of constructs.  This constants module also keeps track of very convenient environment variables:
 
-```
+```python
 wbia.constants.CONTAINERIZED  (Set to True if running inside a Docker container)
 wbia.constants.PRODUCTION     (Set to True if running in production mode)
 ```
@@ -445,7 +444,7 @@ When PRODUCTION is set to True, please observe a restraint in resource utilizati
 
 Note 2: We suggest to use interactive embedding with utool.embed() whenever and wherever possible.  The use of ut.embed() (we commonly import `utool` with the shorthand namespace of `ut`) is used throughout the WBIA code base and is supremely helpful when debugging troublesome code.  We have set an example below that uses ut.embed() in the ibs.wbia_plugin_id_hello_world() documentation.  We highly recommend calling this function's example test and play around with the ibs controller object.  The ibs controller supports `TAB` completion for all method functions.  For example, when in the embedded iPython terminal, you can input:
 
-```
+```python
 In [1]: ibs
 Out[1]: <WBIAController(testdb_identification) with UUID 1654bdc9-4a14-43f7-9a6a-5f10f2eaa279>
 
@@ -463,7 +462,7 @@ In [4]: ibs.get_image_p <tab complete>
 
 This embedded terminal shows all of the WBIA functions that start with the prefix `ibs.get_image_p`, for example `ibs.get_image_paths()`.  If you are unsure about the API specification for this function, you can ask help from Python directly in the embedded session.
 
-```
+```python
 In  [5]: help(ibs.get_image_paths)
 Out [5]: Help on method get_image_paths in module wbia.control.manual_image_funcs:
 
@@ -505,7 +504,7 @@ The embedded session will dump out the doctest (hopefully with parameter and exa
 
 If you use this code or its models in your research, please cite:
 
-```
+```ts
 @inproceedings{crall2013hotspotter,
     title={Hotspotter — patterned species instance recognition},
     author={Crall, Jonathan P and Stewart, Charles V and Berger-Wolf, Tanya Y and Rubenstein, Daniel I and Sundaresan, Siva R},
@@ -540,8 +539,6 @@ If you use this code or its models in your research, please cite:
 }
 ```
 
-
-
 ## Conclusion
 
 Support for WBIA is maintained by Wild Me.
@@ -549,4 +546,3 @@ Support for WBIA is maintained by Wild Me.
 Wild Me is a non-profit located in Portland, OR, USA.
 
 Please refer any questions to dev@wildme.org or https://github.com/WildMeOrg/wildbook-ia .
-

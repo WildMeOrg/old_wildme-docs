@@ -66,6 +66,42 @@ module.exports = {
       "researchers/codex/codex-faq"
     ],
 
+    Scout: [
+      {
+        "type": "category",
+        "label": "Introduction",
+        "items": [
+          "researchers/scout/who-should-read",
+          "researchers/scout/system-requirements",
+          "researchers/scout/system-installation",
+          "researchers/scout/scount-install-setup"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Lab Lead: Scout Configuration",
+        "items": [
+          "researchers/scout/first-scout-login",
+          "researchers/scout/manage-users",
+          "researchers/scout/manage-tasks",
+          "researchers/scout/ground-truth",
+          "researchers/scout/draw-division-lines",
+          "researchers/scout/export-data",
+          "researchers/scout/evaluate-performance"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Annotator: Image Annotation",
+        "items": [
+          "researchers/scout/log-in",
+          "researchers/scout/find-tasks",
+          "researchers/scout/annotate-images"
+        ]
+      },
+      "researchers/scout/support-faq"
+    ],
+    
     Wildbook: [
       {
         "type": "category",

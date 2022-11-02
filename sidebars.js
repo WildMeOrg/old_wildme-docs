@@ -74,7 +74,7 @@ module.exports = {
           "researchers/scout/who-should-read",
           "researchers/scout/system-requirements",
           "researchers/scout/system-installation",
-          "researchers/scout/scount-install-setup"
+          "researchers/scout/scout-install-setup"
         ]
       },
       {

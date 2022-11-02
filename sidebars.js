@@ -136,8 +136,9 @@ module.exports = {
           "https://docs.google.com/document/d/1o1BDHzf2FV-LTShPLgqoNJBLJnQN-tfe50lHlm92qX8/edit#heading=h.1ylnnzcj18n1",
       },
     ],
-    "Wildbook IA": [
+    "Wildbook IA (WBIA)": [
       "developers/wbia/wbia_overview",
+      "developers/wbia/wbia_pipeline",
       "developers/wbia/wbia_plugins"
     ],
     Codex: [

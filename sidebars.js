@@ -67,11 +67,11 @@ module.exports = {
     ],
 
     Scout: [
+    "researchers/scout/who-should-read",
       {
         "type": "category",
-        "label": "Introduction",
+        "label": "System Admin: System Set Up",
         "items": [
-          "researchers/scout/who-should-read",
           "researchers/scout/system-requirements",
           "researchers/scout/system-installation",
           "researchers/scout/scout-install-setup"
@@ -92,7 +92,7 @@ module.exports = {
       },
       {
         "type": "category",
-        "label": "Annotator: Image Annotation",
+        "label": "All Users: Image Annotation",
         "items": [
           "researchers/scout/log-in",
           "researchers/scout/find-tasks",

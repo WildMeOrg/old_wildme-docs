@@ -223,7 +223,7 @@ To speed up the WBIA web interface for online reviews, run the following functio
 *  ``ibs.precompute_web_detection_thumbnails()``
 *  ``ibs.precompute_web_viewpoint_thumbnails()``
 
-Once the ground-truth is annotated, you can use the [detector training instructions ](developers/wbia/wbia_pipeline.md) to train and deploy new models.
+Once the ground-truth is annotated, you can use the [detector training instructions](developers/wbia/wbia_pipeline.md) to train and deploy new models.
 
 ### Making Train/Test Sets
 

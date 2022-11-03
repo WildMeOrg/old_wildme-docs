@@ -8,7 +8,7 @@ module.exports = {
         "items": [
           "researchers/codex/codex-introduction",
           "researchers/codex/codex-standardreporting",
-          "researchers/codex/codex-bulkreporting",
+          "researchers/codex/bulk_reporting",
           "researchers/codex/codex-imageanalysis"
         ]
       },
@@ -118,6 +118,9 @@ module.exports = {
           "researchers/configuration",
         ]
       }
+    ],
+    "Wildbook IA": [
+      "researchers/wbia/wbia_ggr"
     ]
   },
   developerSidebar: {

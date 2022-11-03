@@ -5,14 +5,14 @@ You must have set up the system, software, and NAS installation before Scout can
 
 To pull the latest container version of Scout while connected to the Internet, enter the following in the Ubuntu Terminal:
 
-docker pull scoutproject/scout:latest
+docker pull wildme/scout:latest
 
 ## Running Scout (Offline or online)
 To run Scout:
 
 1. Run the following command in the Ubuntu Terminal to launch the Scout Docker container. 
 
-    docker run --privileged -p 1337:1337 --rm -it --gpus all --mount type=bind,source=/nas,target=/nas -e ENV_IP="`ip route get 1 | sed 's/^.*src \([^ ]*\).*$/\1/;q'`" -v ~/:/data/db -v ~/tmp:/tmp/scout-tmp scoutproject/scout:latest
+    docker run --privileged -p 1337:1337 --rm -it --gpus all --mount type=bind,source=/nas,target=/nas -e ENV_IP="`ip route get 1 | sed 's/^.*src \([^ ]*\).*$/\1/;q'`" -v ~/:/data/db -v ~/tmp:/tmp/scout-tmp wildme/scout:latest
 
     Note: An Internet connection is required for the first installation. Each subsequent execution of the command either 1) pulls and runs the latest version of Scout if an Internet connection is present or 2) runs the existing container if no Internet connection is present.
 
@@ -24,9 +24,9 @@ To run Scout:
 
 3. After entering the full path of the upload image directory, Scout starts normally.
 
-> latest: Pulling from scoutproject/scout
+> latest: Pulling from wildme/scout
 > Digest: sha256:65316698984ac186823873406728e877cb169eb69f25d07bcb87e9c2b8e45994
-> Status: Image is up to date for scoutproject/scout:latest
+> Status: Image is up to date for wildme/scout:latest
 >  * Starting database mongodb                                             [ OK ] 
 > 
 > > scout-mvp@0.0.1 start

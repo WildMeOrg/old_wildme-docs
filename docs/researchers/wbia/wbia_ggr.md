@@ -8,7 +8,7 @@ This documentation presents the full procedure on how to use the WBIA toolkit to
 
 ## Overview of the Great Grevy's Rally
 
-The Great Grevy's Rally (GGR) is a large-scale photographic census of the entire Grevy's zebra population in Kenya.  The current GGR process is an improved successor to the prototype process established during the Great Zebra and Giraffe Count (GZGC) from "Photographic censusing of zebra and giraffe in the Nairobi National Park" by Dr. Jason Parham.  The GZGC was held March 1-2, 2015 at the Nairobi National Park in Nairobi, Kenya, and was organized to estimate the resident populations of Masai giraffes (*Giraffa camelopardalis tippelskirchi*) and Plains zebras (*Equus quagga*) within the park.  
+The Great Grevy's Rally (GGR) is a large-scale photographic census of the entire Grevy's zebra population in Kenya.  The current GGR process is an improved successor to the prototype process established during the Great Zebra and Giraffe Count (GZGC) from "Photographic censusing of zebra and giraffe in the Nairobi National Park" by Dr. Jason Parham.  The GZGC was held March 1-2, 2015 at the Nairobi National Park in Nairobi, Kenya, and was organized to estimate the resident populations of Masai giraffes (*Giraffa camelopardalis tippelskirchi*) and Plains zebras (*Equus quagga*) within the park.
 
 In contrast, the GGR was first held on January 30-31, 2016 in the Laikipia region of central and northern Kenya, covering the known range of Grevy's zebra within the country.  The GGR was repeated on January 27-28, 2018 for the same survey area and added a second census on reticulated giraffes (*Giraffa reticulata*).  A third census was also completed in early 2020 but has yet to be processed.  The map below provides a map of Kenya and the respective survey areas for each of the three censusing rallies.  We can see that the area covered by the GGR events is much larger than the GZGC, incorporates the conservation areas of multiple Kenyan counties, and is concerned with an open animal population.
 
@@ -16,13 +16,13 @@ In contrast, the GGR was first held on January 30-31, 2016 in the Laikipia regio
 
 ### Overview of Analysis
 
-Both Great Grevy's Rally censusing events followed the same procedure, presented as a complete process flow diagram in the below process diagram.  One of the primary benefits is that all of the machine learning components can be bootstrapped as the analysis proceeds with the help of human annotators.  This design is crucial as ready-to-go, pre-existing machine learning models are not available for most endangered species. Furthermore, once the machine learning components are successfully trained, they can be reused for future events with the same collection procedure and species of interest.  
+Both Great Grevy's Rally censusing events followed the same procedure, presented as a complete process flow diagram in the below process diagram.  One of the primary benefits is that all of the machine learning components can be bootstrapped as the analysis proceeds with the help of human annotators.  This design is crucial as ready-to-go, pre-existing machine learning models are not available for most endangered species. Furthermore, once the machine learning components are successfully trained, they can be reused for future events with the same collection procedure and species of interest.
 
 The entire GGR workflow goes beyond the above processing chart because it does not include details on the data collection.  For example, images must be collected from citizen scientists and are then aggregated and synchronized for accurate GPS and time metadata.  There is a large discussion on how to properly organize and incentivize a large-scale data collection with volunteers, which can be found in "Animal Detection for Photographic Censusing" by Dr. Jason Parham.
 
 ![Analysis Workflow](../../../static/img/ggr_process.jpg)
 
-Prior to using this document, the reader is suggested to already be familiar with the [overview of the WBIA software](developers/wbia/wbia_overview.md) and [its plug-ins](developers/wbia/wbia_plugins.md) prior to reading and using this documentation.  
+Prior to using this document, the reader is suggested to already be familiar with the [overview of the WBIA software](developers/wbia/wbia_overview.md) and [its plug-ins](developers/wbia/wbia_plugins.md) prior to reading and using this documentation.
 
 *The above introduction and some of the content of this page have been adapted from the dissertation "Animal Detection for Photographic Censusing" by Dr. Jason Parham, the original author of this content.*
 
@@ -151,7 +151,9 @@ With the data imported into a WBIA database, there are GGR-specific functions th
 
 ### "3-2-1 Snap!" Synchronization
 
-Once all of the images have been imported into a WBIA dataset, the next step is to synchromize the times of the photographs taken by any non-GPS cameras.  To facilitate this, each GPS camera that wis provided by the GGR event organizers is given the Camera Card Letter A for each vehicle.  The other cameras in the vehicle must be synchronized to this camera's timestamps.  To allow for this, each participant is instructed to take a synchronized photograph of their card "3-2-1 Snap!".  The card displays a QR code that has very basic information on the car number, the person's letter code, the event name, and the day (1 or 2).  Here is an example from one card: 
+![Example Card](../../../static/img/ggr_card.jpg)
+
+Once all of the images have been imported into a WBIA dataset, the next step is to synchromize the times of the photographs taken by any non-GPS cameras.  To facilitate this, each GPS camera that wis provided by the GGR event organizers is given the Camera Card Letter A for each vehicle.  The other cameras in the vehicle must be synchronized to this camera's timestamps.  To allow for this, each participant is instructed to take a synchronized photograph of their card "3-2-1 Snap!".  The card displays a QR code that has very basic information on the car number, the person's letter code, the event name, and the day (1 or 2).  Here is an example from one card:
 
     http://www.greatgrevysrally.com/?car=73&person=a&event=ggr2020&day=1
 
@@ -167,7 +169,6 @@ The QR codes must be found for each participant in their collected images.  Once
 To synchronize the GPS and time metadata for any non-A cameras, use the following functions:
 
 ```python
-# ibs.commit_ggr_fix_gps(min_diff=30, individual=False)
 ibs.commit_ggr_fix_gps(min_diff=600, individual=False)
 ibs.overwrite_ggr_unixtimes_from_gps()
 ```
@@ -196,27 +197,59 @@ ibs.update_imageset_info(ibs.get_valid_imgsetids())
 
 ## Detection Curation
 
-New Grevy's zebra and reticulated giraffe localization models were explicitly trained for the GGR-18, ignoring pre-existing models from the GGR-16 and GZGC.  These models were re-trained due to training process improvements (i.e., an updated Python implementation) and used annotations generated by a more robust bounding box collection methodology.  A total of 5,000 images were annotated for the GGR-18, with at least three independent reviewers for each image.  A pool of 14 reviewers was asked to annotate bounding boxes for 10% of the dataset during the GGR-18.  The triple-reviewer procedure was not used with the GZGC or GGR-16 events for two reasons: 
+New Grevy's zebra and reticulated giraffe localization models were explicitly trained for the GGR-18, ignoring pre-existing models from the GGR-16 and GZGC.  These models were re-trained due to training process improvements (i.e., an updated Python implementation) and used annotations generated by a more robust bounding box collection methodology.  A total of 5,000 images were annotated for the GGR-18, with at least three independent reviewers for each image.  A pool of 14 reviewers was asked to annotate bounding boxes for 10% of the dataset during the GGR-18.  The triple-reviewer procedure was not used with the GZGC or GGR-16 events for two reasons:
 
-1.  in the interest of time, the reviewers' workload was limited to one review per image (and done by hand for all images), and 
-2.  the analysis of the GGR-18 data included the AoI component, which required more reliable and robust ground-truth annotations.  
+1.  in the interest of time, the reviewers' workload was limited to one review per image (and done by hand for all images), and
+2.  the analysis of the GGR-18 data included the AoI component, which required more reliable and robust ground-truth annotations.
 
 Since each image was annotated slightly differently by three individuals (and since AoI decisions are somewhat subjective), these bounding box candidates needed to be merged (or "married") into a set of finalized bounding box candidates.  A greedy three-person marriage algorithm compared the bounding boxes across the three reviewers, prioritizing the merging of boxes with the highest joint Intersection Over Union (IoU) percentages and starting with groups of three highly overlapping boxes (one from each reviewer).  This process continued until a threshold was met (IoU 25%).  After all three-box marriages were assigned, a second round of two-box marriages was performed.  Furthermore, AoI flags were determined independently for each annotation before the marriage assignments.  These flags are vital to properly tune the localization models to de-prioritize background animals.
 
 ### Ground Truth Review
 
-For all future events, it is recommended to use the pre-trained models for all localization, labeling, and background masking.  However, if a researcher wished to train new models, the following procedure and interfaces may be used.  The first step is to annotate ground-truth bounding boxes and metadata.  This can be done by reviewing up to a certain percentage of the entire dataset (e.g., 10%) and then training the model on this subset.  These interfaces are available at these URLs:
+For all future events, it is recommended to use the pre-trained models for all localization, labeling, and background masking.  However, if a researcher wished to train new models, the following procedure and interfaces may be used.  The first step is to annotate ground-truth bounding boxes and metadata.  This can be done by reviewing up to a certain percentage of the entire dataset (e.g., 10%) and then training the model on this subset.  These interfaces are all available at this overview ``/review/``.
 
-*  Overview: ``/review/``
-*  Detection: ``/review/detection/?imgsetid=None``
-*  Species: ``/review/species/?imgsetid=None``
-*  Viewpoints: ``/review/annotation/layout/?imgsetid=None``
-*  Census Annotation: ``/review/annotation/canonical/?samples=100&species='zebra_grevys'``
-*  Census Annotation (Unknown): ``/review/annotation/canonical/?version=1``
-*  Census Annotation (Negative): ``/review/annotation/canonical/?version=2``
-*  Census Annotation (Positive): ``/review/annotation/canonical/?version=3``
+**Bounding Boxes**
+
+    /review/detection/
+
+![Localization Web Interface](../../../static/img/ggr_web_localization.jpg)
+
+**Species**
+
+    /review/species/
+
+![Annotation Species Web Interface](../../../static/img/ggr_web_species.jpg)
+
+**Viewpoints**
+
+    /review/annotation/layout/
+
+![Annotation Species Web Interface](../../../static/img/ggr_web_viewpoints.jpg)
+
+**Census Annotation**
+
+    /review/annotation/canonical/
+
+    # Unlabeled
+    /review/annotation/canonical/?version=1
+
+    # Negative
+    /review/annotation/canonical/?version=2
+
+    # (Positive
+    /review/annotation/canonical/?version=3
+
+![Census Annotation Web Interface](../../../static/img/ggr_web_ca.jpg)
+
+**Census Annotation Regions**
 
 To annotate Census Annotation Regions (CA-R), the user needs to add a part box within a Census Annotation (CA) annotation.  The distinction of a CA-R versus a different part is arbitrary, and the user may simply use a custom part type to designate the part is intended to be a CA-R.
+
+    /review/detection/
+
+![Census Annotation Region Web Interface](../../../static/img/ggr_web_car.jpg)
+
+**Thumbnail Caching**
 
 To speed up the WBIA web interface for online reviews, run the following functions to pre-compute and cache their web-friendly image thumbnails.
 
@@ -251,14 +284,14 @@ config = {
 }
 results_list = ibs.depc_image.get_property(
     'localizations',
-    gid_list, 
-    None, 
+    gid_list,
+    None,
     config=config
 )
 
 # Commit the localization results to the database
 aids_list = ibs.commit_localization_results(
-    gid_list, 
+    gid_list,
     results_list
 )
 aid_list = ut.flatten(aids_list)
@@ -280,9 +313,9 @@ config = {
     'labeler_weight_filepath': 'zebra_v1',
 }
 result_list = ibs.depc_annot.get_property(
-    'labeler', 
-    aid_list_, 
-    None, 
+    'labeler',
+    aid_list_,
+    None,
     config=config
 )
 
@@ -515,7 +548,7 @@ for query_config_dict in query_config_dict_list:
 
 ### VAMP Verifier
 
-Similarly to HotSpotter, the VAMP algorithm is executed automatically by both the GraphID and LCA algorithms.  That being said, the HotSpotter algorithm does not need to be trained on new species whereas a new VAMP model does need to be trained.  To train VAMP, there needs to be pre-existing ID decisions within the WBIA database.  The algorithm may bootstrap its training data using the raw decisions or from an ID graph. 
+Similarly to HotSpotter, the VAMP algorithm is executed automatically by both the GraphID and LCA algorithms.  That being said, the HotSpotter algorithm does not need to be trained on new species whereas a new VAMP model does need to be trained.  To train VAMP, there needs to be pre-existing ID decisions within the WBIA database.  The algorithm may bootstrap its training data using the raw decisions or from an ID graph.
 
 **Train & Deploy**
 
@@ -549,122 +582,50 @@ pblm.report_evaluation()
 
 To use the new model in the GraphID algorithm, modify the default VAMP thresholds in the file ``algo/graph/core.py::infr.task_thresh``
 
-### GraphID & LCA
+### LCA
 
-Fundamentally, the web interface should be used when annotating any and all census reviews:
+![Census Annotation Region Web Interface](../../../static/img/ggr_web_reviews.jpg)
 
-    https://cthulhu.dyn.wildme.io:5003/review/identification/graph/refer/?imgsetid=15&option=census&species=zebra_grevys&backend=lca
-
-**GraphID**
-
-The easiest way to interact with an ID graph is to use the web interface.
+To start a custom ID curation process with LCA, use the following code to send a set of annotations from a Python embedded session to the web instance:
 
 ```python
-import wbia
-from wbia.algo.verif.vsone import OneVsOneProblem
-from wbia.algo.graph.state import POSTV, NEGTV, INCMP, UNREV, UNKWN, NULL
+import requests
+import json
 
-infr_config = {
-    'autoreview.enabled': True,
-    'autoreview.prioritize_nonpos': True,
-    'inference.enabled': True,
-    'ranking.enabled': True,
-    'ranking.ntop': 10,
-    'redun.enabled': True,
-    'redun.enforce_neg': True,
-    'redun.enforce_pos': True,
-    'redun.neg.only_auto': False,
-    'redun.neg': 1,
-    'redun.pos': 2,
+url = 'http://127.0.0.1:5000/review/identification/lca/refer/'  # Use within the Docker container
+
+aids = [1]  # Get your list of annotation IDs
+data = {
+    'aids': aids,
 }
 
-# Create the reference AnnotInference
-logger.info('starting via actor with ibs = %r' % (ibs,))
-infr = wbia.AnnotInference(ibs=ibs, aids=aids, autoinit=True)
-infr.print('started via actor')
-infr.print('config = {}'.format(ut.repr3(infr_config)))
+data_ = {}
+for key in data:
+    data_[key] = json.dumps(data[key])
 
-# Configure
-for key in infr_config:
-    infr.params[key] = infr_config[key]
-
-# Pull reviews from staging
-infr.print('Initializing infr tables')
-# infr.reset_feedback('staging', apply=True)
-infr.ensure_mst()
-infr.apply_nondynamic_update()
-
-infr.print('infr.status() = {}'.format(ut.repr4(infr.status())))
-
-# Load VAMP models
-infr.print('loading published models')
-infr.load_published()
-
-# CA REGION
-# match_state_thresh = {
-#     POSTV: 0.5305,
-#     NEGTV: 0.8496,
-#     INCMP: np.inf,
-# }
-
-# # CAs
-# match_state_thresh = {
-#     POSTV: 0.6291,
-#     NEGTV: 0.8695,
-#     INCMP: np.inf,
-# }
-
-# NAMED ANNOTS
-match_state_thresh = {
-    POSTV: 0.8062,
-    NEGTV: 0.8538,
-    INCMP: np.inf,
-}
-
-pb_state_thresh = {
-    'pb': np.inf,
-    'nopb': np.inf
-}
-
-infr.init_simulation(
-    oracle_accuracy=1.0,
-    classifiers=infr.verifiers,
-    match_state_thresh=match_state_thresh,
-    pb_state_thresh=pb_state_thresh,
-    max_outer_loops=1,
-)
-infr.init_test_mode()
-infr.reset(state='empty')
-
-infr.start_id_review(max_loops=1, use_refresh=False)
-request = infr.resume()
-
-print(infr.test_state)
-
-clusters = list(infr.pos_graph.connected_components())
-lens = list(map(len, clusters))
-lens.count(1)
+response = requests.post(url, data=data_)
 ```
 
-**LCA**
+To start an LCA instance manually, use the following code:
 
 ```python
 from wbia_lca._plugin import LCAActor
 actor = LCAActor()
-result = actor.start(dbdir=ibs.dbdir, aids=aids, graph_uuid='11111111-1111-1111-1111-111111111111')
+result = actor.start(
+    dbdir=ibs.dbdir, 
+    aids=aids, 
+    graph_uuid='11111111-1111-1111-1111-111111111111'
+)
 response = actor.resume()
-
-
-singletons = 0
-for change in actor.changes:
-    print(change)
-    assert change['type'] == 'new'
-    assert len(change['old']) == 0
-    assert len(change['new']) == 1
-    key = list(change['new'].keys())[0]
-    if len(change['new'][key]) == 1:
-        singletons += 1
 ```
+
+If you wish to use the older Graph ID algorithm, it can be accessed using a slightly different referal link (which requires code changes):
+
+    /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=graph_algorithm
+
+    or
+
+    /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=lca
 
 ### Database Sanity Checks
 
@@ -686,7 +647,9 @@ Likewise, an error may be found by checking the speed of animals over time.  It 
 
 Once curated IDs have been added to the database, the age and sex demographics information can be annotated by an expert with the following interface:
 
-*  turk/demographics/
+    /review/demographics/
+
+![Demographics Web Interface](../../../static/img/ggr_web_demographics.jpg)
 
 ## Population Estimate
 
@@ -942,12 +905,12 @@ The function ``wbia/unstable/old_dbinfo_dan.py::estimate_ggr_count`` can also be
 
 The generation of maps and additional plots are done by the web browser.  The map is rendered using Google Maps and all of the routes for these interfaces are below:
 
-*  /view/map/
-*  /view/advanced/0/
-*  /view/advanced/1/
-*  /view/advanced/2/
-*  /view/advanced/3/
-*  /view/advanced/4/
+*  ``/view/map/``
+*  ``/view/advanced/0/``
+*  ``/view/advanced/1/``
+*  ``/view/advanced/2/``
+*  ``/view/advanced/3/``
+*  ``/view/advanced/4/``
 
 ### Export data
 
@@ -984,11 +947,11 @@ The participating photographers were asked to go into an assigned survey area vi
 
 All photographers for the GZGC were requested to take pictures of the left sides of plains zebras and Masai giraffes, while photographers for the GGR were requested to take pictures of the right sides of Grevy's zebras and reticulated giraffes.  Having a consistent viewpoint (left or right) allows for more effective sight-resight and reduces the chance of ML errors. Furthermore, the distinguishing visual markings for these species are not left-right symmetrical, so the animal's appearance differs (sometimes significantly) from side to side.  This asymmetry means that a right-only census must discard a left viewpoint sighting as irrelevant data.
 
-Along with guidance on species, photographers were shown examples of good/poor quality photographs emphasizing 
+Along with guidance on species, photographers were shown examples of good/poor quality photographs emphasizing
 
 1.  the correct side of the animal,
-2.  getting a large enough and clear view, and 
-3.  seeing the animal in relative isolation from other animals.  
+2.  getting a large enough and clear view, and
+3.  seeing the animal in relative isolation from other animals.
 
 To better guarantee a valuable sighting, GGR photographers were requested to take about three pictures of the right side of each Grevy's zebra they saw.  In both the GZGC and GGR, photographers were invited to take other pictures once they had adequately photographed each encountered animal, causing miscellaneous photographs to be collected.  This decision was primarily to help minimize photographer fatigue and allow flexibility when an exciting or otherwise rare species was encountered.
 

@@ -627,6 +627,10 @@ If you wish to use the older Graph ID algorithm, it can be accessed using a slig
 
     /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=lca
 
+A training video of how to review the matches, and what to look for, can be seen here: 
+
+    https://drive.google.com/file/d/1Mj4Grd6zs_Rpha6-8ZdWu0uFenRqWO9e/view?usp=share_link
+
 ### Database Sanity Checks
 
 **Encounter Singleton Validity**

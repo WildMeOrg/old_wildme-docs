@@ -108,6 +108,9 @@ The importing of images for GGR is similar to importing data for any standard us
 
 All of the GGR scripts in the following sections will rely on having access to a WBIA controller object `ibs` and a database of images and annotations.  The controller offers all of the standard CRUD modules to add, get, set, and delete objects within the database.  The images can be added manually with Python or REST APIs, and the WBIA web interface can be used to annotate ground-truth bounding boxes.  Newly created annotations can also be added manually with Python or REST APIs, in addition to the web interface.  There are also additional web interfaces for reviewing annotations and adding relevant metadata for species, viewpoints, and other ground-truth attributes needed for animal ID.  To do this manually, for example, you can use the following code:
 
+
+CVS: This next snippet of code needs more explanation on what is assumed / produced at each step.
+
 ``` python
 import wbia
 from wbia.detecttools.directory import Directory
@@ -157,7 +160,9 @@ Once all of the images have been imported into a WBIA dataset, the next step is 
 
     http://www.greatgrevysrally.com/?car=73&person=a&event=ggr2020&day=1
 
-The QR codes must be found for each participant in their collected images.  Once the synchronization photo is found for each partitipant, the time offsets for each photo can be calculated for each participant separately.  The assumption is that the camera for each partitipant is accurately keeping time, but is not precisely synchronized to the local Kenya time.  The following WBIA functions can be used to fix QR code issues, search for their images within a set of photos, inspect them for accuracy, and process the time synchronization:
+The QR codes must be found for each participant in their collected images.  Once the synchronization photo is found for each participant, the time offsets for each photo can be calculated for each participant separately.  The assumption is that the camera for each participant is accurately keeping time, but is not precisely synchronized to the local Kenya time.  The following WBIA functions can be used to fix QR code issues, search for their images within a set of photos, inspect them for accuracy, and process the time synchronization:
+
+CVS: The description of what's being fixed here is vague. Elaborate and provide pointers to python files
 
 *  ``ibs.fix_ggr_qr_codes()``
 *  ``ibs.search_ggr_qr_codes()``
@@ -168,12 +173,16 @@ The QR codes must be found for each participant in their collected images.  Once
 
 To synchronize the GPS and time metadata for any non-A cameras, use the following functions:
 
+CVS: Need a bit more detail here as well.
+
 ```python
 ibs.commit_ggr_fix_gps(min_diff=600, individual=False)
 ibs.overwrite_ggr_unixtimes_from_gps()
 ```
 
 To then delete any images taken outside of the time bounds of the event:
+
+CVS: people will wonder how the bounds are determine
 
 ```python
 ibs.purge_ggr_unixtime_out_of_bounds()
@@ -186,6 +195,7 @@ The Kenyan counties and land regions are coded into the WBIA repository and can 
 ```python
 ibs.compute_ggr_path_dict()
 ```
+
 
 When the images are added to the database, you can use the following code to assign images to their respective regions (which may overlap):
 
@@ -207,6 +217,8 @@ Since each image was annotated slightly differently by three individuals (and si
 ### Ground Truth Review
 
 For all future events, it is recommended to use the pre-trained models for all localization, labeling, and background masking.  However, if a researcher wished to train new models, the following procedure and interfaces may be used.  The first step is to annotate ground-truth bounding boxes and metadata.  This can be done by reviewing up to a certain percentage of the entire dataset (e.g., 10%) and then training the model on this subset.  These interfaces are all available at this overview ``/review/``.
+
+CVS: These aren't live! Also, I want to see how you would analyze the manual annotations vs. detection results.
 
 **Bounding Boxes**
 
@@ -261,6 +273,8 @@ Once the ground-truth is annotated, you can use the [detector training instructi
 ### Making Train/Test Sets
 
 Lastly, the dataset needs to be split between a training set and a testing set.  The split between train and test is automatically determined by taking each image in the entire dataset and splitting it randomly as 80% for training and 20% for testing.  The validation set is taken from the training set, as determined by each component individually.  Running the following Python code will create the initial split and add the images into two imagesets called `TRAIN_SET` and `TEST_SET`:
+
+CVS: I assume I can substitute a different procedure for this.  I'd like to group into occurrences and ensure each occurrence is only in TRAIN or TEST (probably should explicit add VAL)
 
 ``` python
 ibs.imageset_train_test_split()
@@ -429,9 +443,13 @@ gids = ibs.get_annot_gids(aids)
 ut.dict_hist(ut.dict_hist(gids).values())
 
 all_gids = ibs.get_valid_gids()
-delete_gids = liist(set(all_gids) - set(gids))
+delete_gids = list(set(all_gids) - set(gids))
 ibs.delete_images(delete_gids, trash_images=False)
 ```
+
+CVS: Why delete the images here without checking to see if the image did not have any aids remaining?  This check is applied elesewhere.  Also the ut.dict_hist results near the end of the code are not used.
+
+CVS: Throughout this there is an understanding that we are whittling down the aids and gids to only CA's and only images that have at least one CA. Please make an explicit discussion of this
 
 ### Qualitative Filtering
 

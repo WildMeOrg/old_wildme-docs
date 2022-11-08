@@ -578,11 +578,22 @@ for query_config_dict in query_config_dict_list:
         )
 ```
 
+CVS: I'd like a lot more in this discussion of HS:
+CVS: (1) Please briefly explain the config list / dictionary.  What are the parameters? What parameters are not here? How do we do specify name scoring vs. annotation scoring?
+CVS: (2) What is to be done with the query_result object that is returned? 
+CVS: (3) In doing GGR 16 and 18, we broke the query and analysis processes up into subsets of images - e.g. by car or by region. How is this done and coordinated? Are there old scripts that show this?
+CVS: (4) I'm guessing we could add --- right here --- a method of sampling the annotations from a single animal so there are at most 5-6 (I forget what we called this)
+CVS: (5) Can we revise the query_chips_graph method so that we can pass in a search method rather than build the method inside?  If we could expose it and its API (if it is an object rather than a method, which as I think about it I'm guessing it is) then we could more easily substitute in a new method.  An additional idea is to pass it as an argument with a default value of None, and if it is None it gets rebuilt internally. Through this idea, we just have to get the API right.
+CVS: (6) (Perhaps not an HS issue, but...) If I ran only HS, how would I run the pairwise decision part.
+
 ### VAMP Verifier
 
 Similarly to HotSpotter, the VAMP algorithm is executed automatically by both the GraphID and LCA algorithms.  That being said, the HotSpotter algorithm does not need to be trained on new species whereas a new VAMP model does need to be trained.  To train VAMP, there needs to be pre-existing ID decisions within the WBIA database.  The algorithm may bootstrap its training data using the raw decisions or from an ID graph.
 
 **Train & Deploy**
+
+
+CVS: What is done in check_ggr_valid_aids that is special to GGR?
 
 ```python
 import wbia
@@ -599,9 +610,11 @@ pblm = OneVsOneProblem(infr, sample_method='bootstrap')
 pblm.deploy()
 ```
 
+CVS: Please explain the use of infr and pblm in more detail.
+
 Next, upload the trained model to the CDN and modify the file ``wbia/algo/verif/deploy.py`` to add the new model and species configuration.
 
-**Evaulate**
+**Evaluate**
 
 Once training is complete, the model can be evaulated with the following code:
 
@@ -610,9 +623,13 @@ pblm.setup_evaluation(with_simple=False)
 pblm.report_evaluation()
 ```
 
+CVS: I can't see here how to use VAMP.
+
+
 **Configuration**
 
 To use the new model in the GraphID algorithm, modify the default VAMP thresholds in the file ``algo/graph/core.py::infr.task_thresh``
+
 
 ### LCA
 
@@ -638,6 +655,8 @@ for key in data:
 response = requests.post(url, data=data_)
 ```
 
+CVS: I don't understand either what's immediately above or below.  Please add details.
+
 To start an LCA instance manually, use the following code:
 
 ```python
@@ -651,7 +670,7 @@ result = actor.start(
 response = actor.resume()
 ```
 
-If you wish to use the older Graph ID algorithm, it can be accessed using a slightly different referal link (which requires code changes):
+If you wish to use the older Graph ID algorithm (deprecated), it can be accessed using a slightly different referal link (which requires code changes):
 
     /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=graph_algorithm
 
@@ -667,7 +686,10 @@ A training video of how to review the matches, and what to look for, can be seen
 
 **Encounter Singleton Validity**
 
-After the ID database has been reviewed, one of the first steps is to review any encounter singletons (implicitly including any annotation singletons) to check for annotations that should have been filtered out during the detection stage.  This includes any annotations that were incorrectly included becuase they have a poor visual appearance, are too blurry, or any other visual occlusion that would interfere with the automated matching process.  Once any offending annotations are excluded, it is recommended to re-run the decision management algorithm to ensure that the graph is still consistent.
+After the ID database has been reviewed, one of the first steps is to review any encounter singletons (implicitly including any annotation singletons) to check for annotations that should have been filtered out during the detection stage.  This includes any annotations that were incorrectly included because they have a poor visual appearance, are too blurry, or any other visual occlusion that would interfere with the automated matching process.  Once any offending annotations are excluded, it is recommended to re-run the decision management algorithm to ensure that the graph is still consistent.
+
+CVS: How do we launch the review?  Grab singletons and then display them?  Do we need to explicitly track what was reviewed?  This applies to the checks below as well.
+
 
 **ID-Based GPS Synchronization**
 
@@ -687,7 +709,12 @@ Once curated IDs have been added to the database, the age and sex demographics i
 
 ![Demographics Web Interface](../../../static/img/ggr_web_demographics.jpg)
 
+CVS: I seem to remember a way for Dan and the team to indicate animals that were not id'ed correctly.  How does this work?
+
+
 ## Population Estimate
+
+CVS:  Where is this file?  
 
 ### Lincoln-Petersen Index & Male/Female Ratios
 

@@ -192,10 +192,11 @@ ibs.purge_ggr_unixtime_out_of_bounds()
 
 The Kenyan counties and land regions are coded into the WBIA repository and can be created as imagesets.  The coordinates of the counties themselves are encoded as a shape file, which is downloaded from an external CDN if needed.  The outline paths can be extracted and given with the following function
 
+CVS: please add the location (URL) of the CDN
+
 ```python
 ibs.compute_ggr_path_dict()
 ```
-
 
 When the images are added to the database, you can use the following code to assign images to their respective regions (which may overlap):
 
@@ -219,6 +220,8 @@ Since each image was annotated slightly differently by three individuals (and si
 For all future events, it is recommended to use the pre-trained models for all localization, labeling, and background masking.  However, if a researcher wished to train new models, the following procedure and interfaces may be used.  The first step is to annotate ground-truth bounding boxes and metadata.  This can be done by reviewing up to a certain percentage of the entire dataset (e.g., 10%) and then training the model on this subset.  These interfaces are all available at this overview ``/review/``.
 
 CVS: These aren't live! Also, I want to see how you would analyze the manual annotations vs. detection results.
+
+CVS: Please add a very brief review of the pipeline stages --- one sentence each about what's computed.
 
 **Bounding Boxes**
 
@@ -253,6 +256,8 @@ CVS: These aren't live! Also, I want to see how you would analyze the manual ann
 
 ![Census Annotation Web Interface](../../../static/img/ggr_web_ca.jpg)
 
+CVS: You don't have anything here about AoI. I really believe CA can completely supercede AoI but I recall that you don't agree and have it kept. If I am right, please add.
+
 **Census Annotation Regions**
 
 To annotate Census Annotation Regions (CA-R), the user needs to add a part box within a Census Annotation (CA) annotation.  The distinction of a CA-R versus a different part is arbitrary, and the user may simply use a custom part type to designate the part is intended to be a CA-R.
@@ -284,6 +289,9 @@ ibs.imageset_train_test_split()
 
 To apply the pre-trained annotation localizer to the images, use the following code.  The recommended localization model for GGR events with Grevy's zebra is the ``ggr2`` model using the ``lightnet`` algorithm backbone.  The NMS thresholds have been selected to optimize for AoI detection.
 
+CVS: AoI or CA?
+
+
 ```python
 gid_list = ibs.get_valid_gids()
 
@@ -314,6 +322,8 @@ aid_list = ut.flatten(aids_list)
 ### Annotation Classification
 
 To apply the annotation classifier (labeler) to the detections, use the following code.  The recommended labeler model for GGR events with Grevy's zebra is the ``zebra_v1`` model.
+
+CVS: Here you use densenet, but earlier you have lightnet. Please be clear on the choice and distinction.
 
 ```python
 # Filter to focus only on zebra annotations (e.g., ignoring giraffes)
@@ -414,6 +424,8 @@ ibs.set_annot_detect_confidence(car_aids, conf_list)
 
 Once all of the Census Annotation Regions have been created for all images, we next need to de-duplicate them to ensure that no image with mutliple CA-Rs overlap.  We wish to eliminate any ambiguity during ID processing.
 
+CVS: It would help to briefly explain why de-dup is needed.
+
 ```python
 all_aids = ibs.get_valid_aids()
 species = ibs.get_annot_species(all_aids)
@@ -447,9 +459,11 @@ delete_gids = list(set(all_gids) - set(gids))
 ibs.delete_images(delete_gids, trash_images=False)
 ```
 
-CVS: Why delete the images here without checking to see if the image did not have any aids remaining?  This check is applied elesewhere.  Also the ut.dict_hist results near the end of the code are not used.
+CVS: Why delete the images here without checking to see if the image did not have any aids remaining?  This check is applied elsewhere.  Also the ut.dict_hist results near the end of the code are not used.
 
 CVS: Throughout this there is an understanding that we are whittling down the aids and gids to only CA's and only images that have at least one CA. Please make an explicit discussion of this
+
+CVS: I didn't see the code snippets for some things:  WIC, orientation, quality, etc.
 
 ### Qualitative Filtering
 

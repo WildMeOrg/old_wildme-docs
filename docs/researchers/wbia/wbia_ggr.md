@@ -795,7 +795,7 @@ Once curated IDs have been added to the database, the age and sex demographics i
 
     /review/demographics/
 
-![Demographics Web Interface](../../../static/img/ggr_web_demographics.jpg)
+![Demographics Web Interface](../../../static/img/ggr_web_demographics.gif)
 
 The ecological demographics review can be seen as one of the first opportunities to perform sanity checks.  Any name that is found to have an inconsistent age or sex information should be flagged manually and reviewed by the name rowid.  It is recommended to reset any and all pairwise reviews that contain the conflicting name's annotation rowids.  This can be done by deleting the pairs with the following code:
 

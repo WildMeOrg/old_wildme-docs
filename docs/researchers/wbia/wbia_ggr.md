@@ -108,44 +108,45 @@ The importing of images for GGR is similar to importing data for any standard us
 
 All of the GGR scripts in the following sections will rely on having access to a WBIA controller object `ibs` and a database of images and annotations.  The controller offers all of the standard CRUD modules to add, get, set, and delete objects within the database.  The images can be added manually with Python or REST APIs, and the WBIA web interface can be used to annotate ground-truth bounding boxes.  Newly created annotations can also be added manually with Python or REST APIs, in addition to the web interface.  There are also additional web interfaces for reviewing annotations and adding relevant metadata for species, viewpoints, and other ground-truth attributes needed for animal ID.  To do this manually, for example, you can use the following code:
 
+#### Adding a Folder
 
-CVS: This next snippet of code needs more explanation on what is assumed / produced at each step.
+To add images to a database in bulk from a folder, there is a handy function on the IBEIS controller that will recursively search a folder for new images and add them to the database.  The returned values from this function is a list of deduplicated image rowids (GIDs) as integers.  
 
-``` python
-import wbia
-from wbia.detecttools.directory import Directory
-
+```python
 IMPORT_PATH = '/data/import'
 
 gid_list = ibs.import_folder(IMPORT_PATH)
+```
 
+#### Adding a Folder
+
+Alternatively, a folder of images can be imported by recursively checking throuhg a list of filepaths.  Furthermore, sometimes an image may fail to import, so the following code can be used to check for images that have already been imported and will add only the missing images (delta updates).
+
+```python
+from wbia.detecttools.directory import Directory
+import tqdm
+
+# Get the image filepaths from a directory
 direct = Directory(IMPORT_PATH, recursive=True, images=True)
 filepaths = list(direct.files())
 
+# Get the current list of image rowids and their original paths
 gids = ibs.get_valid_gids()
 processed = set(ibs.get_image_uris_original(gids))
 
+# Take a delta between the existing paths and the import paths
 filepaths_ = sorted(list(set(filepaths) - processed))
-chunks = ut.ichunks(filepaths_, 128)
 
+# Break the list of remaining paths into chunks of 128 and import them
+chunks = ut.ichunks(filepaths_, 128)
 for filepath_chunk in tqdm.tqdm(chunks):
     try:
         ibs.add_images(filepath_chunk)
     except Exception:
         pass
 
+# Get all of the image rowids
 gid_list = ibs.get_valid_gids()
-```
-
-To add images to a database in bulk from a folder, there is a handy function on the IBEIS controller that will recursively search a folder for new images and add them to the database.
-
-``` python
-# The path is the location within the Docker container, which is mapped to a
-# host folder on launch
-gids = ibs.import_folder('/data/import')
-
-# Get the original paths of the images that were imported
-image_paths = ibs.get_image_uris_original(gids)
 ```
 
 Specifically for the GGR events, there is additional metadata that is stored on the images as notes.  The metadata come from the directory structure of the images, which need to be organized and standardized prior to import.  This process can be painful and slow, and often requires a lot of manual renaming and re-organizing.  For the GGR 2018, as an example, the process included merging multiple folders into a single collection, renaming folders to have the proper naming convention, and other parsing fixes.  The function ``ibs.convert_ggr2018_to_wbia()`` located in ``wbia/dbio/ingest_ggr.py`` is an example of the type clean up that should be performed on image ingestion.
@@ -162,37 +163,64 @@ Once all of the images have been imported into a WBIA dataset, the next step is 
 
 The QR codes must be found for each participant in their collected images.  Once the synchronization photo is found for each participant, the time offsets for each photo can be calculated for each participant separately.  The assumption is that the camera for each participant is accurately keeping time, but is not precisely synchronized to the local Kenya time.  The following WBIA functions can be used to fix QR code issues, search for their images within a set of photos, inspect them for accuracy, and process the time synchronization:
 
-CVS: The description of what's being fixed here is vague. Elaborate and provide pointers to python files
+#### Automatically Search for QR Codes
+
+The first step is to attempt to find the QR code image for each participant by automatically searching the images one-by-one.  This process can be slow and may sometimes fail to identify which image has the QR code.  Furthermore, there are two chances to find the QR code -- day 1 or day 2 -- and only one of these images is needed to synchronize the timestamps for that participant.  The function below returns a dictionary of the imageset rowids and the image rowid that contains its QR code image.  The functions in this section are all located in ``wbia/other/ibsfuncs.py`` but are accessible as methods on the WBIA controller.
+
+*  ``ibs.search_ggr_qr_codes()``
+
+#### Manually Override Found QR Codes
+
+Secondly, when the automatic search fails, there needs to be a manual mapping that the user creates to manually assign the correct GID.  The below function takes in the automatic dictionary and extends it with manual updates.  In general, the full mapping is always hand-verified to ensure that the QR code images are associated correctly.
 
 *  ``ibs.fix_ggr_qr_codes()``
-*  ``ibs.search_ggr_qr_codes()``
+
+#### Create Final QR Code Mapping
+
+Lastly, the final mapping (manual + automatic) is printed out and checked for validity.  This function produces a cached JSON file on disk that can be loaded quickly and easily for the QR code assignments.
+
 *  ``ibs.inspect_ggr_qr_codes()``
-*  ``ibs.sync_ggr_with_qr_codes()``
 
 ### Time & GPS Metadata Reconciliation
 
-To synchronize the GPS and time metadata for any non-A cameras, use the following functions:
+To synchronize the GPS and time metadata for any non-A cameras, use the following function:
 
-CVS: Need a bit more detail here as well.
+*  ``ibs.sync_ggr_with_qr_codes()``
+
+The above function will load the output of ``ibs.inspect_ggr_qr_codes()`` and will update the time offsets for each image in the database using the ``ibs.set_image_timedelta_posix()`` function.  By default, the timestamp of each image is loaded from EXIF (wherever posible) and the database stores an optional offset (a "timedelta") that is applied to this raw value.  The benefit of this scheme is that each image has, essentially, a custom offset and can be modified as needed to ensure that the timestamp is as accurate as possible for each image.
+
+The GPS information can also be synchronized between each image by looking for images that are taken at the same time.  If there are non-A cameras in the car and the GPS camera (camera A) is taking pictures, then there is a way to assign approximated GPS information for any image at the same time.  The WBIA codebase uses a greedy algorithm to assign images with missing GPS a value if any image in the same car with GPS was taken within 1 minute (60 seconds).  It is recommended to assign images GPS values 
 
 ```python
+ibs.commit_ggr_fix_gps(min_diff=60, individual=False)
+ibs.commit_ggr_fix_gps(min_diff=300, individual=False)
 ibs.commit_ggr_fix_gps(min_diff=600, individual=False)
+```
+
+Lastly, missing or incorrect timestamps can also be synchronized using a simialar process to the GPS metadata procedure:
+
+```python
 ibs.overwrite_ggr_unixtimes_from_gps()
 ```
 
-To then delete any images taken outside of the time bounds of the event:
+#### Deleting Out-of-bounds Images
 
-CVS: people will wonder how the bounds are determine
+To then delete any images taken outside of the time bounds of the event:
 
 ```python
 ibs.purge_ggr_unixtime_out_of_bounds()
 ```
 
+This function will need to be modified to support the upper and lower date ranges to allow images to stay in the database.  The boundaries are selected for each event and may contain training images taken prior to the actual censusing event.  It is recommended to purge as much of the irrelevant images as possible to speed up the detection pipeline, but the final evaluation metrics are always based on the explicit two-day dates of the census.
+
 ### Kenyan Counties and Land Regions
 
-The Kenyan counties and land regions are coded into the WBIA repository and can be created as imagesets.  The coordinates of the counties themselves are encoded as a shape file, which is downloaded from an external CDN if needed.  The outline paths can be extracted and given with the following function
+The Kenyan counties and land regions are coded into the WBIA repository and can be created as imagesets.  The coordinates of the counties themselves are encoded as a shape file, which is downloaded from an external CDN if needed.  The two files that are downlaoded are located here:
 
-CVS: please add the location (URL) of the CDN
+* ``https://wildbookiarepository.azureedge.net/data/kenyan_counties_boundary_gps_coordinates.zip``
+* ``https://wildbookiarepository.azureedge.net/data/kenyan_land_tenures_boundary_gps_coordinates.zip``
+
+The outline paths can be extracted and given with the following function:
 
 ```python
 ibs.compute_ggr_path_dict()
@@ -219,29 +247,37 @@ Since each image was annotated slightly differently by three individuals (and si
 
 For all future events, it is recommended to use the pre-trained models for all localization, labeling, and background masking.  However, if a researcher wished to train new models, the following procedure and interfaces may be used.  The first step is to annotate ground-truth bounding boxes and metadata.  This can be done by reviewing up to a certain percentage of the entire dataset (e.g., 10%) and then training the model on this subset.  These interfaces are all available at this overview ``/review/``.
 
-CVS: These aren't live! Also, I want to see how you would analyze the manual annotations vs. detection results.
-
-CVS: Please add a very brief review of the pipeline stages --- one sentence each about what's computed.
+For training, evaulating, and deploying new machine learning models with this new ground-truth data, please review the [detector training instructions](developers/wbia/wbia_pipeline.md).
 
 **Bounding Boxes**
 
+The most primitive data type after images are ``annotations``.  An annotation is defined by a bounding box on an image and its associated metadata.  The interface below can be used to quickly add bounding boxes on images.
+
     /review/detection/
 
-![Localization Web Interface](../../../static/img/ggr_web_localization.jpg)
+![Localization Web Interface](../../../static/img/ggr_web_localization.gif)
+
+While bouding boxes are reviewed, it is recommended to also mark the Annotations of Interest (AoIs).  These annotations can be used to better optimize the output of the final detector to silent errors made on annotations that aren't identifiable anyway.
 
 **Species**
 
+Annotation metadata can be added at the same time as the bounding boxes, but it is recommended to add the boundign boxes first and then add the metadata as a secondary step.  The following interface can be used to assign the species metadata on a series of bounding boxes as a distinct action.
+
     /review/species/
 
-![Annotation Species Web Interface](../../../static/img/ggr_web_species.jpg)
+![Annotation Species Web Interface](../../../static/img/ggr_web_species.gif)
 
 **Viewpoints**
 
+The following interface can be used to assign the viewpoint metadata on a series of bounding boxes as a distinct action after the species review.
+
     /review/annotation/layout/
 
-![Annotation Species Web Interface](../../../static/img/ggr_web_viewpoints.jpg)
+![Annotation Species Web Interface](../../../static/img/ggr_web_viewpoints.gif)
 
 **Census Annotation**
+
+Each annotation can then be annotated as a Census Annotation by reviewing a grid and selecting the ones to keep.
 
     /review/annotation/canonical/
 
@@ -254,9 +290,7 @@ CVS: Please add a very brief review of the pipeline stages --- one sentence each
     # (Positive
     /review/annotation/canonical/?version=3
 
-![Census Annotation Web Interface](../../../static/img/ggr_web_ca.jpg)
-
-CVS: You don't have anything here about AoI. I really believe CA can completely supercede AoI but I recall that you don't agree and have it kept. If I am right, please add.
+![Census Annotation Web Interface](../../../static/img/ggr_web_ca.gif)
 
 **Census Annotation Regions**
 
@@ -264,7 +298,7 @@ To annotate Census Annotation Regions (CA-R), the user needs to add a part box w
 
     /review/detection/
 
-![Census Annotation Region Web Interface](../../../static/img/ggr_web_car.jpg)
+![Census Annotation Region Web Interface](../../../static/img/ggr_web_car.gif)
 
 **Thumbnail Caching**
 
@@ -273,24 +307,31 @@ To speed up the WBIA web interface for online reviews, run the following functio
 *  ``ibs.precompute_web_detection_thumbnails()``
 *  ``ibs.precompute_web_viewpoint_thumbnails()``
 
-Once the ground-truth is annotated, you can use the [detector training instructions](developers/wbia/wbia_pipeline.md) to train and deploy new models.
-
 ### Making Train/Test Sets
 
 Lastly, the dataset needs to be split between a training set and a testing set.  The split between train and test is automatically determined by taking each image in the entire dataset and splitting it randomly as 80% for training and 20% for testing.  The validation set is taken from the training set, as determined by each component individually.  Running the following Python code will create the initial split and add the images into two imagesets called `TRAIN_SET` and `TEST_SET`:
-
-CVS: I assume I can substitute a different procedure for this.  I'd like to group into occurrences and ensure each occurrence is only in TRAIN or TEST (probably should explicit add VAL)
 
 ``` python
 ibs.imageset_train_test_split()
 ```
 
+To create custom train/test splits, the only requirement is that there be two imagesets with the name ``TRAIN_SET`` and ``TEST_SET``.  These sets do not need to be comprehensive (i.e., every image in the database is in one of these buckets), but they do need to be disjoint.  To create them manually, the following code can be used:
+
+```python
+train_gid_list = []  # Some process to generate the list of training gids
+
+all_gid_list = ibs.get_valid_gids()
+test_gid_list = sorted(set(all_gid_list) - set(train_gid_list))
+
+ibs.set_image_imagesettext(train_gid_list, ['TRAIN_SET'] * len(train_gid_list))
+ibs.set_image_imagesettext(test_gid_list, ['TEST_SET'] * len(test_gid_list))
+```
+
+Since each algorithm creates its own validation set from the training set, you will need to modify each algorithm to create any context-aware validation partition.
+
 ### Annotation Localization
 
-To apply the pre-trained annotation localizer to the images, use the following code.  The recommended localization model for GGR events with Grevy's zebra is the ``ggr2`` model using the ``lightnet`` algorithm backbone.  The NMS thresholds have been selected to optimize for AoI detection.
-
-CVS: AoI or CA?
-
+To apply the pre-trained annotation localizer to the images, use the following code.  The recommended localization model for GGR events with Grevy's zebra is the ``ggr2`` model using the ``lightnet`` algorithm backbone.  The NMS thresholds have been selected to optimize for AoI detection.  We use Annotation of Interest (AoI) over Census Annotation (CA) in this phase because the former is focused on the composition of an image, whereas the latter is focused on the usefullness of a given annotation.  If AoI ground-truth flags are generated during the annotation review phase, they can be used to optimize the output of the network (e.g., to focus on clear and foreground animals while ignoring irrelevant errors).
 
 ```python
 gid_list = ibs.get_valid_gids()
@@ -321,9 +362,7 @@ aid_list = ut.flatten(aids_list)
 
 ### Annotation Classification
 
-To apply the annotation classifier (labeler) to the detections, use the following code.  The recommended labeler model for GGR events with Grevy's zebra is the ``zebra_v1`` model.
-
-CVS: Here you use densenet, but earlier you have lightnet. Please be clear on the choice and distinction.
+To apply the annotation classifier (labeler) to the detections, use the following code.  The recommended labeler model for GGR events with Grevy's zebra is the ``zebra_v1`` model.  The algorithm uses the DenseNet algorithm, which is distinct from the LightNet algorithm used by the localizer.
 
 ```python
 # Filter to focus only on zebra annotations (e.g., ignoring giraffes)
@@ -422,9 +461,7 @@ ibs.set_annot_detect_confidence(car_aids, conf_list)
 
 ### Deduplicate CA-Rs
 
-Once all of the Census Annotation Regions have been created for all images, we next need to de-duplicate them to ensure that no image with mutliple CA-Rs overlap.  We wish to eliminate any ambiguity during ID processing.
-
-CVS: It would help to briefly explain why de-dup is needed.
+Once all of the Census Annotation Regions have been created for all images, we next need to de-duplicate them to ensure that no image with mutliple CA-Rs overlap.  We wish to eliminate any ambiguity during ID processing because it is possible for Census Annotations to physically overlap.  The benefit here is to prevent any duplicate features within the same image and overall eliminate the possibility of mother/foal CA bounding box pairs.
 
 ```python
 all_aids = ibs.get_valid_aids()
@@ -446,28 +483,76 @@ keep_aids = []
 for gid in tqdm.tqdm(gid_map):
     aids = sorted(set(gid_map[gid]))
     keep_aids += ibs.nms_aids(aids, nms_thresh=1.0)
+```
 
+#### Delete Failed Annotations
+
+```python
+all_aids = ibs.get_valid_aids()
 delete_aids = list(set(all_aids) - set(keep_aids))
 ibs.delete_annots(delete_aids)
+```
 
+#### Delete Failed Images
+
+```python
 aids = ibs.get_valid_aids()
 gids = ibs.get_annot_gids(aids)
-ut.dict_hist(ut.dict_hist(gids).values())
 
 all_gids = ibs.get_valid_gids()
 delete_gids = list(set(all_gids) - set(gids))
 ibs.delete_images(delete_gids, trash_images=False)
 ```
 
-CVS: Why delete the images here without checking to see if the image did not have any aids remaining?  This check is applied elsewhere.  Also the ut.dict_hist results near the end of the code are not used.
-
-CVS: Throughout this there is an understanding that we are whittling down the aids and gids to only CA's and only images that have at least one CA. Please make an explicit discussion of this
+The purpose of all of this processing is to whittle down the images in the database that contain at least one CA Region and are taken during the census.  The deleting of other images are optional, but recommended for ease of filtering.
 
 CVS: I didn't see the code snippets for some things:  WIC, orientation, quality, etc.
+JRP:  We don't use the WIC in practice for GGR because it is generally pre-filtered by the data collectors, and it complicates the error estimate used in the ML-aware P-R index.  We also don't use the orientation model for GGR, but the detection training instructions could be used to add that component.  For quality, it has been replaced with AoI and CA, we generally don't use it except to exclude images from processing.  Quality has always been a useful mechanism for ignoring annotations without deleting them (the preferred method during a real-world analysis) because we don't need to keep for record keeping / paper writing.
 
 ### Qualitative Filtering
 
 Beyond the automated classifiers, we further filter out any annotation that fails to pass a series of qualitative heuristics, including: aspect ratio checks, annotations where the width or height are too small, and a minimum gradient magnitude.
+
+#### Bounding Box Aspect Ratio
+
+```python
+aid_list = ibs.get_valid_aids()
+
+bbox_list = ibs.get_annot_bboxes(aid_list)
+aspect_list = [h / w for xtl, ytl, w, h in bbox_list]
+aspect_thresh_mean = np.mean(aspect_list)
+aspect_thresh_std = np.std(aspect_list)
+aspect_thresh_min = aspect_thresh_mean - 2.0 * aspect_thresh_std
+aspect_thresh_max = aspect_thresh_mean + 2.0 * aspect_thresh_std
+globals().update(locals())
+aspect_flag_list = [
+    aspect_thresh_min <= aspect and aspect <= aspect_thresh_max
+    for aspect in aspect_list
+]
+aspect_aid_list = ut.compress(aid_list, aspect_flag_list)
+```
+
+#### Bounding Box Minimum Dimension
+
+```python
+bbox_list = ibs.get_annot_bboxes(aspect_aid_list)
+w_list = [w for xtl, ytl, w, h in bbox_list]
+h_list = [h for xtl, ytl, w, h in bbox_list]
+w_thresh_mean = np.mean(w_list)
+w_thresh_std = np.std(w_list)
+h_thresh_mean = np.mean(h_list)
+h_thresh_std = np.std(h_list)
+w_thresh = w_thresh_mean - 1.5 * w_thresh_std
+h_thresh = h_thresh_mean - 1.5 * h_thresh_std
+globals().update(locals())
+w_h_flag_list = [
+    w_thresh <= w and h_thresh <= h
+    for w, h in zip(w_list, h_list)
+]
+w_h_aid_list = ut.compress(aspect_aid_list, w_h_flag_list)
+```
+
+#### Bounding Box Aspect Ratio
 
 ```python
 def gradient_magnitude(image_filepath):
@@ -491,36 +576,6 @@ def gradient_magnitude(image_filepath):
     }
     return result
 
-aid_list = ibs.get_valid_aids()
-
-bbox_list = ibs.get_annot_bboxes(aid_list)
-aspect_list = [h / w for xtl, ytl, w, h in bbox_list]
-aspect_thresh_mean = np.mean(aspect_list)
-aspect_thresh_std = np.std(aspect_list)
-aspect_thresh_min = aspect_thresh_mean - 2.0 * aspect_thresh_std
-aspect_thresh_max = aspect_thresh_mean + 2.0 * aspect_thresh_std
-globals().update(locals())
-aspect_flag_list = [
-    aspect_thresh_min <= aspect and aspect <= aspect_thresh_max
-    for aspect in aspect_list
-]
-aspect_aid_list = ut.compress(aid_list, aspect_flag_list)
-
-bbox_list = ibs.get_annot_bboxes(aspect_aid_list)
-w_list = [w for xtl, ytl, w, h in bbox_list]
-h_list = [h for xtl, ytl, w, h in bbox_list]
-w_thresh_mean = np.mean(w_list)
-w_thresh_std = np.std(w_list)
-h_thresh_mean = np.mean(h_list)
-h_thresh_std = np.std(h_list)
-w_thresh = w_thresh_mean - 1.5 * w_thresh_std
-h_thresh = h_thresh_mean - 1.5 * h_thresh_std
-globals().update(locals())
-w_h_flag_list = [
-    w_thresh <= w and h_thresh <= h
-    for w, h in zip(w_list, h_list)
-]
-w_h_aid_list = ut.compress(aspect_aid_list, w_h_flag_list)
 
 chips_paths = ibs.get_annot_chip_fpath(w_h_aid_list)
 arg_iter = list(zip(chips_paths))
@@ -538,15 +593,25 @@ gradient_flag_list = [
 ]
 gradient_aid_list = ut.compress(w_h_aid_list, gradient_flag_list)
 
+keep_aids = gradient_aid_list
+```
 
-delete_aids = list(set(ibs.get_valid_aids()) - set(gradient_aid_list))
+#### Delete Failed Annotations
+
+```python
+all_aids = ibs.get_valid_aids()
+delete_aids = list(set(all_aids) - set(keep_aids))
 ibs.delete_annots(delete_aids)
+```
 
-gids = ibs.get_valid_gids()
-aids = ibs.get_image_aids(gids)
-lens = list(map(len, aids))
-flags = [length == 0 for length in lens]
-delete_gids = ut.compress(gids, flags)
+#### Delete Failed Images
+
+```python
+aids = ibs.get_valid_aids()
+gids = ibs.get_annot_gids(aids)
+
+all_gids = ibs.get_valid_gids()
+delete_gids = list(set(all_gids) - set(gids))
 ibs.delete_images(delete_gids, trash_images=False)
 ```
 
@@ -688,8 +753,22 @@ A training video of how to review the matches, and what to look for, can be seen
 
 After the ID database has been reviewed, one of the first steps is to review any encounter singletons (implicitly including any annotation singletons) to check for annotations that should have been filtered out during the detection stage.  This includes any annotations that were incorrectly included because they have a poor visual appearance, are too blurry, or any other visual occlusion that would interfere with the automated matching process.  Once any offending annotations are excluded, it is recommended to re-run the decision management algorithm to ensure that the graph is still consistent.
 
-CVS: How do we launch the review?  Grab singletons and then display them?  Do we need to explicitly track what was reviewed?  This applies to the checks below as well.
+This review is done entirely outside of the ID graph by reviewing metadata with Python scripts and exporting the images to disk / visualizing in the web interface.  For example, the graph state can be sychronized to the WBIA database and the annotation's name rowids can be examined to find the singletons.  Once they are identified, an imageset can be created with just those annotation's images and reviewed by hand.  Often, the solution is to delete or otherwise exclude an annotation based on its CA flag.  Once these annotations have been reviewed, the graph must be restarted and any decisions that are required must be reviewed.
 
+```python
+nids = ibs.get_valid_nids()
+aids_list = ibs.get_name_aids(nids)
+
+singletons = []
+for nid, aids in zip(nids, aids_list):
+    if len(aids) == 1:
+        singletons += aids
+
+singletons = sorted(set(singletons))
+gids = sorted(set(ibs.get_annot_gids(singletons)))
+ibs.set_image_imagesettext(gids, ['Singletons'] * len(gids))
+ibs.set_image_reviewed(gids, [0] * len(gids))
+```
 
 **ID-Based GPS Synchronization**
 
@@ -697,7 +776,16 @@ Using ``ibs.compute_ggr_fix_gps_names()`` will check for a spatiotemporal consis
 
 **Animal Speed**
 
-Likewise, an error may be found by checking the speed of animals over time.  It is recommended to manually review any zebra that walks faster than 10 km/h based on its sightings during the event.  Use the function ``ibs.get_name_speeds()`` to calculate the speed of an animal between signtings.
+Likewise, an error may be found by checking the speed of animals over time.  It is recommended to manually review any zebra that walks faster than 10 km/h based on its sightings during the event.  Use the function ``ibs.get_name_speeds()`` to calculate the speed of an animal between signtings.  Likewise with the encounter singletons, any annotation pair that is found to violate the speed condition must be invalidated.  This is also done manually by querrying for any annotation pair decisions in the datbase:
+
+```python
+aids1 = [1, 1, 2]
+aids2 = [2, 3, 4]
+rids = ibs.get_review_counts_from_tuple(aids1, aids2)
+
+# Delete reviews
+ibs.delete_review(rids)
+```
 
 ## Ecological Curation
 
@@ -709,12 +797,20 @@ Once curated IDs have been added to the database, the age and sex demographics i
 
 ![Demographics Web Interface](../../../static/img/ggr_web_demographics.jpg)
 
-CVS: I seem to remember a way for Dan and the team to indicate animals that were not id'ed correctly.  How does this work?
+The ecological demographics review can be seen as one of the first opportunities to perform sanity checks.  Any name that is found to have an inconsistent age or sex information should be flagged manually and reviewed by the name rowid.  It is recommended to reset any and all pairwise reviews that contain the conflicting name's annotation rowids.  This can be done by deleting the pairs with the following code:
 
+```python
+nids = [1]
+aids = sorted(set(ut.flatten(ibs.get_name_aids(nids))))
+
+# Get any review that contains at least one of these annotations
+rids = ibs.get_review_rowids_from_single(aids)
+
+# Delete reviews
+ibs.delete_review(rids)
+```
 
 ## Population Estimate
-
-CVS:  Where is this file?  
 
 ### Lincoln-Petersen Index & Male/Female Ratios
 

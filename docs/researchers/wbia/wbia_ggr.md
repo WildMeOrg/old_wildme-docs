@@ -618,9 +618,18 @@ ibs.delete_images(delete_gids, trash_images=False)
 
 If the database of annotations is too large, the set of images can be recursively split into a tree of increasingly small partitions of images.  The resulting collection of "leaf" nodes are stored as imagesets and can be reviewed one-by-one.  As each of the leaves at a given level of the tree have been reviewed, they can be "merged" by reviewing the decisions for their shared root.  This process repeats recursively until the entire ID graph is reviewed in a single review process.
 
+
+CVS: In this case, are the qaids from one branch (say left) and the daids from the other (right)?  If not, how are they organized?  In creating the trees what is the criteria on size of the branches and what annotations go into what branches?  
+
+
 ```python
 ibs.create_ggr_match_trees()
 ```
+
+
+CVS: In the code immediately below, aids is not used and all_aid_list is undefined. Please double-check the rest.
+
+
 
 ### HotSpotter Ranking
 
@@ -703,6 +712,18 @@ for qaid in qaids:
         print(f'Query AID={qaid}, DB AID={daid}, DB NID={dnid} ({score})')
         seen.add(daid)
 ```
+
+CVS: Do we always have single qaid's in our call to ibs.query_chips_graph?
+
+CVS: What is 'seen' used for here? How are match results returned to the calling function? Is it the query_result dictionary? 
+
+CVS: If VAMP and LCA did not exist, how would we launch the review interface for the query_result dictionary?
+
+CVS: Here's the big one: the call to ibs.query_chips_graph will likely build a search data structure for the daid_list.  This takes up a huge amount of time. Someday, maybe soon, maybe not, I would like to build a smarter caching system for the descriptor matching search object.  I would like to know how to insert it into the code. One thought is to build the call to query_chips_graph function so that it can better keep track of changes to id's rather than having to infer them inside the function. Does this make sense? I'm looking for the minimal disruption to the current code.
+
+CVS: Here's an additional idea. Add a parameter that defaults to None in the call to query_chips_graph.  If this parameter does come in as None then the current method of building the search object is used.  If not the search object that is passed in is used.   Please comment, but don't delete.
+
+
 
 ### VAMP Verifier
 

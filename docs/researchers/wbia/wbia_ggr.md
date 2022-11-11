@@ -110,7 +110,7 @@ All of the GGR scripts in the following sections will rely on having access to a
 
 #### Adding a Folder
 
-To add images to a database in bulk from a folder, there is a handy function on the IBEIS controller that will recursively search a folder for new images and add them to the database.  The returned values from this function is a list of deduplicated image rowids (GIDs) as integers.  
+To add images to a database in bulk from a folder, there is a handy function on the IBEIS controller that will recursively search a folder for new images and add them to the database.  The returned values from this function is a list of deduplicated image rowids (GIDs) as integers.
 
 ```python
 IMPORT_PATH = '/data/import'
@@ -189,7 +189,7 @@ To synchronize the GPS and time metadata for any non-A cameras, use the followin
 
 The above function will load the output of ``ibs.inspect_ggr_qr_codes()`` and will update the time offsets for each image in the database using the ``ibs.set_image_timedelta_posix()`` function.  By default, the timestamp of each image is loaded from EXIF (wherever posible) and the database stores an optional offset (a "timedelta") that is applied to this raw value.  The benefit of this scheme is that each image has, essentially, a custom offset and can be modified as needed to ensure that the timestamp is as accurate as possible for each image.
 
-The GPS information can also be synchronized between each image by looking for images that are taken at the same time.  If there are non-A cameras in the car and the GPS camera (camera A) is taking pictures, then there is a way to assign approximated GPS information for any image at the same time.  The WBIA codebase uses a greedy algorithm to assign images with missing GPS a value if any image in the same car with GPS was taken within 1 minute (60 seconds).  It is recommended to assign images GPS values 
+The GPS information can also be synchronized between each image by looking for images that are taken at the same time.  If there are non-A cameras in the car and the GPS camera (camera A) is taking pictures, then there is a way to assign approximated GPS information for any image at the same time.  The WBIA codebase uses a greedy algorithm to assign images with missing GPS a value if any image in the same car with GPS was taken within 1 minute (60 seconds).  It is recommended to assign images GPS values
 
 ```python
 ibs.commit_ggr_fix_gps(min_diff=60, individual=False)
@@ -506,9 +506,6 @@ ibs.delete_images(delete_gids, trash_images=False)
 
 The purpose of all of this processing is to whittle down the images in the database that contain at least one CA Region and are taken during the census.  The deleting of other images are optional, but recommended for ease of filtering.
 
-CVS: I didn't see the code snippets for some things:  WIC, orientation, quality, etc.
-JRP:  We don't use the WIC in practice for GGR because it is generally pre-filtered by the data collectors, and it complicates the error estimate used in the ML-aware P-R index.  We also don't use the orientation model for GGR, but the detection training instructions could be used to add that component.  For quality, it has been replaced with AoI and CA, we generally don't use it except to exclude images from processing.  Quality has always been a useful mechanism for ignoring annotations without deleting them (the preferred method during a real-world analysis) because we don't need to keep for record keeping / paper writing.
-
 ### Qualitative Filtering
 
 Beyond the automated classifiers, we further filter out any annotation that fails to pass a series of qualitative heuristics, including: aspect ratio checks, annotations where the width or height are too small, and a minimum gradient magnitude.
@@ -617,39 +614,95 @@ ibs.delete_images(delete_gids, trash_images=False)
 
 ## ID Curation
 
+### Recursive Tree-based Matching
+
+If the database of annotations is too large, the set of images can be recursively split into a tree of increasingly small partitions of images.  The resulting collection of "leaf" nodes are stored as imagesets and can be reviewed one-by-one.  As each of the leaves at a given level of the tree have been reviewed, they can be "merged" by reviewing the decisions for their shared root.  This process repeats recursively until the entire ID graph is reviewed in a single review process.
+
+```python
+ibs.create_ggr_match_trees()
+```
+
 ### HotSpotter Ranking
 
 The HotSpotter (HS) algorithm is called automatically when the GraphID and LCA algorithms are executed, but to get HS results directly you can use the code below:
 
 ```python
-all_aid_list = ibs.get_valid_aids()
-qaid_list = ibs.check_ggr_valid_aids(all_aid_list)
-daid_list = qaid_list[:]
+import numpy as np
 
-query_config_dict_list = [
-    {'sv_on': True, 'fg_on': True, 'K': 5, 'Knorm': 3},
-]
+# All annotations
+aids = ibs.get_valid_aids()
 
-for query_config_dict in query_config_dict_list:
-    for qaid in qaid_list:
-        qaids = [qaid]
-        daids = daid_list[:] + qaid_list[:]
+# Leaf's annotations
+# aids = ibs.get_imageset_aids(leaf_imageset_rowid)
 
-        query_result = ibs.query_chips_graph(
-            qaid_list=qaids,
-            daid_list=daids,
-            query_config_dict=query_config_dict,
-            echo_query_params=False
-        )
+# Optionally, only use exemplars
+# exemplars = ibs.set_exemplars_from_quality_and_viewpoint(aids)
+# aids = ut.compress(aids, exemplars)
+
+qaids = ibs.check_ggr_valid_aids(all_aid_list)
+daids = qaids[:]
+
+query_config = {
+    # Ranking Algorithm
+    'pipeline_root': None,  # HotSpotter
+    # 'pipeline_root': 'BC_DTW',
+    # 'pipeline_root': 'OC_WDTW',
+    # 'pipeline_root': 'CurvRankDorsal',
+    # 'pipeline_root': 'CurvRankFinfindrHybridDorsal',
+    # 'pipeline_root': 'CurvRankFluke',
+    # 'pipeline_root': 'CurvRankTwoDorsal',
+    # 'pipeline_root': 'CurvRankTwoFluke',
+    # 'pipeline_root': 'Deepsense',
+    # 'pipeline_root': 'Finfindr',
+    # 'pipeline_root': 'KaggleSeven',
+    # 'pipeline_root': 'Pie',
+    # 'pipeline_root': 'PieTwo',
+
+    # HotSpotter LNBNN
+    'K': 5,
+    'Knorm': 3,
+    'use_k_padding': False,
+    'checks': 800,
+
+    # HotSpotter Background Subtraction
+    'fg_on': True,
+    'prescore_method': 'nsum',  # or 'csum'
+
+    # HotSpotter Spatial Verification
+    'sv_on': True,
+    'scale_thresh': 2.0,
+    'ori_thresh': np.pi / 2.0,
+    'full_homog_checks': True,
+
+    # HotSpotter Aggregation
+    'can_match_sameimg': False,
+    'can_match_samename': True,
+    'score_method': 'nsum',  # or 'csum'
+}
+
+for qaid in qaids:
+    query_result = ibs.query_chips_graph(
+        qaid_list=[qaid],
+        daid_list=daids,
+        query_config_dict=query_config,
+        echo_query_params=False
+    )
+
+    annot_matches = query_result['summary_annot']
+    name_matches = query_result['summary_name']
+    matches = annot_matches + name_matches
+    matches.sort(key=lambda match: match.get('score'), reverse=True)
+
+    seen = {}
+    for match in matches:
+        score = match['score']
+        daid = match['daid']
+        dnid = match['dnid']
+        if daid in seen:
+            continue
+        print(f'Query AID={qaid}, DB AID={daid}, DB NID={dnid} ({score})')
+        seen.add(daid)
 ```
-
-CVS: I'd like a lot more in this discussion of HS:
-CVS: (1) Please briefly explain the config list / dictionary.  What are the parameters? What parameters are not here? How do we do specify name scoring vs. annotation scoring?
-CVS: (2) What is to be done with the query_result object that is returned? 
-CVS: (3) In doing GGR 16 and 18, we broke the query and analysis processes up into subsets of images - e.g. by car or by region. How is this done and coordinated? Are there old scripts that show this?
-CVS: (4) I'm guessing we could add --- right here --- a method of sampling the annotations from a single animal so there are at most 5-6 (I forget what we called this)
-CVS: (5) Can we revise the query_chips_graph method so that we can pass in a search method rather than build the method inside?  If we could expose it and its API (if it is an object rather than a method, which as I think about it I'm guessing it is) then we could more easily substitute in a new method.  An additional idea is to pass it as an argument with a default value of None, and if it is None it gets rebuilt internally. Through this idea, we just have to get the API right.
-CVS: (6) (Perhaps not an HS issue, but...) If I ran only HS, how would I run the pairwise decision part.
 
 ### VAMP Verifier
 
@@ -657,17 +710,15 @@ Similarly to HotSpotter, the VAMP algorithm is executed automatically by both th
 
 **Train & Deploy**
 
-
-CVS: What is done in check_ggr_valid_aids that is special to GGR?
-
 ```python
 import wbia
 from wbia.algo.verif.vsone import OneVsOneProblem
 
-aid_list = ibs.get_valid_aids()
-aid_list = ibs.check_ggr_valid_aids(aid_list, species='zebra_grevys', threshold=0.75)
+aids = ibs.get_valid_aids()
 
-infr = wbia.AnnotInference(ibs=ibs, aids=aid_list)
+# Filter the annotations to the correct species and any other filters.
+
+infr = wbia.AnnotInference(ibs=ibs, aids=aids)
 infr.reset_feedback(apply=True)
 infr.reset_feedback('staging', apply=True)
 
@@ -728,8 +779,8 @@ To start an LCA instance manually, use the following code:
 from wbia_lca._plugin import LCAActor
 actor = LCAActor()
 result = actor.start(
-    dbdir=ibs.dbdir, 
-    aids=aids, 
+    dbdir=ibs.dbdir,
+    aids=aids,
     graph_uuid='11111111-1111-1111-1111-111111111111'
 )
 response = actor.resume()
@@ -743,7 +794,7 @@ If you wish to use the older Graph ID algorithm (deprecated), it can be accessed
 
     /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=lca
 
-A training video of how to review the matches, and what to look for, can be seen here: 
+A training video of how to review the matches, and what to look for, can be seen here:
 
     https://drive.google.com/file/d/1Mj4Grd6zs_Rpha6-8ZdWu0uFenRqWO9e/view?usp=share_link
 

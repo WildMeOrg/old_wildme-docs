@@ -38,18 +38,12 @@ To run Scout:
 > Your settings have been validated
 > ----------------------------
 > 
-> 
-> 
 > Your Scout Server is now running.
 > Please open a Chrome browser and navigate to http://10.0.0.104:1337
 > ----------------------------
 > 
-> 
-> 
 > Your password override token is: lccmnvxw6j
 > ----------------------------
-> 
-> 
 > 
 > debug: Warning: since `sails.config.session.cookie.secure` is not set to `true`, the session
 > debug: cookie will be sent over non-TLS connections (i.e. with insecure http:// requests).
@@ -69,30 +63,11 @@ To run Scout:
 > debug: to add any other origins to this list that you'd like to accept socket
 > debug: connections from!
 > debug: 
->  info: 
->  info:                .-..-.
->  info: 
->  info:    Sails              <|    .-..-.
->  info:    v1.5.3              |\
->  info:                       /|.\
->  info:                      / || \
->  info:                    ,'  |'  \
->  info:                 .-'.-==|/_--'
->  info:                 `--'-------' 
->  info:    __---___--___---___--___---___--___
->  info:  ____---___--___---___--___---___--___-__
->  info: 
->  info: Server lifted in `/usr/src/app`
->  info: To shut down Sails, press <CTRL> + C at any time.
->  info: Read more at https://sailsjs.com/support.
-> 
 > debug: -------------------------------------------------------
 > debug: :: Sun Sep 25 2022 04:43:16 GMT+0000 (GMT)
-> 
 > debug: Environment : production
 > debug: Port        : 1337
 > debug: -------------------------------------------------------
-> 
 
 Successful Scout installation provides some critical information that you should provide to the lab lead. This includes:
 * Scout URL and port for browser access. This URL should be provided directly to the Lab Lead.

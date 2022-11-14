@@ -11,19 +11,19 @@ docker pull wildme/scout:latest
 To run Scout:
 
 1. Run the following command in the Ubuntu Terminal to launch the Scout Docker container. 
-
+```
     docker run --privileged -p 1337:1337 --rm -it --gpus all --mount type=bind,source=/nas,target=/nas -e ENV_IP="`ip route get 1 | sed 's/^.*src \([^ ]*\).*$/\1/;q'`" -v ~/:/data/db -v ~/tmp:/tmp/scout-tmp wildme/scout:latest
-
+```
     Note: An Internet connection is required for the first installation. Each subsequent execution of the command either 1) pulls and runs the latest version of Scout if an Internet connection is present or 2) runs the existing container if no Internet connection is present.
 
 2. During your first installation of Scout, you are prompted to enter a source image directory where the images are stored. Select/nas/images.
-
+```
 > Welcome to Scout
 > ----------------------------
 > Please create a directory on your NAS where you would like to upload your images. Then, enter the absolute path to that directory here. If you are uploading images to several sub-directories, please only list the parent folder. Eg: /nas/images/ or /nas/
-
+```
 3. After entering the full path of the upload image directory, Scout starts normally.
-
+```
 > latest: Pulling from wildme/scout
 > Digest: sha256:65316698984ac186823873406728e877cb169eb69f25d07bcb87e9c2b8e45994
 > Status: Image is up to date for wildme/scout:latest
@@ -68,19 +68,19 @@ To run Scout:
 > debug: Environment : production
 > debug: Port        : 1337
 > debug: -------------------------------------------------------
-
+```
 Successful Scout installation provides some critical information that you should provide to the lab lead. This includes:
 * Scout URL and port for browser access. This URL should be provided directly to the Lab Lead.
-
+```
     Your Scout Server is now running.
     Please open a Chrome browser and navigate to http://10.0.0.104:1337
     ----------------------------
-
+```
 * A password override token. This token is only needed if a lab lead forgets their password and cannot sign in. This token changes with every restart of Scout.
-
+```
     Your password override token is: lccmnvxw6j
     ----------------------------
-
+```
 Once you have provided the lab lead with the Scout Server URL and image directory full path on the NAS, setup is complete.
 
 ## Adding survey images to Scout

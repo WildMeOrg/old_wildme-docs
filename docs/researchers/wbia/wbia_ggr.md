@@ -249,6 +249,14 @@ For all future events, it is recommended to use the pre-trained models for all l
 
 For training, evaulating, and deploying new machine learning models with this new ground-truth data, please review the [detector training instructions](developers/wbia/wbia_pipeline.md).
 
+**Classification**
+
+There is an optional pre-processing step that allows the user to review images for relevancy, assigning a simple yes/no decision for each image.  This interface was originally designed for use with filtering false positive images taken by a camera trap, and can be re-used for a more generalized filtering task.
+
+    /review/cameratrap/
+
+![Cameratrap Web Interface](../../../static/img/ggr_web_classifier.gif)
+
 **Bounding Boxes**
 
 The most primitive data type after images are ``annotations``.  An annotation is defined by a bounding box on an image and its associated metadata.  The interface below can be used to quickly add bounding boxes on images.
@@ -328,6 +336,29 @@ ibs.set_image_imagesettext(test_gid_list, ['TEST_SET'] * len(test_gid_list))
 ```
 
 Since each algorithm creates its own validation set from the training set, you will need to modify each algorithm to create any context-aware validation partition.
+
+### Image Classification
+
+To apply the pre-trained whole image classifier (WIC) to the images, use the following code.  This is not recommended for use in the GGR, but is provided as an example of running an automated filter at the start of processing.
+
+```python
+gid_list = ibs.get_valid_gids()
+
+# Run the localizer
+config = {
+    'classifier_algo': 'densenet',
+    'classifier_weight_filepath': 'megan_kenya_v2',
+}
+prediction_list = ibs.depc_image.get_property(
+    'classifier',
+    gid_list,
+    None,
+    config=config,
+)
+
+for gid, (score, class_) in zip(gid_list, prediction_list):
+    print(f'GID {gid} = {class_} ({score})')
+```
 
 ### Annotation Localization
 
@@ -616,20 +647,11 @@ ibs.delete_images(delete_gids, trash_images=False)
 
 ### Recursive Tree-based Matching
 
-If the database of annotations is too large, the set of images can be recursively split into a tree of increasingly small partitions of images.  The resulting collection of "leaf" nodes are stored as imagesets and can be reviewed one-by-one.  As each of the leaves at a given level of the tree have been reviewed, they can be "merged" by reviewing the decisions for their shared root.  This process repeats recursively until the entire ID graph is reviewed in a single review process.
-
-
-CVS: In this case, are the qaids from one branch (say left) and the daids from the other (right)?  If not, how are they organized?  In creating the trees what is the criteria on size of the branches and what annotations go into what branches?  
-
+If the database of annotations is too large, the set of images can be recursively split into a tree of increasingly small partitions of images.  The resulting collection of "leaf" nodes are stored as imagesets and can be reviewed one-by-one.  The intuition is to break the full database into a bunch of smaller, disjoint, virtual databases (clustered at the lowest level by photographer, time, and location) and review them one at a time.  As each of the leaves at a given level of the tree have been reviewed, they can be "merged" by reviewing the decisions for their shared root.  This process repeats recursively until the entire ID graph is reviewed in a single review process.
 
 ```python
 ibs.create_ggr_match_trees()
 ```
-
-
-CVS: In the code immediately below, aids is not used and all_aid_list is undefined. Please double-check the rest.
-
-
 
 ### HotSpotter Ranking
 
@@ -648,7 +670,7 @@ aids = ibs.get_valid_aids()
 # exemplars = ibs.set_exemplars_from_quality_and_viewpoint(aids)
 # aids = ut.compress(aids, exemplars)
 
-qaids = ibs.check_ggr_valid_aids(all_aid_list)
+qaids = ibs.check_ggr_valid_aids(aids)
 daids = qaids[:]
 
 query_config = {
@@ -702,7 +724,7 @@ for qaid in qaids:
     matches = annot_matches + name_matches
     matches.sort(key=lambda match: match.get('score'), reverse=True)
 
-    seen = {}
+    seen = {}  # A match can be sound during annotation or name scoring, deduplicate when printing
     for match in matches:
         score = match['score']
         daid = match['daid']
@@ -714,16 +736,19 @@ for qaid in qaids:
 ```
 
 CVS: Do we always have single qaid's in our call to ibs.query_chips_graph?
+JRP: No, you can specify a list of annotation IDs for the same individual if you want.  When the ranker is called by LCA, it uses the above model by default (1 vs. all).
 
 CVS: What is 'seen' used for here? How are match results returned to the calling function? Is it the query_result dictionary? 
+JRP: Correct, the query_result dict is returned via JSON to Wildbook.  This call can be used inside Python to get the results directly
 
 CVS: If VAMP and LCA did not exist, how would we launch the review interface for the query_result dictionary?
+JRP: This interface was depricated because it is a QT5 GUI that Jon and I wrote and was never transitioned into web.  The interface is implemented in Wildbook and Codex using the API results from ibs.query_chips_graph()
 
 CVS: Here's the big one: the call to ibs.query_chips_graph will likely build a search data structure for the daid_list.  This takes up a huge amount of time. Someday, maybe soon, maybe not, I would like to build a smarter caching system for the descriptor matching search object.  I would like to know how to insert it into the code. One thought is to build the call to query_chips_graph function so that it can better keep track of changes to id's rather than having to infer them inside the function. Does this make sense? I'm looking for the minimal disruption to the current code.
+JRP: the search data structure is algorithm-specific and, in some cases, does not exist.  For example with the Kaggle7 and Deepsense algorithms, they are classifiers and do not build a search structure, compute feature distrances, or use ANN at all.  For PIE, the extracted features are compared in L2 space and their distances/scores are computed directly from the norm.  HotSpotter uses PyFLANN while CurvRank uses Annoy.  Depending on the "smarts" of the smarter caching system, this would need to be done by changing the underlying algorithm, orby partitioning the daid_list into two pieces: long-term "global" cache and short-term "local" cache.  This would allow the system to query the changes against a recurring state that is constantly being updated in the background and modifying the results to incorporate newer data that has yet to make it into the latest long-term cache.  The problem I see with this is sometimes users request matching that is intended to be entirely local (matching within a specific conservation area) and the cache would need to be built on-demand.
 
 CVS: Here's an additional idea. Add a parameter that defaults to None in the call to query_chips_graph.  If this parameter does come in as None then the current method of building the search object is used.  If not the search object that is passed in is used.   Please comment, but don't delete.
-
-
+JRP: This model would work fine (passing in a first-order function as a callback), but it is not clear to me what the "search object" is in this context.  If it is intended to be a customized version of an existing ranking algorithm, this could be handled currently by registering an alternative depc node that stores (annot 1, annot 2, score) and can be specified by the "pipeline_root" configuration.  This design allows the system to cache and compare many algorithms using the same frameworks and APIs, including original algorithm implementations to compare against new versions
 
 ### VAMP Verifier
 
@@ -739,15 +764,19 @@ aids = ibs.get_valid_aids()
 
 # Filter the annotations to the correct species and any other filters.
 
+# The "infr" object is an ID graph built from the provided list of AIDs
 infr = wbia.AnnotInference(ibs=ibs, aids=aids)
+# Apply any previous decisions made by users (from ground-truth names)
 infr.reset_feedback(apply=True)
+# Apply any previous decisions made by users (from staged pairwise decisions)
 infr.reset_feedback('staging', apply=True)
 
+# Instantiate a "VAMP" object from this name graph
 pblm = OneVsOneProblem(infr, sample_method='bootstrap')
+
+# Train the model, which will mine the graph for ground-truth positive and negative pairs
 pblm.deploy()
 ```
-
-CVS: Please explain the use of infr and pblm in more detail.
 
 Next, upload the trained model to the CDN and modify the file ``wbia/algo/verif/deploy.py`` to add the new model and species configuration.
 
@@ -759,14 +788,28 @@ Once training is complete, the model can be evaulated with the following code:
 pblm.setup_evaluation(with_simple=False)
 pblm.report_evaluation()
 ```
-
-CVS: I can't see here how to use VAMP.
-
-
 **Configuration**
 
 To use the new model in the GraphID algorithm, modify the default VAMP thresholds in the file ``algo/graph/core.py::infr.task_thresh``
 
+**Inference**
+
+To run inference with VAMP, this is normally done from within an active ID graph.  To do this manually, see the code below:
+
+```python
+# Load ID Graph
+infr = wbia.AnnotInference(ibs=ibs, aids=aids, autoinit=True)
+
+# Load VAMP models
+infr.load_published()
+
+# Run inference
+edges = [(1, 1), (1, 2)]
+task_probs = infr._make_task_probs(edges)
+
+match_probs = list(task_probs['match_state']['match'])
+nomatch_probs = list(task_probs['match_state']['nomatch'])
+```
 
 ### LCA
 
@@ -790,11 +833,32 @@ for key in data:
     data_[key] = json.dumps(data[key])
 
 response = requests.post(url, data=data_)
+assert response.status_code == 200
 ```
 
-CVS: I don't understand either what's immediately above or below.  Please add details.
+If the above code passes, then there will be a new graph review instance in the WBIA web server.  The new graph instance will be dislayed here:
 
-To start an LCA instance manually, use the following code:
+    /view/graphs/
+
+### Graph ID
+
+If you wish to use the older Graph ID algorithm, it can be accessed using a slightly different referal link (which requires code changes):
+
+    /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=graph_algorithm
+
+    or
+
+    /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=lca
+
+### Pairwise Review Instructions
+
+A training video of how to review the matches, and what to look for, can be seen here:
+
+    https://drive.google.com/file/d/1Mj4Grd6zs_Rpha6-8ZdWu0uFenRqWO9e/view?usp=share_link
+
+### Preprocess Caching
+
+To start the graph locally in Python (for caching reasons), use the following code:
 
 ```python
 from wbia_lca._plugin import LCAActor
@@ -807,17 +871,7 @@ result = actor.start(
 response = actor.resume()
 ```
 
-If you wish to use the older Graph ID algorithm (deprecated), it can be accessed using a slightly different referal link (which requires code changes):
-
-    /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=graph_algorithm
-
-    or
-
-    /review/identification/graph/refer/?imgsetid=1&option=census&species=zebra_grevys&backend=lca
-
-A training video of how to review the matches, and what to look for, can be seen here:
-
-    https://drive.google.com/file/d/1Mj4Grd6zs_Rpha6-8ZdWu0uFenRqWO9e/view?usp=share_link
+The ``response`` object will be an annotation pair for manual review.  Using the above code is handy for long-term caching of results prior to running the web interface.
 
 ### Database Sanity Checks
 

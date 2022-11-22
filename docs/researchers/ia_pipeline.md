@@ -3,148 +3,156 @@ id: ia_pipeline
 title: Image Analysis Pipeline
 ---
 
-As the price of photography and video equipment drops and quality and availability improve (think “GoPro”), images and video from tourism are becoming the most abundant and inexpensive sources of wildlife data. If these images could be widely obtained, rapidly analyzed and combined with related data (e.g. location, date, behavior), then ecologists could benefit from larger and broader data sets to understand and prevent further wildlife population declines. An increase in well managed data input and processing power enables advances in analysis and modeling of animal populations, supporting deeper insight and better methods of protection for threatened and endangered animals.
+# Image Analysis Pipeline
 
-In support of speeding and scaling wildlife research, Wildbook includes a very sophisticated machine learning (ML) server called [Wildbook Image Analysis (WBIA)](../developers/wbia/wbia_overview). WBIA provides a multi-stage pipeline for finding one or more animals of one or more species in photos and then routing each detected animal on to the correct individual ID algorithm. WBIA also supports a plug-and-play approach to integrating and wrapping third party machine learning (e.g., new ID algorithms emerging from academic research or competitions), allowing it to serve as the easiest and fastest way to get new AI techniques into the hands of wildlife researchers in the field. Ultimately, the purpose of WBIA is to allow users of Wildbook to more rapidly curate large volumes of wildlife photography in support of research and population analysis.
+As technology advances, video and photography equipment are improving in quality, availability, and affordability. Wildlife photography is very popular and there is an abundance of animal images available online. These images have the potential to become critical wildlife data sources. If lots of wildlife images could be easily obtained and combined with metadata (location, date, and behavior), then ecologists could use this information to predict and prevent animal population declines. 
 
-WBIA generally supports the following stages of execution:
+Regarding this concept, Wildbook uses a sophisticated machine learning (ML) server called  [Wildbook Image Analysis (WBIA).](https://docs.wildme.org/docs/developers/wbia/wbia_overview) This server uses a detection pipeline to find animals in photographs. Once an animal has been detected, it is then directed to a specific identification (ID) algorithm that will identify the individual animal. Relying on manual data processing, such as matching photos by eye, can be slow and inaccurate. WIBA focuses on using technology to process data, which improves both speed and precision. This is beneficial for users contributing images to Wildbook. This combination of artificial intelligence and citizen science is vital for discovering new ways to fight extinction. 
 
-## Detection
 
-Our detection pipeline is a cascade of deep convolutional neural networks (DCNNs) that applies a fully-connected classifier on extracted features. Separate DCNN networks produce:
-- Whole-scene classifications looking for specific species of animals in the photograph
-- Object annotation bounding box localizations (also called "Annotations")
-- Bounding box rotation prediction and normalization
-- The viewpoint, quality, and final species classifications for the candidate bounding boxes
+Here is a link to a [poster presentation](https://cthulhu.dyn.wildme.io/public/posters/parham_wacv_2018.pdf) summarizing some stages of the WBIA's detection pipeline. 
 
-[![wacvDetectionPoster](../../static/img/wacvDetectionPoster.png)](https://cthulhu.dyn.wildme.io/public/posters/parham_wacv_2018.pdf)
+## Detection 
 
-*A poster presentation summarizing some of the stages of WBIA's detection pipeline.*
+The detection pipeline is a cascade of deep convolutional neural networks (DCNNs). The combined outcomes of each neural network results in an analyzed image. Based on this information, the image can then be routed to its appropriate ID algorithm. The detection stage involves:
 
-At the end of the detection stage, WBIA should have created the following in preparation for one or more downstream individual ID algorithms:
+- Finding animals in the image and individually outlining them in bounding boxes called Annotations.
+- Identifying and labeling the species on each Annotation. 
+- Adding viewpoint labels on each Annotation.
 
-- Annotations (i.e. bounding boxes) around each animal in each photo and potentially "parts" bounding boxes, such as a fin bounding box "part" on an Orca body bounding box
-- Species labels on each Annotation. This label may also be referred to to as "iaClass" or "Image Analysis Class" elsewhere in Wildbook. It represents the type of the Annotation box. 
-- Viewpoint labels (e.g. left, right, top, bottom, etc..) on each Annotation
-- OPTIONAL: Background segmentation on each Annotation to remove as many non-animal pixels as possible
-- OPTIONAL: Rotational correction, standardizing the rotation of Annotations to maximize their comparability in downstream ID algorithms. [More information about the Orientation network can be found here.](https://github.com/WildMeOrg/wbia-plugin-orientation/tree/develop/wbia_orientation)
-- OPTIONAL: Parts to bodies assignment, allowing "parts" (e.g., an African wild dog tail) to be assigned to parents Annotations (e.g., the dog's body) in complex, multi-individual photos. [More information about the Assigner network can be found here.](https://community.wildme.org/t/the-assigner-building-an-ml-component-start-to-finish/596)
+There are also optional features that WIBA can provide for each image: 
 
-![detection](../../static/img/ia_pipeline_1.png)
+- The background of each Annotation can be removed to get rid of as many non-animal pixels as possible. 
+- Images can be rotated in order to standardize the angle of the Annotations. This will maximize their comparability in the ID algorithms.
+ * With some species, such as manta rays and hammerhead sharks, accurately detecting orientation can be difficult. Orientation networks are important for detecting the correct rotation, otherwise the precision of downstream processes will be inhibited. [Click here for further information on the Orientation network.](https://github.com/WildMeOrg/wbia-plugin-orientation/tree/develop/wbia_orientation)
+- In addition to the whole animal Annotation, smaller annotations can be added to identify specific parts of an animal (e.g., a fin or a tail).
+ * The detector can produce a number of Annotations for whole individuals and specific body parts. With some species, such as wild dogs, it can be difficult to tell which tail belongs to which dog. The Assigner network analyzes certain features in the photo and assigns a score to the part (tail) and body (dog). A high score reflects high confidence they belong to the same animal.
+ [Click here for further information on the Assigner network.](https://community.wildme.org/t/the-assigner-building-an-ml-component-start-to-finish/596)  
 
-*Resulting bounding boxes predicted by WBIA's detection pipeline after running a photo of three cheetahs.*
+![Image of 3 annotated cheetahs](https://docs.wildme.org/assets/images/ia_pipeline_1-524488d7c525c641aaebbadf41608d5d.png)  
+
+*Resulting bounding boxes (Annotations) predicted by WBIA's detection pipeline after running a photo of three cheetahs.*
 
 ### FAQ
 
-*Can WBIA detect and label any species?*
+#### Can WBIA detect and label any species?
 
-WBIA is not originally programmed to detect every and all species. Detection relies on pre-trained ML models, which may be trained on one or more specific species (e.g., a model for snow leopards, a separate model for orcas, and a separate model trained on multiple species of finned whales). WBIA provides the tools to manually annotate training data for new species to create these ML models, but this must be done as a pre-cursor to using WBIA for a specific species in Wildbook.
+WBIA is not programmed to detect every single species. Detection relies on pre-trained ML models. Each model is trained for one or more specific species. WBIA provides the tools to create ML models. They must be created prior to using WBIA for species detection in Wildbook. 
 
-*What does manual annotation look like for ML training for a detector for a new species?*
+#### What does manual Annotation look like for ML training for a detector for a new species?
 
-Here is a link to an [example training video](https://youtu.be/qD7LKWQIfeM) for annotation for a new species.
+Here is a link to an [example training video](https://www.youtube.com/watch?v=qD7LKWQIfeM&feature=youtu.be) for annotation for a new species. 
 
-![screencapture-104-42-42-134-5015-turk-detection-2019-06-03-13_08_11](../../static/img/screencapture-104-42-42-134-5015-turk-detection-2019-06-03-13_08_11.png)
+#### What happens if detection doesnÕt find one or more animals in the photo? 
 
-*What happens if detection doesn't find one or more animals in the photo?*
+Even machine learning makes mistakes. Wildbook allows users to manually Annotate the photo if detection doesnÕt find an animal. [Click here to learn more](https://docs.wildme.org/docs/researchers/manual_annotation). 
 
-Even machine learning makes mistakes. If detection doesn't find an animal, Wildbook allows users to manually annotate the photo to add Annotations and support matching of individuals missed by detection. [Click here to learn more.](manual_annotation.md)
+#### I am a software developer of ML engineer. How can I learn more about WBIA?
 
-*I am a software developer of ML engineer. How can I learn more about WBIA?*
-
-See [Wildbook Image Analysis (WBIA)](../developers/wbia/wbia_overview).
+Here is a link to [Wildbook Image Analysis Overview.](https://docs.wildme.org/docs/developers/wbia/wbia_overview)
 
 ## Identification
-The second major computer vision step is identification, which assigns a name label (or ID) to each annotation from the detection stage. Depending on the type of detection (e.g. a dolphin fin is labeled differently from a jaguar flank), the Wildbook pipeline routes the annotation to one or more suitable ID algorithms.
 
-![IA_pipeline](../../static/img/IA_pipeline.png)
+Identification is the next step after detection. It assigns a name (ID) to each Annotation (animal) from the detection stage. Different types of detection are used for different species and different body parts. Depending on the type of detection, the Wildbook pipeline directs the Annotation to one or more suitable ID algorithms. It compares the new Annotation to a database. By looking at specific features, it can identify if the Annotation is surrounding an individual we have never seen before, or if they have previously been recorded. 
 
-*Wildbook has a plug-and-play, configurable computer vision pipeline that allows annotations for different species and of body parts to be simultaneously routed to one or more ID algorithms.*
+![Different image analysis pipelines](https://docs.wildme.org/assets/images/IA_pipeline-d8dbdd597eeebc005b01a4ca12505fd0.png)
 
-After detection, one or more ID algorithms are run, looking for similar features between a new annotation and a list of "match against" annotations already in the database. Scores from the query that match the same individual are accumulated to produce a single potential score for each animal. The animals in the database are then ranked by their accumulated scores.
+*Visual pipeline showing how different species and body parts are detected, then Wildbook directs them to one or more appropriate algorithms to identify the individual.*
 
-![identification](../../static/img/ExampleMatch.jpg)
-
-*Wildbook uses a variety of computer vision and machine learning techniques and algorithms to answer the fundamental question: "Which animal is this?"*
-
-Wildbook currently supports at least the following algorithms:
+The following ID algorithms are supported by Wildbook: 
 
 ### PIE
 
-Pose Invariant Embeddings or (PIE) is a deep learning approach to individual ID. PIE is trained to learn embeddings that are useful for distinguishing among individuals in a wildlife population. Unlike HotSpotter, which is a “static” pattern matcher (i.e. a fixed algorithm not trained to detect separate species), PIE can be trained on a per-species basis. Wild Me has generated separate PIE models optimized for manta rays, humpback whales, orcas, right whales, among others. Unlike fixed-catalog classifiers like Deepsense or Kaggle7, PIE can gracefully add new individuals to its catalog without being retrained. It learns the general task of mapping images into embeddings that represent individuals, rather than the specific task of sorting images into a fixed number of IDs. PIE strikes a lovely balance between a flexible, general-purpose identifier and one that can be trained, refocused, and refined on a given problem. In summary, PIE is a very powerful, reusable machine learning technique that can be trained to identify individuals across a variety of species.
+Pose Invariant Embeddings (PIE) is used to identify individuals. PIE uses a type of machine learning known as deep learning. This means it can learn what makes images similar or dissimilar (or what differentiates one animal from another). Distinguishing individuals through their unique body markings is a key concept for wildlife conservation. However, from the huge database of wildlife images, only a limited number can be used for individual identification, due to constraints on image quality and viewpoint. PIE can identify individuals from their unique body markings, regardless of quality or angles.  
 
-![pie_architecture](../../static/img/pie_architecture.png)
+PIE learns embeddings for images from the database. Embeddings are the unique markings that represent individuals. When new images are analyzed, their embeddings are matched against those in the database. 
 
-Example Wildbook Species: Giant manta rays, humpback whale flukes, orcas, right whales
+PIE can be trained on a per-species basis. Currently, Wild Me has generated separate PIE models for different species including manta rays, humpback whales, right whales, and orcas. 
 
-PIE Paper Link: https://arxiv.org/pdf/1902.10847.pdf
+![New image of a Manta Ray compared against embeddings from the database](https://www.researchgate.net/profile/Asia-Armstrong/publication/357287362/figure/fig1/AS:1156562747965440@1652757455202/The-proposed-system-learns-embeddings-for-images-from-the-database-The-embeddings-of-the.png)
 
-### Hotspotter
+*A new image of a Manta Ray is identified using the database by finding close points (matches) in the embedding space.*
 
-Hotspotter is a SIFT-based computer vision algorithm. It analyzes the textures in an image to find distinct patterning, or "hot spots", and then compares those against other images in the database. Unlike machine learning-based approaches, HotSpotter can help build new catalogs for new species that need to match individuals but don’t have the training data yet for machine learning-based approaches. Hotspotter can also match new individuals without the need for network retraining. Hotspotter produces a ranked list of potential matches, increasing match score in congruence with increasing "hot spot" similarity.
+PIE paper link: https://arxiv.org/pdf/1902.10847.pdf 
 
-Example Wildbook Species: jaguars, cheetahs, leopards, African wild dogs, zebras, giraffe, humpback whales
+### Hotspotter 
 
-Hotspotter Paper Link: http://cs.rpi.edu/hotspotter/crall-hotspotter-wacv-2013.pdf	
+Hotspotter analyzes the textures in an image to find distinct patterns, known as Ôhot spotsÕ. It then matches these hot spots against other images in the database. A ranked list of potential matches is produced, and the most likely matches have the highest hot spot similarity. 
+
+![Hotspotter applied to Plains Zebras](https://www.researchgate.net/publication/261342479/figure/fig1/AS:296747223011339@1447761459825/An-example-of-HotSpotter-The-ROI-is-placed-on-a-query-animal-in-this-case-a-foal-and.png)
+
+*The green regions are matching 'hot spots' between the images, matching the query image of a foal to an image of it as a juvenile.*
+
+Hotspotter paper link: http://cs.rpi.edu/hotspotter/crall-hotspotter-wacv-2013.pdf 
 
 ### CurvRank v2
 
-CurvRank is a machine learning-based approach to matching curvature or an "edge", such as the trailing edge of a cetacean fluke or a dorsal fin. More specifically, ML is employed to weight sections of a fin or fluke that contain individually identifying information and to represent the curvature in a comparable format less subject to deformation from changes in the pose of the animal in the image.
+CurvRank is used to identify individuals by matching ÔcurvesÕ or ÔedgesÕ, such as the trailing edge of a whale tail or dolphin fin. The curves that are highlighted are those which are unique and can be used to distinguish an individual. Curvatures are represented in a comparable format in which they are robust to deformation through changes in the pose of the animal. 
 
-Example Wildbook Species: humpback whales, sperm whales, bottlenose dolphins, orcas, right whales, spinner dolphins, fin whales, and more
+![Mapped trailing edge of a whale's tail fluke](https://www.flukebook.org/images/CurvRank_matches.jpg)
 
-CurvRank Paper Link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w41/Weideman_Integral_Curvature_Representation_ICCV_2017_paper.pdf
+*Curvatures of a Humpback Whale's tail mapped against another image, identifying it as the same individual.*
+
+CurvRank paper link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w41/Weideman_Integral_Curvature_Representation_ICCV_2017_paper.pdf 
 
 ### finFindR
 
-finFindR is a machine learning-based approach to matching curvature or an “edge”, such as the leading and trailing edges of a dorsal fin. More specifically, ML is employed to identify cetacean bodies and dorsal fins in an image, extra a fin edge, create a feature matrix representing that edge, and then compare that edge to others in the catalog.
+finFindR is not too dissimilar from CurvRank. It finds individually identifying curvatures, specifically of dorsal fins from species such as bottlenose dolphins and humpback whales. finFindR creates a matrix to represent each curvature. New images are compared against this matrix, in order to identify the individual. 
 
-Example Wildbook Species: bottlenose dolphins, orcas, fin whales, humpback whale dorsals
+![Dorsal fin of a Bottlenose Dolphin](https://docs.wildme.org/assets/images/a_hybrid_smooth-off_720-8095d40af6c252aa8d73f1413ffd210d.png)
 
-finFindR Paper Link: https://www.biorxiv.org/content/10.1101/825661v1
+*Curvatures of the dorsal fin of a bottlenose dolphin are compared, matching both images as the same individual.*
 
-![a_hybrid_smooth-off_720](../../static/img/a_hybrid_smooth-off_720.png)
+fiFindR paper link: https://www.biorxiv.org/content/10.1101/825661v1 
 
 ### Deepsense
 
-Deepsense is a deep learning approach to identify right whales based on aerial photos of the callosity patterns on their heads. Deepsense is the winning entry from Kaggle competition winner [deepsense.ai](https://deepsense.ai). It is fast and incredibly accurate, however it must occasionally be re-trained when new whale individuals are added to a catalog. Like many deep learning competition winners, this algorithm is optimized for its specific task and cannot be cross-applied to other wildlife challenges. It is also highly subjective to the quality of the data in a right whales' catalog, with performance degrading significantly (due to machine-learned errors) if the catalog is not already well curated. 
+Deepsense is used specifically for identifying right whales. It uses aerial photos that show the varying patterns of callouses on their heads. Deepsense is very fast and accurate, but it needs to be retrained when new, individual whales are added to the catalog. The quality of data is incredibly important as performance reduces with poorly curated catalogs. 
 
-Example Wildbook Species: right whales
+![Aerial image of a right whale with its callouses highlighted](https://deepsense.ai/wp-content/uploads/2016/01/w_0_bbox.jpg)
 
-Deepsense Paper Link: https://www.researchgate.net/publication/327910789_Applying_deep_learning_to_right_whale_photo_identification
+*Aerial view of a right whale with an annotation around its head callouses.*
+
+Depsense paper link: https://www.researchgate.net/publication/327910789_Applying_deep_learning_to_right_whale_photo_identification 
 
 ### OC/WDTW
 
-OC/WDTW (or “DTW” for short) is originally based on a soundwave matching technique called “Dynamic Time Warping”. DTW uses the A* algorithm to extract the trailing edge of a fluke and then search for matches to other edges by measuring the differences between them. This computer vision technique does not use ML and is optimized only for the trailing edge of humpback flukes but has great accuracy and speed.
+OC/WDTW (or DTW for short) stands for ÔDigital Time WarpingÕ. It identifies individual cetaceans from the unique trailing edge of their fins. DTW represents the nicks and notches of flukes and adds them to a database. The trailing edge of a fluke is extracted and compared against potential matches based on their similarities. DTW is robust to changes in viewpoints and poses, as well as being fast and accurate. 
 
-Example Wildbook Species: humpback whales, sperm whales, right whales
+![Mapping curvatures of tail flukes](https://d3i71xaburhd42.cloudfront.net/2ef4ea4237c0e63ea49fa7ace49a9a52a2772f7d/7-Figure7-1.png)
 
-OC/WDTW Link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w41/Weideman_Integral_Curvature_Representation_ICCV_2017_paper.pdf
+*Series of Humpback Whale tail fluke edges being compared to find a match.*  
+
+OC/WDTW paper link: https://openaccess.thecvf.com/content_ICCV_2017_workshops/papers/w41/Weideman_Integral_Curvature_Representation_ICCV_2017_paper.pdf 
 
 ### Kaggle7
 
-Kaggle7 is a deep learning approach to identifying individual humpback whale flukes based on one of the winning entries from a Kaggle competition. Kaggle7 is highly effective at identifying individual humpback whales by their natural fluke patterning. However, it must occasionally be re-trained when new whale individuals are added to a catalog. Like many deep learning competition winners, this algorithm is optimized for its specific task and cannot be cross-applied to other wildlife challenges. It is also highly subjective to the quality of the data in a humpback catalog, with performance degrading significantly (due to machine-learned errors) if the catalog is not already very well curated. 
+Kaggle7 analyzes the unique fluke patterns of humpback whales to identify individuals. It is similar to Deepsense in the fact it must be retrained when new individuals are added to the catalog. Additionally, the catalog must be very well curated for performance to be optimum. 
 
-Example Wildbook Species: humpback whales
+![Mapped edges of a humpback tail fluke](https://www.flukebook.org/images/spermWhaleTrailingEdge.jpg)
 
-Kaggle7 Link: https://medium.com/@ducha.aiki/thanks-radek-7th-place-solution-to-hwi-2019-competition-738624e4c885
+*Fluke patterns of a Humpback Whale's tail.*
 
-### Modified Groth and I3S (Spot Pattern Matching)
+Kaggle7 paper link: https://ducha-aiki.medium.com/thanks-radek-7th-place-solution-to-hwi-2019-competition-738624e4c885 
 
-The Modified Groth and I3S algorithms are used independently of the image analysis pipeline in Wildbooks that are focused on matching individuals using natural spot patterning on their flanks.
+### Modified Groth and I3S (Spot Pattern Matching) 
 
-Example Wildbook Species: whale sharks, sevengill sharks, giant sea bass, and sand tiger/ragged tooth sharks
+Spot pattern matching or spot mapping is a technique used to identify individuals based on their unique, natural spot patterning. Spot patterns are similar to human fingerprints in the fact they are distinctive and individually identifying. The spot pattern of an image is analyzed and compared against others in a database, in order to identify the individual. Both Modified Groth and I3S are algorithms that are used independently of the image analysis pipeline in Wildbook. 
 
-Modified Groth Link: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2664.2005.01117.x
+![Spot mapped Whale Shark](https://www.sharkbook.ai/images/whaleshark_lander.jpg)
 
-I3S Link: https://www.researchgate.net/publication/228007763_A_computer-aided_program_for_pattern-matching_of_natural_marks_on_the_spotted_raggedtooth_shark_Carcharias_taurus
+*Spot mapping of a Whale Shark's unique body spots.*
 
-![screencapture-whaleshark-org-encounters-scanEndApplet-jsp-2021-01-13-10_57_05](../../static/img/screencapture-whaleshark-org-encounters-scanEndApplet-jsp-2021-01-13-10_57_05.png)
+Modified Groth paper link: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2664.2005.01117.x 
+
+I3S paper link: https://www.researchgate.net/publication/228007763_A_computer-aided_program_for_pattern-matching_of_natural_marks_on_the_spotted_raggedtooth_shark_Carcharias_taurus 
 
 ## Consolidated Display
 
-At the end of the identification process, Wildbook displays a ranked lists of results, displaying one set of results per feature (e.g., whale fluke) per algorithm (e.g., PIE). You can select and set a matching IDs right from the review interface, which displays 12 ranked matched results (#1 is the predicted best match) but can display more than 12 if desired.
+Following both the detection and identification processes, Wildbook displays a list of potential match results. They are organized both per Annotation/feature (e.g., whale fluke) and per algorithm (e.g., PIE). Each image is ranked 1 to 12, from the most to least likely match. Each image also displays what each algorithm found similar between the Annotations, and provides an algorithm-specific score. The higher the score, the higher the likelihood of a match. For example, an image of an Orca dorsal fin would display scores for the algorithms Kaggle7, CurvRank v2, and finFindR.
 
-![matchResults](../../static/img/matchResults.png)
+Each individual also receives their own profile page on Wildbook. It shows where the animal has been, when it was seen, and any relationships they have with other animals. 
 
-*An orca is matched by the machine learning-based PIE algorithm using the scratches on its "saddle patch".*
+![orca potential match results](https://docs.wildme.org/assets/images/quickstart_matchID-56de76bbbd8898f05a79864bd5b12589.png)
+
+*Match results for an Orca based on the PIE algorithm using the scratch marks on its saddle patch.*

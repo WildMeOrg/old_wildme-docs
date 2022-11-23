@@ -9,7 +9,7 @@ This Quickstart topic covers some basic tasks and concepts when first logging in
 
 ## Account Registration
 
-To set up a Wildbook account, you will need to contact the Wildbook site managers via the [**Contact Us**](https://www.wildme.org/#/contact) page. Wildbook does not currently support self-registration. Once you acquire your username and a temporary password from the site managers, you can log in by selecting the **Login** button at the top right corner of the Wildbook program or by accessing any page that requires a user to sign in to access content.
+To set up a Wildbook account, you will need to contact the Wildbook site managers via the [**Contact Us**](https://www.wildme.org/contact-us.html) page. Wildbook does not currently support self-registration. Once you acquire your username and a temporary password from the site managers, you can log in by selecting the **Login** button at the top right corner of the Wildbook program or by accessing any page that requires a user to sign in to access content.
 
 ## Change Your Password 
 

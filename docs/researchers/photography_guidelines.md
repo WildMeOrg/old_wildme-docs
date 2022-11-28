@@ -17,7 +17,7 @@ Conversely, these characteristics make the identification process more difficult
 - Individuals are significantly (greater than 25%) occluded by other animals or objects
 - Individual is significantly (greater than 25%) off the edge of the frame of the image
 
-For more specific instructions on how to photograph a given species, navigate to the **Learn** > **How to Photgraph** page in the appropriate Wildbook.
+For more specific instructions on how to photograph a given species, navigate to the **Learn** > **How to Photograph** page in the appropriate Wildbook.
 
 ## Image formats and sizes
 

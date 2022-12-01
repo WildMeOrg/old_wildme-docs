@@ -25,6 +25,6 @@ Wildbook accepts images in a variety of formats, including JPG, JPEG, PNG, and B
 
 We do not recommend using images larger than 1600px in width or height. A compression ratio of 90% is sufficient. Uploading larger photos with higher compression ratios will _not_ improve the quality of your identification results. In fact, unnecessarily large images put a strain on the server and cause identification to take longer.
 
-We recommend using images no smaller that 480px in width or height. When running detection and ID on assets, images smaller than 480px x 480px are resized up, which can cause blurriness, which in turn can cause unusual detection results.
+We recommend using images no smaller than 480px in width or height. When running detection and ID on assets, images smaller than 480px x 480px are resized up, which can cause blurriness, which in turn can cause unusual detection results.
 
 Happy uploading! :)

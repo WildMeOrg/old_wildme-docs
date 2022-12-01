@@ -17,7 +17,17 @@ If invited, you will receive an email at the provided address with your temporar
 
 ## Change Your Password 
 
-TBD
+To reset the password for your Codex account:
+
+1. On the Account Login page, click the **Forgot?** link below the **LOGIN** button. 
+1. On the next page, provide the email address associated with your Codex account in the **Email address** field.
+1. Click the **Reset Password** button.
+1. Check your email inbox where you will receive an account password reset email. If you do not receive this, click the **Resend Email** button on the Password reset page.
+1. Click on the link in the email you receive, which will direct you back to the Codex website to create a new password.
+1. Type in your desired new password and repeat the same password in the **Confirm password** field. We recommend using at least 8 characters and a combination of letters, numbers, and special characters.
+1. Click the **RESET PASSWORD** button. Once you see a confirmation popup message that says you have successfully reset your password, click the **Return to login page** link.
+1. Log in with your email address and your newly updated password.
+
 ## Read Up on Basic Wildbook Concepts
 
 TBD

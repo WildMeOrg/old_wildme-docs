@@ -4,7 +4,7 @@ The Scout Server laptop must be dedicated to running the Scout application, and 
 * Bring the laptop to a location with a good Internet connection. Software download is required during this process, and some of the downloaded components may be > 2 GB.
 * Obtain a thumbdrive (8GB minimum) to hold downloaded files for the Ubuntu operating system.
 
-<span style="color:red"> WARNING: This includes wiping the server of existing content and installing the Ubuntu Linux operating system.</span>
+<span style={{color:'red'}}> WARNING: This includes wiping the server of existing content and installing the Ubuntu Linux operating system.</span>
 
 ## Download Ubuntu Desktop Operating System Image
 Installing the Ubuntu Desktop operating system (OS) is the first step in installing Scout. Ubuntu should be installed as the only OS on the laptop, and only version 20.04. Dual boot configurations are not supported.
@@ -16,8 +16,8 @@ Installing the Ubuntu Desktop operating system (OS) is the first step in install
 You should have the Ubuntu Desktop ISO on a USB thumbdrive at the end of these steps.
 
 ## Install Ubuntu OS Image from USB
-<span style="color:red">WARNING: THIS STEP DELETES ALL DATA FROM THE LAPTOP</span>
-<span style="color:red">WARNING: THIS STEP REMOVES WINDOWS FROM THE LAPTOP</span>
+<span style={{color:'red'}}>WARNING: THIS STEP DELETES ALL DATA FROM THE LAPTOP</span>
+<span style={{color:'red'}}>WARNING: THIS STEP REMOVES WINDOWS FROM THE LAPTOP</span>
 
 To install Ubuntu Linux as the operating system on the Scout Server laptop:
 
@@ -45,7 +45,7 @@ When Ubuntu Linux boots for the first time as the OS, select the following confi
 3. Allow Location Services then click Next.
 4. Click Next on "Privacy".
 5. Search for Software Updater via the app menu (the icon with 9 squares in the bottom corner of your window), and it will check for updates and apply them. Update Ubuntu for all suggested options. 
-<span style="color:red">WARNING: DO NOT UPGRADE TO UBUNTU 22.04.</span>
+<span style={{color:'red'}}>WARNING: DO NOT UPGRADE TO UBUNTU 22.04.</span>
 
 At the end of this process, you should be presented with the Ubuntu desktop environment, which loads with every server restart.
 

@@ -1,4 +1,8 @@
-## Bulk Reporting
+---
+id: bulk_reporting
+title: Bulk Reporting
+---
+# Bulk Reporting
 ## Supported Standard Fields
 ## Custom Fields in Bulk Reporting
 ### Unsupported Custom Fields
